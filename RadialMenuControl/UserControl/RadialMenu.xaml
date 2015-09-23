@@ -9,8 +9,62 @@
     d:DesignHeight="200"
     d:DesignWidth="200">
 
+    <UserControl.Resources>
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{TemplateBinding Height}"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Ellipse Name="Ellipse"
+                                     Grid.Row="0"
+                                     Fill="{TemplateBinding Background}"
+                                     Height="{TemplateBinding Height}"
+                                     Width="{TemplateBinding Height}"
+                                     Stroke="{TemplateBinding BorderBrush}"
+                                     StrokeThickness="5">
+                            </Ellipse>
+                            <ContentPresenter Name="Content" Grid.Row="0" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.8"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="Ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid x:Name="layoutRoot">
-        <Ellipse Width="55" Height="55" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Canvas.ZIndex="100"></Ellipse>
+        <Button Content="{Binding CenterButtonIcon}"
+                Canvas.ZIndex="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource RoundedButton}"
+                FontSize="19"
+                FontFamily="Segoe Ui Symbol"
+                Tag="Delete"
+                Background="{Binding CenterButtonBackgroundFill}"
+                Height="{Binding CenterButtonSize}"
+                BorderBrush="{Binding CenterButtonBorder}" />
         <my:Pie x:Name="pie" />
     </Grid>
 </UserControl>

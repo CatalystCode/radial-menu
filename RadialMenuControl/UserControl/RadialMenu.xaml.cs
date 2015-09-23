@@ -7,6 +7,7 @@
     using System.Runtime.CompilerServices;
     using Windows.UI;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
 
     public partial class RadialMenu : UserControl, INotifyPropertyChanged
     {
@@ -20,7 +21,7 @@
             set { SetField(ref _edgeBackgroundColor, value); }
         }
 
-        private Color _foregroundColor = Colors.White;
+        private Color _foregroundColor = Color.FromArgb(255, 128, 57, 123);
         public Color ForegroundColor
         {
             get { return _foregroundColor; }
@@ -32,6 +33,43 @@
         {
             get { return _edgeHighlightColor; }
             set { SetField(ref _edgeHighlightColor, value); }
+        }
+
+        /// <summary>
+        /// Background Fill for the Center Button
+        /// </summary>
+        private Brush _centerButtonBackgroundFill = new SolidColorBrush(Colors.WhiteSmoke);
+        public Brush CenterButtonBackgroundFill
+        {
+            get { return _centerButtonBackgroundFill; }
+            set { SetField(ref _centerButtonBackgroundFill, value); }
+        }
+
+        /// <summary>
+        /// Border Brush for the Center Button
+        /// </summary>
+        private Brush _centerButtonBorder = new SolidColorBrush(Colors.Transparent);
+        public Brush CenterButtonBorder
+        {
+            get { return _centerButtonBorder; }
+            set { SetField(ref _centerButtonBorder, value); }
+        }
+
+        /// <summary>
+        /// Content for the Center Button (using Segoe UI Symbol)
+        /// </summary>
+        private string _centerButtonIcon = "";
+        public string CenterButtonIcon
+        {
+            get { return _centerButtonIcon; }
+            set { SetField(ref _centerButtonIcon, value); }
+        }
+
+        private int _centerButtonSize = 60;
+        public int CenterButtonSize
+        {
+            get { return _centerButtonSize; }
+            set { SetField(ref _centerButtonSize, value); }
         }
 
         private double _diameter;

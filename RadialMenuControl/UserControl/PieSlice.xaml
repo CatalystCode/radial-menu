@@ -11,9 +11,6 @@
     d:DesignHeight="300"
     d:DesignWidth="300">
 
-    <UserControl.Resources>
-        <radialMenuControl:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" IsReversed="True"/>
-    </UserControl.Resources>
     <Grid x:Name="layoutRoot">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="InnerStates">
@@ -57,7 +54,7 @@
             Tapped="innerPieSlicePath_Tapped"
             PointerEntered="innerPieSlicePath_PointerEntered"
             PointerExited="innerPieSlicePath_PointerExited"
-            Thickness="100">
+            Thickness="105">
         </userControl:PieSlicePath>
     </Grid>
 </UserControl>

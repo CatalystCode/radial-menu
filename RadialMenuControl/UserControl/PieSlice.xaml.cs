@@ -10,12 +10,63 @@
 
     public sealed partial class PieSlice : UserControl
     {
-        public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(PieSlice), null);
+        // Inner Arc Colors
+        public static readonly DependencyProperty InnerNormalColorProperty =
+            DependencyProperty.Register("InnerNormalColor", typeof(Color), typeof(PieSlice), null);
 
-        public static readonly DependencyProperty ForegroundColorProperty =
-            DependencyProperty.Register("ForegroundColor", typeof(string), typeof(PieSlice), null);
+        public static readonly DependencyProperty InnerHoverColorProperty =
+            DependencyProperty.Register("InnerHoverColor", typeof(Color), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty InnerTappedColorProperty =
+            DependencyProperty.Register("InnerTappedColor", typeof(Color), typeof(PieSlice), null);
+
+        public Color InnerHoverColor
+        {
+            get { return (Color)GetValue(InnerHoverColorProperty); }
+            set { SetValue(InnerHoverColorProperty, value); }
+        }
+
+        public Color InnerNormalColor
+        {
+            get { return (Color)GetValue(InnerNormalColorProperty); }
+            set { SetValue(InnerNormalColorProperty, value); }
+        }
+
+        public Color InnerTappedColor
+        {
+            get { return (Color)GetValue(InnerTappedColorProperty); }
+            set { SetValue(InnerTappedColorProperty, value); }
+        }
+
+        // Outer Arc Colors
+        public static readonly DependencyProperty OuterNormalColorProperty =
+            DependencyProperty.Register("OuterNormalColor", typeof(Color), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty OuterHoverColorProperty =
+            DependencyProperty.Register("OuterHoverColor", typeof(Color), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty OuterTappedColorProperty =
+            DependencyProperty.Register("OuterTappedColor", typeof(Color), typeof(PieSlice), null);
+
+        public Color OuterHoverColor
+        {
+            get { return (Color)GetValue(OuterHoverColorProperty); }
+            set { SetValue(OuterHoverColorProperty, value); }
+        }
+
+        public Color OuterNormalColor
+        {
+            get { return (Color)GetValue(OuterNormalColorProperty); }
+            set { SetValue(OuterNormalColorProperty, value); }
+        }
+
+        public Color OuterTappedColor
+        {
+            get { return (Color)GetValue(OuterTappedColorProperty); }
+            set { SetValue(OuterTappedColorProperty, value); }
+        }
+
+        // Angles & Radius
         public static readonly DependencyProperty StartAngleProperty =
             DependencyProperty.Register("StartAngle", typeof(double), typeof(PieSlice), null);
 
@@ -24,39 +75,6 @@
 
         public static readonly DependencyProperty RadiusProperty =
             DependencyProperty.Register("Radius", typeof(double), typeof(PieSlice), null);
-
-        public static readonly DependencyProperty BackgroundColorProperty =
-            DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(PieSlice), null);
-
-        public static readonly DependencyProperty HighlightColorProperty =
-            DependencyProperty.Register("HighlightColor", typeof(Color), typeof(PieSlice), null);
-
-        public static readonly DependencyProperty HideLabelProperty =
-            DependencyProperty.Register("HideLabel", typeof(bool), typeof(PieSlice), null);
-
-        public string Label
-        {
-            get { return (string)GetValue(LabelProperty); }
-            set { SetValue(LabelProperty, value.ToUpperInvariant()); }
-        }
-
-        public Color ForegroundColor
-        {
-            get { return (Color)GetValue(ForegroundColorProperty); }
-            set { SetValue(ForegroundColorProperty, value); }
-        }
-
-        public Color BackgroundColor
-        {
-            get { return (Color)GetValue(BackgroundColorProperty); }
-            set { SetValue(BackgroundColorProperty, value); }
-        }
-
-        public Color HighlightColor
-        {
-            get { return (Color)GetValue(HighlightColorProperty); }
-            set { SetValue(HighlightColorProperty, value); }
-        }
 
         public double StartAngle
         {
@@ -74,6 +92,19 @@
         {
             get { return (double)GetValue(RadiusProperty); }
             set { SetValue(RadiusProperty, value); }
+        }
+
+        // Label
+        public static readonly DependencyProperty HideLabelProperty =
+            DependencyProperty.Register("HideLabel", typeof(bool), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty LabelProperty =
+            DependencyProperty.Register("Label", typeof(string), typeof(PieSlice), null);
+
+        public string Label
+        {
+            get { return (string)GetValue(LabelProperty); }
+            set { SetValue(LabelProperty, value.ToUpperInvariant()); }
         }
 
         public bool HideLabel
@@ -96,12 +127,12 @@
             outerPieSlicePath.Radius = this.Radius;
             outerPieSlicePath.StartAngle = this.StartAngle;
             outerPieSlicePath.Angle = this.Angle;
-            outerPieSlicePath.Fill = new SolidColorBrush(this.ForegroundColor);
+            outerPieSlicePath.Fill = new SolidColorBrush((Color)this.OuterNormalColor);
 
             innerPieSlicePath.Radius = this.Radius - 20;
             innerPieSlicePath.StartAngle = this.StartAngle;
             innerPieSlicePath.Angle = this.Angle;
-            innerPieSlicePath.Fill = new SolidColorBrush(this.BackgroundColor);
+            innerPieSlicePath.Fill = new SolidColorBrush((Color)this.InnerNormalColor);
 
             // Calculating a point in the "direction" of our button
             double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2));
@@ -109,16 +140,22 @@
             //textBlockTranslate.Y = 100 * Math.Sin(middleRadian);
         }
 
-        private void outerPieSlicePath_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             // TODO: Navigate to Submenu, if one exists
-            Debug.Write("Slice Tapped");
+            VisualStateManager.GoToState(this, "OuterPressed", true);
+        }
+
+        private void outerPieSlicePath_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            // TODO: Check if we're actually still hovering
+            VisualStateManager.GoToState(this, "OuterHover", true);
         }
 
         private void outerPieSlicePath_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             // TODO: Check if we have a submenu, otherwise don't highlight
-            VisualStateManager.GoToState(this, "OuterMouseOver", true);
+            VisualStateManager.GoToState(this, "OuterHover", true);
         }
 
         private void outerPieSlicePath_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -126,19 +163,25 @@
             VisualStateManager.GoToState(this, "OuterNormal", true);
         }
 
-        private void innerPieSlicePath_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
         private void innerPieSlicePath_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "InnerMouseOver", true);
+            VisualStateManager.GoToState(this, "InnerHover", true);
         }
 
         private void innerPieSlicePath_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "InnerNormal", true);
+        }
+
+        private void innerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "InnerPressed", true);
+        }
+
+        private void innerPieSlicePath_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            // TODO: Check if we're actually still hovering
+            VisualStateManager.GoToState(this, "InnerHover", true);
         }
     }
 }

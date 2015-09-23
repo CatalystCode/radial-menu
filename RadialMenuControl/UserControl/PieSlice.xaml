@@ -16,24 +16,34 @@
             <VisualStateGroup x:Name="InnerStates">
                 <VisualState x:Name="InnerNormal">
                     <Storyboard SpeedRatio="2">
-                        <ColorAnimation To="{Binding Path=BackgroundColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                        <ColorAnimation To="{Binding Path=InnerNormalColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
-                <VisualState x:Name="InnerMouseOver">
+                <VisualState x:Name="InnerHover">
                     <Storyboard SpeedRatio="2">
-                        <ColorAnimation To="{Binding Path=ForegroundColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                        <ColorAnimation To="{Binding Path=InnerHoverColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="InnerPressed">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=InnerTappedColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="OuterStates">
                 <VisualState x:Name="OuterNormal">
                     <Storyboard SpeedRatio="2">
-                        <ColorAnimation To="{Binding Path=ForegroundColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                        <ColorAnimation To="{Binding Path=OuterNormalColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
-                <VisualState x:Name="OuterMouseOver">
+                <VisualState x:Name="OuterHover">
                     <Storyboard SpeedRatio="2">
-                        <ColorAnimation To="{Binding Path=HighlightColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                        <ColorAnimation To="{Binding Path=OuterHoverColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="OuterPressed">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=OuterTappedColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
@@ -42,7 +52,8 @@
         <userControl:PieSlicePath x:Name="outerPieSlicePath"
             Canvas.ZIndex="1"
             StrokeThickness="10"
-            Tapped="outerPieSlicePath_Tapped"
+            PointerPressed="outerPieSlicePath_PointerPressed"
+            PointerReleased="outerPieSlicePath_PointerReleased"
             PointerEntered="outerPieSlicePath_PointerEntered"
             PointerExited="outerPieSlicePath_PointerExited"
             Thickness="18">
@@ -51,7 +62,8 @@
         <userControl:PieSlicePath x:Name="innerPieSlicePath"
             Canvas.ZIndex="1"
             StrokeThickness="10"
-            Tapped="innerPieSlicePath_Tapped"
+            PointerPressed="innerPieSlicePath_PointerPressed"
+            PointerReleased="innerPieSlicePath_PointerReleased"
             PointerEntered="innerPieSlicePath_PointerEntered"
             PointerExited="innerPieSlicePath_PointerExited"
             Thickness="105">

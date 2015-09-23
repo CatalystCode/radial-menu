@@ -142,14 +142,12 @@
         private void Draw()
         {
             _pieSlices.Clear();
-
+            // TODO: Make this configurable
             var startAngle = 22.5;
-            var color = BackgroundColor;
 
             for (int i = 0; i < Slices.Count; i++)
             {
                 var sliceSize = 360 / Slices.Count;
-
                 var pieSlice = new PieSlice
                 {
                     StartAngle = startAngle,
@@ -157,9 +155,13 @@
                     Radius = Size / 2,
                     Height = Height,
                     Width = Width,
-                    BackgroundColor = color,
-                    ForegroundColor = ForegroundColor,
-                    HighlightColor = HighlightColor,
+                    // The defaults below use OneNote-like purple colors
+                    InnerNormalColor = Slices[i].InnerNormalColor ?? Color.FromArgb(255, 255, 255, 255),
+                    InnerHoverColor = Slices[i].InnerHoverColor ?? Color.FromArgb(255, 245, 236, 243),
+                    InnerTappedColor = Slices[i].InnerTappedColor ?? Color.FromArgb(255, 237, 234, 236),
+                    OuterNormalColor = Slices[i].OuterNormalColor ?? Color.FromArgb(255, 128, 57, 123),
+                    OuterHoverColor = Slices[i].OuterHoverColor ?? Color.FromArgb(255, 155, 79, 150),
+                    OuterTappedColor = Slices[i].OuterTappedColor ?? Color.FromArgb(255, 104, 41, 100),
                     HideLabel = Slices[i].HideLabel,
                     Label = Slices[i].Label ?? ""
                 };

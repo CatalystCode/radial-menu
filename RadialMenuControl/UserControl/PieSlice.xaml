@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="RadialMenuControl.UserControl.PieSlice"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RadialMenuControl.UserControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:radialMenuControl="using:RadialMenuControl"
+    xmlns:userControl="using:RadialMenuControl.UserControl"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <radialMenuControl:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" IsReversed="True"/>
+    </UserControl.Resources>
+    <Grid x:Name="layoutRoot">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="InnerStates">
+                <VisualState x:Name="InnerNormal">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=BackgroundColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="InnerMouseOver">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=ForegroundColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="OuterStates">
+                <VisualState x:Name="OuterNormal">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=ForegroundColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="OuterMouseOver">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=HighlightColor}" Duration="0:00:00.2" Storyboard.TargetName="outerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <userControl:PieSlicePath x:Name="outerPieSlicePath"
+            Canvas.ZIndex="1"
+            StrokeThickness="10"
+            Tapped="outerPieSlicePath_Tapped"
+            PointerEntered="outerPieSlicePath_PointerEntered"
+            PointerExited="outerPieSlicePath_PointerExited"
+            Thickness="18">
+        </userControl:PieSlicePath>
+
+        <userControl:PieSlicePath x:Name="innerPieSlicePath"
+            Canvas.ZIndex="1"
+            StrokeThickness="10"
+            Tapped="innerPieSlicePath_Tapped"
+            PointerEntered="innerPieSlicePath_PointerEntered"
+            PointerExited="innerPieSlicePath_PointerExited"
+            Thickness="100">
+        </userControl:PieSlicePath>
+    </Grid>
+</UserControl>

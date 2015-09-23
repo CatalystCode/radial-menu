@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadialMenuDemo", "RadialMenuDemo\RadialMenuDemo.csproj", "{F2169718-9CB4-4A32-BCAB-92E254B74213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadialMenuControl", "RadialMenuControl\RadialMenuControl.csproj", "{A10EE2D6-D98A-4074-8B29-19A7702F9493}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|ARM.Build.0 = Debug|ARM
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|ARM.Deploy.0 = Debug|ARM
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|x64.ActiveCfg = Debug|x64
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|x64.Build.0 = Debug|x64
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|x64.Deploy.0 = Debug|x64
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|x86.ActiveCfg = Debug|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|x86.Build.0 = Debug|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Debug|x86.Deploy.0 = Debug|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|Any CPU.ActiveCfg = Release|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|ARM.ActiveCfg = Release|ARM
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|ARM.Build.0 = Release|ARM
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|ARM.Deploy.0 = Release|ARM
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|x64.ActiveCfg = Release|x64
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|x64.Build.0 = Release|x64
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|x64.Deploy.0 = Release|x64
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|x86.ActiveCfg = Release|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|x86.Build.0 = Release|x86
+		{F2169718-9CB4-4A32-BCAB-92E254B74213}.Release|x86.Deploy.0 = Release|x86
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|ARM.Build.0 = Debug|ARM
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|x64.ActiveCfg = Debug|x64
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|x64.Build.0 = Debug|x64
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|x86.ActiveCfg = Debug|x86
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Debug|x86.Build.0 = Debug|x86
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|ARM.ActiveCfg = Release|ARM
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|ARM.Build.0 = Release|ARM
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|x64.ActiveCfg = Release|x64
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|x64.Build.0 = Release|x64
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|x86.ActiveCfg = Release|x86
+		{A10EE2D6-D98A-4074-8B29-19A7702F9493}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

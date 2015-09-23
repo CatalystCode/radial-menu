@@ -101,6 +101,9 @@
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof(string), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(string), typeof(PieSlice), null);
+
         public string Label
         {
             get { return (string)GetValue(LabelProperty); }
@@ -111,6 +114,12 @@
         {
             get { return (bool)GetValue(HideLabelProperty); }
             set { SetValue(HideLabelProperty, value); }
+        }
+
+        public string Icon
+        {
+            get { return (string)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value.ToUpperInvariant()); }
         }
 
         public PieSlice()
@@ -135,9 +144,10 @@
             innerPieSlicePath.Fill = new SolidColorBrush((Color)this.InnerNormalColor);
 
             // Calculating a point in the "direction" of our button
-            double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2));
-            //textBlockTranslate.X = -100 * Math.Cos(middleRadian);
-            //textBlockTranslate.Y = 100 * Math.Sin(middleRadian);
+            // TODO: This calculation is, erm, "weird". It should be improved
+            double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2) - 15);
+            iconTranslate.X = 80 * Math.Cos(middleRadian);
+            iconTranslate.Y = -80 * Math.Sin(middleRadian);
         }
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -180,7 +190,7 @@
 
         private void innerPieSlicePath_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            // TODO: Check if we're actually still hovering
+
             VisualStateManager.GoToState(this, "InnerHover", true);
         }
     }

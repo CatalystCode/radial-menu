@@ -9,12 +9,9 @@
     mc:Ignorable="d">
 
     <StackPanel x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Border Margin="5" BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <userControl:RadialMenu 
-                x:Name="radialMenu"
-                Diameter="300"
-                CenterButtonIcon="&#x1f369;"/>
-        </Border>
-        <TextBlock Text="{Binding SelectedItemValue, ElementName=rotaryWheelDemo}"  />
+    <userControl:RadialMenu 
+        x:Name="radialMenu"
+        Diameter="300"
+        CenterButtonIcon="&#x1f369;" />
     </StackPanel>
 </Page>

@@ -49,8 +49,24 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
+        <TextBlock
+            x:Name="iconTextBlock"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Canvas.ZIndex="10"
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="{Binding Icon}"
+            >
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="iconTranslate" />
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        
         <userControl:PieSlicePath x:Name="outerPieSlicePath"
-            Canvas.ZIndex="1"
+            Canvas.ZIndex="5"
             StrokeThickness="10"
             PointerPressed="outerPieSlicePath_PointerPressed"
             PointerReleased="outerPieSlicePath_PointerReleased"

@@ -157,11 +157,13 @@
                     Width = Width,
                     // The defaults below use OneNote-like purple colors
                     InnerNormalColor = Slices[i].InnerNormalColor ?? Color.FromArgb(255, 255, 255, 255),
-                    InnerHoverColor = Slices[i].InnerHoverColor ?? Color.FromArgb(255, 245, 236, 243),
+                    InnerHoverColor = Slices[i].InnerHoverColor ?? Color.FromArgb(2, 245, 236, 243),
                     InnerTappedColor = Slices[i].InnerTappedColor ?? Color.FromArgb(255, 237, 234, 236),
                     OuterNormalColor = Slices[i].OuterNormalColor ?? Color.FromArgb(255, 128, 57, 123),
                     OuterHoverColor = Slices[i].OuterHoverColor ?? Color.FromArgb(255, 155, 79, 150),
                     OuterTappedColor = Slices[i].OuterTappedColor ?? Color.FromArgb(255, 104, 41, 100),
+                    // Label
+                    Icon = Slices[i].Icon ?? "",
                     HideLabel = Slices[i].HideLabel,
                     Label = Slices[i].Label ?? ""
                 };

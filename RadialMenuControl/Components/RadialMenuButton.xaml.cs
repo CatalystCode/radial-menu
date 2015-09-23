@@ -15,6 +15,9 @@
         public static readonly DependencyProperty HideLabelProperty =
             DependencyProperty.Register("HideLabel", typeof(bool), typeof(RadialMenuButton), null);
 
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(string), typeof(RadialMenuButton), null);
+
         public string Label
         {
             get { return (string)GetValue(LabelProperty) ?? ""; }
@@ -25,6 +28,12 @@
         {
             get { return (bool)GetValue(HideLabelProperty); }
             set { SetValue(HideLabelProperty, value); }
+        }
+
+        public string Icon
+        {
+            get { return (string)GetValue(IconProperty) ?? ""; }
+            set { SetValue(IconProperty, value.ToUpperInvariant()); }
         }
 
         // Inner Arc Colors

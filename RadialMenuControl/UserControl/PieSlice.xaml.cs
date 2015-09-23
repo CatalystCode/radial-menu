@@ -101,13 +101,25 @@
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof(string), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty LabelSizeProperty =
+            DependencyProperty.Register("LabelSize", typeof(int), typeof(PieSlice), null);
+
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(string), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty IconSizeProperty =
+            DependencyProperty.Register("IconSize", typeof(int), typeof(PieSlice), null);
 
         public string Label
         {
             get { return (string)GetValue(LabelProperty); }
-            set { SetValue(LabelProperty, value.ToUpperInvariant()); }
+            set { SetValue(LabelProperty, value); }
+        }
+
+        public int LabelSize
+        {
+            get { return (int)GetValue(LabelSizeProperty); }
+            set { SetValue(LabelSizeProperty, value); }
         }
 
         public bool HideLabel
@@ -119,7 +131,13 @@
         public string Icon
         {
             get { return (string)GetValue(IconProperty); }
-            set { SetValue(IconProperty, value.ToUpperInvariant()); }
+            set { SetValue(IconProperty, value); }
+        }
+
+        public int IconSize
+        {
+            get { return (int)GetValue(IconSizeProperty); }
+            set { SetValue(IconSizeProperty, value); }
         }
 
         public PieSlice()
@@ -144,10 +162,10 @@
             innerPieSlicePath.Fill = new SolidColorBrush((Color)this.InnerNormalColor);
 
             // Calculating a point in the "direction" of our button
-            // TODO: This calculation is, erm, "weird". It should be improved
+            // TODO: This calculation is, erm, "weird". It probably doesn't work for different menu sizes. It should be improved.
             double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2) - 15);
-            iconTranslate.X = 80 * Math.Cos(middleRadian);
-            iconTranslate.Y = -80 * Math.Sin(middleRadian);
+            iconTranslate.X = 85 * Math.Cos(middleRadian);
+            iconTranslate.Y = -85 * Math.Sin(middleRadian);
         }
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

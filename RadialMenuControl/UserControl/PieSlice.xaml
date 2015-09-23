@@ -11,7 +11,7 @@
     d:DesignHeight="300"
     d:DesignWidth="300">
 
-    <Grid x:Name="layoutRoot">
+    <Grid x:Name="layoutRoot" CompositeMode="MinBlend">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="InnerStates">
                 <VisualState x:Name="InnerNormal">
@@ -49,24 +49,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <TextBlock
-            x:Name="iconTextBlock"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Canvas.ZIndex="10"
-            Grid.Row="0"
-            Grid.Column="0"
-            Text="{Binding Icon}"
-            >
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <TranslateTransform x:Name="iconTranslate" />
-                </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
-        
         <userControl:PieSlicePath x:Name="outerPieSlicePath"
-            Canvas.ZIndex="5"
             StrokeThickness="10"
             PointerPressed="outerPieSlicePath_PointerPressed"
             PointerReleased="outerPieSlicePath_PointerReleased"
@@ -76,7 +59,6 @@
         </userControl:PieSlicePath>
 
         <userControl:PieSlicePath x:Name="innerPieSlicePath"
-            Canvas.ZIndex="1"
             StrokeThickness="10"
             PointerPressed="innerPieSlicePath_PointerPressed"
             PointerReleased="innerPieSlicePath_PointerReleased"
@@ -84,5 +66,32 @@
             PointerExited="innerPieSlicePath_PointerExited"
             Thickness="105">
         </userControl:PieSlicePath>
+
+        <Grid>
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="iconTranslate" />
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <TextBlock
+                x:Name="iconTextBlock"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="{Binding IconSize}"
+                Text="{Binding Icon}"
+                IsHitTestVisible="False"
+                Margin="0, -25, 0, 0">
+            </TextBlock>
+
+            <TextBlock
+                x:Name="labelTextBlock"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="{Binding LabelSize}"
+                Text="{Binding Label}"
+                IsHitTestVisible="False"
+                Margin="0, 25, 0, 0">
+            </TextBlock>
+        </Grid>
     </Grid>
 </UserControl>

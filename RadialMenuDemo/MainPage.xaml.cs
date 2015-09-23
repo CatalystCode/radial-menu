@@ -11,34 +11,28 @@ namespace RadialMenuDemo
         public MainPage()
         {
             RadialMenuButton button1 = new RadialMenuButton();
-            button1.Label = "1";
-            button1.Icon = "1";
-            button1.OuterNormalColor = Colors.AliceBlue;
+            button1.Label = "Rainbow";
+            button1.Icon = "🌈";
 
             RadialMenuButton button2 = new RadialMenuButton();
-            button2.Label = "2";
-            button2.Icon = "2";
-            //button2.OuterNormalColor = Colors.Aqua;
+            button2.Label = "Party";
+            button2.Icon = "🎉";
 
             RadialMenuButton button3 = new RadialMenuButton();
-            button3.Label = "3";
-            button3.Icon = "3";
-            //button3.OuterNormalColor = Colors.Azure;
+            button3.Label = "Ramen Time";
+            button3.Icon = "🍜";
 
             RadialMenuButton button4 = new RadialMenuButton();
-            button4.Label = "4";
-            button4.Icon = "4";
-            button4.OuterNormalColor = Colors.Black;
+            button4.Label = "Surf's up";
+            button4.Icon = "🏄";
 
             RadialMenuButton button5 = new RadialMenuButton();
-            button5.Label = "5";
-            button5.Icon = "5";
-            //button5.OuterNormalColor = Colors.Gold;
+            button5.Label = "Effin Dragons";
+            button5.Icon = "🐉";
 
             RadialMenuButton button6 = new RadialMenuButton();
-            button6.Label = "6";
-            button6.Icon = "6";
-            //button6.OuterNormalColor = Colors.DarkOrchid;
+            button6.Label = "Pay Rent";
+            button6.Icon = "💸";
 
             this.InitializeComponent();
             radialMenu.AddButton(button1);

@@ -14,8 +14,6 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <StackPanel x:Name="layoutRoot">
-        <Canvas x:Name="layoutContent">
-        </Canvas>
-    </StackPanel>
+    <Canvas x:Name="layoutContent">
+    </Canvas>
 </UserControl>

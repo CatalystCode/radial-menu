@@ -139,6 +139,11 @@
             get { return (int)GetValue(IconSizeProperty); }
             set { SetValue(IconSizeProperty, value); }
         }
+  
+        // Pass in the original RadialMenuButton
+        public Components.RadialMenuButton _radialMenuButton;
+        public static readonly DependencyProperty _radialMenuButtonProperty =
+            DependencyProperty.Register("_radialMenuButton", typeof(Components.RadialMenuButton), typeof(PieSlice), null);
 
         public PieSlice()
         {
@@ -172,12 +177,14 @@
         {
             // TODO: Navigate to Submenu, if one exists
             VisualStateManager.GoToState(this, "OuterPressed", true);
+            _radialMenuButton.OnOuterArcPressed(e);
         }
 
         private void outerPieSlicePath_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             // TODO: Check if we're actually still hovering
             VisualStateManager.GoToState(this, "OuterHover", true);
+            _radialMenuButton.OnOuterArcReleased(e);
         }
 
         private void outerPieSlicePath_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -204,12 +211,13 @@
         private void innerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "InnerPressed", true);
+            _radialMenuButton.OnInnerArcPressed(e);
         }
 
         private void innerPieSlicePath_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-
             VisualStateManager.GoToState(this, "InnerHover", true);
+            _radialMenuButton.OnOuterArcReleased(e);
         }
     }
 }

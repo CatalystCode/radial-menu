@@ -168,6 +168,8 @@
                     HideLabel = Slices[i].HideLabel,
                     Label = Slices[i].Label ?? "",
                     LabelSize = Slices[i].LabelSize ?? 10,
+                    // Original Button
+                    _radialMenuButton = Slices[i]
                 };
 
                 _pieSlices.Add(pieSlice);

@@ -13,6 +13,8 @@ namespace RadialMenuDemo
             RadialMenuButton button1 = new RadialMenuButton();
             button1.Label = "Rainbow";
             button1.Icon = "🌈";
+            button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
+            button1.OuterArcReleasedEvent += Button1_OuterArcReleasedEvent;
 
             RadialMenuButton button2 = new RadialMenuButton();
             button2.Label = "Party";
@@ -44,6 +46,16 @@ namespace RadialMenuDemo
 
             layoutRoot.DataContext = this;
             radialMenu.PropertyChanged += RadialMenu_PropertyChanged; ;
+        }
+
+        private void Button1_OuterArcReleasedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            Debug.Write("Hi from button 1!");
+        }
+
+        private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            Debug.WriteLine("Hi from button 1!");
         }
 
         private void RadialMenu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -109,6 +109,51 @@
             set { SetValue(OuterTappedColorProperty, value); }
         }
 
+        // Events
+        public delegate void InnerArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        public event InnerArcPressedEventHandler InnerArcPressedEvent;
+
+        public void OnInnerArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (InnerArcPressedEvent != null)
+            {
+                InnerArcPressedEvent(this, e);
+            }
+        }
+
+        public delegate void OuterArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        public event OuterArcPressedEventHandler OuterArcPressedEvent;
+
+        public void OnOuterArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (OuterArcPressedEvent != null)
+            {
+                OuterArcPressedEvent(this, e);
+            }
+        }
+
+        public delegate void InnerArcReleasedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        public event InnerArcReleasedEventHandler InnerArcReleasedEvent;
+
+        public void OnInnerArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (InnerArcReleasedEvent != null)
+            {
+                InnerArcReleasedEvent(this, e);
+            }
+        }
+
+        public delegate void OuterArcReleasedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        public event OuterArcReleasedEventHandler OuterArcReleasedEvent;
+
+        public void OnOuterArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (OuterArcReleasedEvent != null)
+            {
+                OuterArcReleasedEvent(this, e);
+            }
+        }
+
         public RadialMenuButton()
         {
             InitializeComponent();

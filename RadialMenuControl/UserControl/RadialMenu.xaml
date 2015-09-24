@@ -54,7 +54,8 @@
     </UserControl.Resources>
 
     <Grid x:Name="layoutRoot">
-        <Button Content="{Binding CenterButtonIcon}"
+        <Button x:Name="centerButton"
+                Content="{Binding CenterButtonIcon}"
                 Canvas.ZIndex="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

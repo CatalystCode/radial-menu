@@ -8,17 +8,4 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Button.Resources>
-        <Style x:Name="RadialMenuButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Red"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Path x:Name="ButtonPath" Fill="{TemplateBinding Background}" Data="{Binding Tag.PathData, ElementName=radialMenuButton}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Button.Resources>
 </Button>

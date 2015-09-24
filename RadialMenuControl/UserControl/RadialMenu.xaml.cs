@@ -111,10 +111,23 @@
             }
         }
 
+        // Events
+        public delegate void CenterButtonTappedHandler(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e);
+        public event CenterButtonTappedHandler CenterButtonTappedEvent;
+
+        private void OnCenterButtonTapped(object s, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (CenterButtonTappedEvent != null)
+            {
+                CenterButtonTappedEvent(s, e);
+            }
+        }
+
         public RadialMenu()
         {
             InitializeComponent();
             layoutRoot.DataContext = this;
+            centerButton.Tapped += OnCenterButtonTapped;
         }
     }
 }

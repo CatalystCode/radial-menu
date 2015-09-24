@@ -43,14 +43,21 @@ namespace RadialMenuDemo
             radialMenu.AddButton(button4);
             radialMenu.AddButton(button5);
             radialMenu.AddButton(button6);
+            radialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
+
 
             layoutRoot.DataContext = this;
             radialMenu.PropertyChanged += RadialMenu_PropertyChanged; ;
         }
 
+        private void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Debug.WriteLine("Hi from center button!");
+        }
+
         private void Button1_OuterArcReleasedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Debug.Write("Hi from button 1!");
+            Debug.WriteLine("Hi from button 1!");
         }
 
         private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -69,6 +76,11 @@ namespace RadialMenuDemo
                         break;
                     }
             }
+        }
+
+        private void radialMenu_CenterButtonPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+
         }
     }
 }

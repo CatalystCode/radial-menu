@@ -60,9 +60,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Style="{StaticResource RoundedButton}"
-                FontSize="19"
                 FontFamily="Segoe Ui Symbol"
-                Tag="Delete"
+                FontSize="{Binding CenterButtonFontSize}" 
                 Background="{Binding CenterButtonBackgroundFill}"
                 Height="{Binding CenterButtonSize}"
                 BorderBrush="{Binding CenterButtonBorder}" />

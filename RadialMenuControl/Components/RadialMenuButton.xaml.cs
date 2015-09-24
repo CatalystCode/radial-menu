@@ -1,5 +1,6 @@
 ﻿namespace RadialMenuControl.Components
 {
+    using UserControl;
     using System;
     using System.Collections.ObjectModel;
     using Windows.UI;
@@ -152,6 +153,16 @@
             {
                 OuterArcReleasedEvent(this, e);
             }
+        }
+
+        // SubMenu
+        public static readonly DependencyProperty SubmenuProperty =
+            DependencyProperty.Register("Submenu", typeof(RadialMenu), typeof(RadialMenuButton), null);
+
+        public RadialMenu Submenu
+        {
+            get { return (RadialMenu)GetValue(SubmenuProperty); }
+            set { SetValue(SubmenuProperty, value); }
         }
 
         public RadialMenuButton()

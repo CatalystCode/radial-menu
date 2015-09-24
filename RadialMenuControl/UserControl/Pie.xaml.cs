@@ -9,14 +9,20 @@
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Windows.UI;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
 
     public partial class Pie : UserControl, INotifyPropertyChanged
     {
         private readonly ObservableCollection<PieSlice> _pieSlices = new ObservableCollection<PieSlice>();
-
+  
         public event PropertyChangedEventHandler PropertyChanged;
+
+        // Pass in the original RadialMenuButton
+        public RadialMenu _sourceRadialMenu;
+        public static readonly DependencyProperty _sourceRadialMenuProperty =
+            DependencyProperty.Register("_sourceRadialMenu", typeof(RadialMenu), typeof(Pie), null);
 
         private Color _backgroundColor = Colors.White;
         public Color BackgroundColor
@@ -139,7 +145,7 @@
             };
         }
 
-        private void Draw()
+        public void Draw()
         {
             _pieSlices.Clear();
             // TODO: Make this configurable
@@ -171,6 +177,9 @@
                     // Original Button
                     _radialMenuButton = Slices[i]
                 };
+
+                // Allow slice to call the change request method on the radial menu
+                pieSlice.ChangeMenuRequestEvent += _sourceRadialMenu.ChangeMenu;
 
                 _pieSlices.Add(pieSlice);
                 startAngle += sliceSize;

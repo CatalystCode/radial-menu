@@ -139,11 +139,23 @@
             get { return (int)GetValue(IconSizeProperty); }
             set { SetValue(IconSizeProperty, value); }
         }
-  
+
         // Pass in the original RadialMenuButton
         public Components.RadialMenuButton _radialMenuButton;
         public static readonly DependencyProperty _radialMenuButtonProperty =
             DependencyProperty.Register("_radialMenuButton", typeof(Components.RadialMenuButton), typeof(PieSlice), null);
+
+        // Change Menu
+        public delegate void ChangeMenuRequestHandler(object sender, RadialMenu submenu);
+        public event ChangeMenuRequestHandler ChangeMenuRequestEvent;
+
+        private void OnChangeMenuRequest(object s, RadialMenu sm)
+        {
+            if (ChangeMenuRequestEvent != null)
+            {
+                ChangeMenuRequestEvent(s, sm);
+            }
+        }
 
         public PieSlice()
         {
@@ -175,8 +187,14 @@
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            // TODO: Navigate to Submenu, if one exists
             VisualStateManager.GoToState(this, "OuterPressed", true);
+
+            // Check for Submenu
+            if (_radialMenuButton.Submenu != null)
+            {
+                OnChangeMenuRequest(_radialMenuButton, _radialMenuButton.Submenu);
+            }
+
             _radialMenuButton.OnOuterArcPressed(e);
         }
 

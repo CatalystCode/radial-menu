@@ -89,5 +89,21 @@
                 Margin="0, 25, 0, 0">
             </TextBlock>
         </Grid>
+        <TextBlock
+                x:Name="caretTextBlock"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="White"
+                FontSize="12"
+                Text="▲"
+                IsHitTestVisible="False"
+                Margin="7, 12, 0, 0">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform x:Name="caretRotateTransform"/>
+                    <TranslateTransform x:Name="caretTranslate" />
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
     </Grid>
 </UserControl>

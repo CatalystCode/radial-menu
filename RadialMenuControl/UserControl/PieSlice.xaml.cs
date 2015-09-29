@@ -180,6 +180,7 @@
             outerPieSlicePath.Radius = this.Radius;
             outerPieSlicePath.StartAngle = this.StartAngle;
             outerPieSlicePath.Angle = this.Angle;
+            double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2));
 
             if (_radialMenuButton.Submenu == null && !_radialMenuButton.HasOuterArcEvents())
             {
@@ -192,7 +193,6 @@
                 outerPieSlicePath.PointerReleased += outerPieSlicePath_PointerReleased;
                 outerPieSlicePath.PointerEntered += outerPieSlicePath_PointerEntered;
                 outerPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
-                // TODO: Setup caret
             }
             
             // Setup inner caret
@@ -201,11 +201,13 @@
             innerPieSlicePath.Angle = this.Angle;
             innerPieSlicePath.Fill = new SolidColorBrush((Color)this.InnerNormalColor);
 
-            // Calculating a point in the "direction" of our button
-            // TODO: This calculation is, erm, "weird". It probably doesn't work for different menu sizes. It should be improved.
-            double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2));
+            // Setup icon and text
             iconTranslate.X = 85 * Math.Sin(middleRadian);
             iconTranslate.Y = -85 * Math.Cos(middleRadian);
+
+            caretRotateTransform.Angle = (this.StartAngle + (this.Angle / 2));
+            caretTranslate.X = this.Radius * Math.Sin(middleRadian);
+            caretTranslate.Y = -this.Radius * Math.Cos(middleRadian);
         }
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

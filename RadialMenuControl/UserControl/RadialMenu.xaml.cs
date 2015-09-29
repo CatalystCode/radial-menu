@@ -2,10 +2,9 @@
 {
     using Components;
     using Shims;
+    using Extensions;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using Windows.UI;
     using Windows.UI.Xaml;
@@ -135,6 +134,68 @@
         }
 
         /// <summary>
+        /// Find a parent element by type!
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="child"></param>
+        /// <returns></returns>
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null)
+            {
+                return null;
+            }
+        
+            T parent = parentObject as T;
+
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParent<T>(parentObject);
+            }
+        }
+
+    /// <summary>
+    /// Show or hide the outer wheel
+    /// </summary>
+    public async void TogglePie()
+        {
+            Floating floatingParent = FindParent<Floating>(this);
+            double distance = Diameter / 2 - centerButton.ActualHeight / 2;
+
+            if (pie.Visibility == Visibility.Visible)
+            {
+                await HidePieStoryboard.PlayAsync();
+                pie.Visibility = Visibility.Collapsed;
+                Width = centerButton.ActualWidth;
+                Height = centerButton.ActualHeight;
+
+                // Check if we're floating
+                if (floatingParent != null)
+                {
+                    floatingParent.ManipulateControlPosition(distance, distance);
+                }
+            }
+            else
+            {
+                pie.Visibility = Visibility.Visible;
+                await ShowPieStoryboard.PlayAsync();
+                Width = Diameter;
+                Height = Diameter;
+
+                // Check if we're floating
+                if (floatingParent != null)
+                {
+                    floatingParent.ManipulateControlPosition(-distance, -distance);
+                }
+            }
+        }
+
+        /// <summary>
         /// Add a RadialMenuButton to the current pie
         /// </summary>
         /// <param name="button">RadialMenuButton to add to the current pie</param>
@@ -175,6 +236,11 @@
             if (CenterButtonTappedEvent != null)
             {
                 CenterButtonTappedEvent(s, e);
+            }
+
+            if (previousPies.Count == 0)
+            {
+                TogglePie();
             }
 
             if (previousPies.Count > 0 && IsCenterButtonNavigationEnabled)

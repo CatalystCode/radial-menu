@@ -22,8 +22,8 @@
             <Border BorderBrush="Black" BorderThickness="4">
                 <Grid>
                     <Canvas>
-                        <userControl:Floating IsBoundByParent="True">
-                            <Border Height="302" Width="302" BorderBrush="Transparent" BorderThickness="1">
+                        <userControl:Floating IsBoundByParent="True" x:Name="floatingRadialMenu">
+                            <Border BorderBrush="Transparent" BorderThickness="1">
                                 <Grid>
                                     <userControl:RadialMenu 
                                         x:Name="radialMenu"

@@ -14,8 +14,7 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left">
                         <!-- This Border handles the dragging -->
-                        <Border x:Name="DraggingBorder"
-                                ManipulationMode="TranslateX, TranslateY, TranslateInertia"  >
+                        <Border x:Name="DraggingBorder" ManipulationMode="TranslateX, TranslateY, TranslateInertia"  >
                             <ContentPresenter />
                         </Border>
                     </Canvas>

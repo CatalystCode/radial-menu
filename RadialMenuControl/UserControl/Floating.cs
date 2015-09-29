@@ -110,8 +110,18 @@ namespace RadialMenuControl.UserControl
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            var left = Canvas.GetLeft(this.border) + e.Delta.Translation.X;
-            var top = Canvas.GetTop(this.border) + e.Delta.Translation.Y;
+            ManipulateControlPosition(e.Delta.Translation.X, e.Delta.Translation.Y);
+        }
+
+        /// <summary>
+        /// Manipulate the control's positon!
+        /// </summary>
+        /// <param name="X">Delta on the X axis</param>
+        /// <param name="Y">Delta on the Y axis</param>
+        public void ManipulateControlPosition(double X, double Y)
+        {
+            var left = Canvas.GetLeft(this.border) + X;
+            var top = Canvas.GetTop(this.border) + Y;
 
             Rect rect = new Rect(left, top, this.border.ActualWidth, this.border.ActualHeight);
             AdjustCanvasPosition(rect);

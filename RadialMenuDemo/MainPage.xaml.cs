@@ -55,7 +55,7 @@ namespace RadialMenuDemo
             radialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
 
             layoutRoot.DataContext = this;
-            radialMenu.PropertyChanged += RadialMenu_PropertyChanged; ;
+            radialMenu.PropertyChanged += RadialMenu_PropertyChanged;
         }
 
         private void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

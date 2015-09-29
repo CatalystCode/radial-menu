@@ -1,6 +1,7 @@
 ﻿namespace RadialMenuControl.UserControl
 {
     using Components;
+    using Shims;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -110,13 +111,13 @@
             }
         }
 
-        private IList<Button> _previousCenterButtons = new List<Button>();
-        public IList<Button> previousButtons
+        private IList<CenterButtonShim> _previousCenterButtons = new List<CenterButtonShim>();
+        public IList<CenterButtonShim> previousButtons
         {
             get { return _previousCenterButtons; }
             set
             {
-                SetField<IList<Button>>(ref _previousCenterButtons, value);
+                SetField<IList<CenterButtonShim>>(ref _previousCenterButtons, value);
             }
         }
 
@@ -163,13 +164,12 @@
         public void ChangeMenu(object sender, RadialMenu menu)
         {
             ChangePie(sender, menu.pie, true);
-            ChangeCenterButton(sender, menu.centerButton, true);
+            ChangeCenterButton(sender, Helpers.ButtonToShim(menu.centerButton), true);
         }
 
         public void ChangePie(object sender, Pie newPie, bool storePrevious)
         {
             // Store the current pie
-            // TODO: Make a lean class
             if (storePrevious)
             {
                 Pie backupPie = new Pie();
@@ -195,26 +195,29 @@
             pie.UpdateLayout();
         }
 
-        public void ChangeCenterButton(object sender, Button newButton, bool storePrevious)
+        public void ChangeCenterButton(object sender, CenterButtonShim newButton, bool storePrevious)
         {
             // Store the current button
-            // TODO: Make a lean class that has only these props - and store only these, not whole buttons
             if (storePrevious)
             {
-                Button backupButton = new Button();
-                backupButton.BorderBrush = CenterButtonBorder;
-                backupButton.Background = CenterButtonBackgroundFill;
-                backupButton.Content = CenterButtonIcon;
-                backupButton.FontSize = CenterButtonFontSize;
+                CenterButtonShim backupButton = new CenterButtonShim
+                {
+                    BorderBrush = CenterButtonBorder,
+                    Background = CenterButtonBackgroundFill,
+                    Content = CenterButtonIcon,
+                    FontSize = CenterButtonFontSize
+                };
+
                 previousButtons.Add(backupButton);
             }
 
+            // Decorate the current button with new props
             CenterButtonBorder = newButton.BorderBrush;
             CenterButtonBackgroundFill = newButton.Background;
             CenterButtonIcon = (string)newButton.Content;
             CenterButtonFontSize = newButton.FontSize;
         }
-             
+
         public RadialMenu()
         {
             InitializeComponent();

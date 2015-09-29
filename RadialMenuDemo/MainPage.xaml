@@ -7,12 +7,31 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControl="using:RadialMenuControl.UserControl"
     mc:Ignorable="d">
-
-    <StackPanel x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <userControl:RadialMenu 
-        x:Name="radialMenu"
-        Diameter="300"
-        StartAngle="22.5"
-        CenterButtonIcon="&#x1f369;" />
-    </StackPanel>
+    
+    <Grid x:Name="layoutRoot">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="auto" />
+    </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="40">
+            <Border BorderBrush="Red" BorderThickness="4">
+                <Grid>
+                    <Canvas>
+                        <userControl:Floating IsBoundByParent="True">
+                            <Border Height="302" Width="302" BorderBrush="Transparent" BorderThickness="1">
+                                <Grid>
+                                    <userControl:RadialMenu 
+                                        x:Name="radialMenu"
+                                        Diameter="300"
+                                        StartAngle="22.5"
+                                        CenterButtonIcon="&#x1f369;" />
+                                </Grid>
+                            </Border>
+                        </userControl:Floating>
+                    </Canvas>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
 </Page>

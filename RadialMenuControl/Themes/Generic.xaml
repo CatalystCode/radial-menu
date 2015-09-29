@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:RadialMenuControl.UserControl">
+
+    <!-- Floating Control Style -->
+    <Style TargetType="local:Floating">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:Floating">
+                    <!-- This Canvas never covers other controls -->
+                    <Canvas Background="Transparent"
+                            Height="0"
+                            Width="0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left">
+                        <!-- This Border handles the dragging -->
+                        <Border x:Name="DraggingBorder"
+                                ManipulationMode="TranslateX, TranslateY, TranslateInertia"  >
+                            <ContentPresenter />
+                        </Border>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

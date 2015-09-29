@@ -17,12 +17,10 @@ namespace RadialMenuDemo
             button1.OuterArcReleasedEvent += Button1_OuterArcReleasedEvent;
 
             button1.Submenu = new RadialMenu();
-            button1.Submenu.CenterButtonIcon = "🐉";
+            button1.Submenu.CenterButtonIcon = "";
             button1.Submenu.AddButton(new RadialMenuButton { Label = "World", Icon = "🌍" });
             button1.Submenu.AddButton(new RadialMenuButton { Label = "Sun", Icon = "🌞" });
-            button1.Submenu.AddButton(new RadialMenuButton { Label = "Canada!", Icon = "🍁" });
-            button1.Submenu.AddButton(new RadialMenuButton { Label = "Fish", Icon = "🎣" });
-            button1.Submenu.AddButton(new RadialMenuButton { Label = "Noodles", Icon = "🍝" });
+            button1.Submenu.AddButton(new RadialMenuButton { Label = "Canada!", Icon = "🍁" });;
             button1.Submenu.AddButton(new RadialMenuButton { Label = "Bento", Icon = "🍱" });
 
 

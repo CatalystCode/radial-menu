@@ -14,43 +14,21 @@
     public partial class RadialMenu : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public Pie _outerWheel;
 
-        private Color _edgeBackgroundColor = Colors.Black;
-        public Color EdgeBackgroundColor
-        {
-            get { return _edgeBackgroundColor; }
-            set { SetField(ref _edgeBackgroundColor, value); }
-        }
-
-        private Color _foregroundColor = Color.FromArgb(255, 128, 57, 123);
-        public Color ForegroundColor
-        {
-            get { return _foregroundColor; }
-            set { SetField(ref _foregroundColor, value); }
-        }
-
-        private Color _edgeHighlightColor = Colors.DarkSeaGreen;
-        public Color EdgeHighlightColor
-        {
-            get { return _edgeHighlightColor; }
-            set { SetField(ref _edgeHighlightColor, value); }
-        }
-
+        private Brush _centerButtonBackgroundFill = new SolidColorBrush(Colors.WhiteSmoke);
         /// <summary>
         /// Background Fill for the Center Button
         /// </summary>
-        private Brush _centerButtonBackgroundFill = new SolidColorBrush(Colors.WhiteSmoke);
         public Brush CenterButtonBackgroundFill
         {
             get { return _centerButtonBackgroundFill; }
             set { SetField(ref _centerButtonBackgroundFill, value); }
         }
 
+        private Brush _centerButtonBorder = new SolidColorBrush(Colors.Transparent);
         /// <summary>
         /// Border Brush for the Center Button
         /// </summary>
-        private Brush _centerButtonBorder = new SolidColorBrush(Colors.Transparent);
         public Brush CenterButtonBorder
         {
             get { return _centerButtonBorder; }
@@ -87,7 +65,21 @@
             set { SetField(ref _centerButtonFontSize, value); }
         }
 
+
+        private bool _isCenterButtonNavigationEnabled = true;
+        /// <summary>
+        /// If disabled, the center button won't automatically allow "back" navigation between submenue 
+        /// </summary>
+        public bool IsCenterButtonNavigationEnabled
+        {
+            get { return _isCenterButtonNavigationEnabled; }
+            set { SetField(ref _isCenterButtonNavigationEnabled, value); }
+        }
+
         private double _diameter;
+        /// <summary>
+        /// Diameter of the whole control
+        /// </summary>
         public double Diameter
         {
             get { return _diameter; }
@@ -102,6 +94,9 @@
         }
 
         private IList<Pie> _previousPies = new List<Pie>();
+        /// <summary>
+        /// Storage for previous pies (for back navigation)
+        /// </summary>
         public IList<Pie> previousPies
         {
             get { return _previousPies; }
@@ -112,6 +107,9 @@
         }
 
         private IList<CenterButtonShim> _previousCenterButtons = new List<CenterButtonShim>();
+        /// <summary>
+        ///  Storage for previous center buttons (for back navigation)
+        /// </summary>
         public IList<CenterButtonShim> previousButtons
         {
             get { return _previousCenterButtons; }
@@ -121,11 +119,22 @@
             }
         }
 
+        /// <summary>
+        /// Add a RadialMenuButton to the current pie
+        /// </summary>
+        /// <param name="button">RadialMenuButton to add to the current pie</param>
         public void AddButton(RadialMenuButton button)
         {
             pie.Slices.Add(button);
         }
 
+        /// <summary>
+        /// Helper function ensuring that we're not wasting resources when updating a field
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="field">Field to use</param>
+        /// <param name="value">Value to use</param>
+        /// <param name="propertyName">Name of the property</param>
         private void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             if (!value.Equals(field))
@@ -140,34 +149,53 @@
         public delegate void CenterButtonTappedHandler(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e);
         public event CenterButtonTappedHandler CenterButtonTappedEvent;
 
+        /// <summary>
+        /// Event Handler for a center button tap, calling user-registered events and handling navigation (if enabled)
+        /// </summary>
+        /// <param name="s">Sending object</param>
+        /// <param name="e">Event information</param>
         private void OnCenterButtonTapped(object s, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            // If an event has been registered with the center button tap, call it
             if (CenterButtonTappedEvent != null)
             {
                 CenterButtonTappedEvent(s, e);
             }
 
-            // Should we go back? 
-            // TODO: This needs some configuration
-            if (previousPies.Count > 0)
+            if (previousPies.Count > 0 && IsCenterButtonNavigationEnabled)
             {
+                // If we have a previous pie, we're going back to it
                 ChangePie(this, previousPies[previousPies.Count - 1], false);
                 previousPies.RemoveAt(previousPies.Count - 1);
 
-                // TODO: Assumption that previousPies & previousButtons are always the same,
-                // which is probably not a great idea
-                ChangeCenterButton(this, previousButtons[previousButtons.Count - 1], false);
-                previousButtons.RemoveAt(previousButtons.Count - 1);
+                // We don't necessarily have the same amount of pies and center buttons.
+                // Users can create submenues that don't bring their own center button
+                if (previousButtons.Count > 0)
+                {
+                    ChangeCenterButton(this, previousButtons[previousButtons.Count - 1], false);
+                    previousButtons.RemoveAt(previousButtons.Count - 1);
+                }
             }
         }
 
-        public void ChangeMenu(object sender, RadialMenu menu)
+        /// <summary>
+        /// Change the whole radial menu, using a new menu object
+        /// </summary>
+        /// <param name="s">Sending object</param>
+        /// <param name="menu">Menu to change to</param>
+        public void ChangeMenu(object s, RadialMenu menu)
         {
-            ChangePie(sender, menu.pie, true);
-            ChangeCenterButton(sender, Helpers.ButtonToShim(menu.centerButton), true);
+            ChangePie(s, menu.pie, true);
+            ChangeCenterButton(s, Helpers.ButtonToShim(menu.centerButton), true);
         }
 
-        public void ChangePie(object sender, Pie newPie, bool storePrevious)
+        /// <summary>
+        /// Change the current pie - aka update the current radial menu buttons
+        /// </summary>
+        /// <param name="s">Sending object</param>
+        /// <param name="newPie">Pie object to take RadialMenuButtons from</param>
+        /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
+        public void ChangePie(object s, Pie newPie, bool storePrevious)
         {
             // Store the current pie
             if (storePrevious)
@@ -195,7 +223,13 @@
             pie.UpdateLayout();
         }
 
-        public void ChangeCenterButton(object sender, CenterButtonShim newButton, bool storePrevious)
+        /// <summary>
+        /// Change the center button using a CenterButtonShim object
+        /// </summary>
+        /// <param name="s">Sending object</param>
+        /// <param name="newButton">CenterButtonShim object to take properties for the new button from</param>
+        /// <param name="storePrevious">Should we store the previous center button (for back navigation?)</param>
+        public void ChangeCenterButton(object s, CenterButtonShim newButton, bool storePrevious)
         {
             // Store the current button
             if (storePrevious)

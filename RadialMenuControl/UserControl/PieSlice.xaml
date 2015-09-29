@@ -51,10 +51,6 @@
 
         <userControl:PieSlicePath x:Name="outerPieSlicePath"
             StrokeThickness="10"
-            PointerPressed="outerPieSlicePath_PointerPressed"
-            PointerReleased="outerPieSlicePath_PointerReleased"
-            PointerEntered="outerPieSlicePath_PointerEntered"
-            PointerExited="outerPieSlicePath_PointerExited"
             Thickness="18">
         </userControl:PieSlicePath>
 

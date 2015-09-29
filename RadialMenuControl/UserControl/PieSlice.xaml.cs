@@ -48,6 +48,9 @@
         public static readonly DependencyProperty OuterTappedColorProperty =
             DependencyProperty.Register("OuterTappedColor", typeof(Color), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty OuterDisabledColorProperty =
+            DependencyProperty.Register("OuterDisabledColor", typeof(Color), typeof(PieSlice), null);
+
         public Color OuterHoverColor
         {
             get { return (Color)GetValue(OuterHoverColorProperty); }
@@ -58,6 +61,12 @@
         {
             get { return (Color)GetValue(OuterNormalColorProperty); }
             set { SetValue(OuterNormalColorProperty, value); }
+        }
+
+        public Color OuterDisabledColor
+        {
+            get { return (Color)GetValue(OuterDisabledColorProperty); }
+            set { SetValue(OuterDisabledColorProperty, value); }
         }
 
         public Color OuterTappedColor
@@ -167,12 +176,26 @@
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            // TODO: Check if we have a submenu, "grey out" if we don't
+            // Setup outer caret
             outerPieSlicePath.Radius = this.Radius;
             outerPieSlicePath.StartAngle = this.StartAngle;
             outerPieSlicePath.Angle = this.Angle;
-            outerPieSlicePath.Fill = new SolidColorBrush((Color)this.OuterNormalColor);
 
+            if (_radialMenuButton.Submenu == null && !_radialMenuButton.HasOuterArcEvents())
+            {
+                outerPieSlicePath.Fill = new SolidColorBrush((Color)this.OuterDisabledColor);
+            }
+            else
+            {
+                outerPieSlicePath.Fill = new SolidColorBrush((Color)this.OuterNormalColor);
+                outerPieSlicePath.PointerPressed += outerPieSlicePath_PointerPressed;
+                outerPieSlicePath.PointerReleased += outerPieSlicePath_PointerReleased;
+                outerPieSlicePath.PointerEntered += outerPieSlicePath_PointerEntered;
+                outerPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
+                // TODO: Setup caret
+            }
+            
+            // Setup inner caret
             innerPieSlicePath.Radius = this.Radius - 20;
             innerPieSlicePath.StartAngle = this.StartAngle;
             innerPieSlicePath.Angle = this.Angle;
@@ -207,7 +230,6 @@
 
         private void outerPieSlicePath_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            // TODO: Check if we have a submenu, otherwise don't highlight
             VisualStateManager.GoToState(this, "OuterHover", true);
         }
 

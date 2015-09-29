@@ -16,7 +16,7 @@
     public partial class Pie : UserControl, INotifyPropertyChanged
     {
         private readonly ObservableCollection<PieSlice> _pieSlices = new ObservableCollection<PieSlice>();
-  
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Pass in the original RadialMenuButton
@@ -148,7 +148,6 @@
         public void Draw()
         {
             _pieSlices.Clear();
-            // TODO: Make this configurable
             var startAngle = 22.5;
 
             for (int i = 0; i < Slices.Count; i++)
@@ -166,6 +165,7 @@
                     InnerHoverColor = Slices[i].InnerHoverColor ?? Color.FromArgb(255, 245, 236, 243),
                     InnerTappedColor = Slices[i].InnerTappedColor ?? Color.FromArgb(255, 237, 234, 236),
                     OuterNormalColor = Slices[i].OuterNormalColor ?? Color.FromArgb(255, 128, 57, 123),
+                    OuterDisabledColor = Slices[i].OuterDisabledColor ?? Color.FromArgb(255, 237, 211, 236),
                     OuterHoverColor = Slices[i].OuterHoverColor ?? Color.FromArgb(255, 155, 79, 150),
                     OuterTappedColor = Slices[i].OuterTappedColor ?? Color.FromArgb(255, 104, 41, 100),
                     // Label

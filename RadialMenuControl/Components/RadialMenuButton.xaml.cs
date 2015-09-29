@@ -86,6 +86,9 @@
         public static readonly DependencyProperty OuterNormalColorProperty =
             DependencyProperty.Register("OuterNormalColor", typeof(Color?), typeof(RadialMenuButton), null);
 
+        public static readonly DependencyProperty OuterDisabledColorProperty =
+            DependencyProperty.Register("OuterDisabledColor", typeof(Color?), typeof(RadialMenuButton), null);
+
         public static readonly DependencyProperty OuterHoverColorProperty =
             DependencyProperty.Register("OuterHoverColor", typeof(Color?), typeof(RadialMenuButton), null);
 
@@ -102,6 +105,12 @@
         {
             get { return (Color?)GetValue(OuterNormalColorProperty); }
             set { SetValue(OuterNormalColorProperty, value); }
+        }
+
+        public Color? OuterDisabledColor
+        {
+            get { return (Color?)GetValue(OuterDisabledColorProperty); }
+            set { SetValue(OuterDisabledColorProperty, value); }
         }
 
         public Color? OuterTappedColor
@@ -153,6 +162,15 @@
             {
                 OuterArcReleasedEvent(this, e);
             }
+        }
+
+        /// <summary>
+        /// Does this radial menu button have events on the outer arc?
+        /// </summary>
+        /// <returns></returns>
+        public bool HasOuterArcEvents()
+        {
+            return (OuterArcPressedEvent != null || OuterArcReleasedEvent != null);
         }
 
         // SubMenu

@@ -11,7 +11,7 @@
     d:DesignHeight="300"
     d:DesignWidth="300">
 
-    <Grid x:Name="layoutRoot" CompositeMode="MinBlend">
+    <Grid x:Name="layoutRoot">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="InnerStates">
                 <VisualState x:Name="InnerNormal">

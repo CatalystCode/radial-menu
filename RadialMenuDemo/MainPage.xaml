@@ -12,6 +12,7 @@
     <userControl:RadialMenu 
         x:Name="radialMenu"
         Diameter="300"
+        StartAngle="22.5"
         CenterButtonIcon="&#x1f369;" />
     </StackPanel>
 </Page>

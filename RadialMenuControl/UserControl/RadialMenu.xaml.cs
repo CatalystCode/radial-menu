@@ -8,6 +8,7 @@
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using Windows.UI;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
 
@@ -74,6 +75,20 @@
         {
             get { return _isCenterButtonNavigationEnabled; }
             set { SetField(ref _isCenterButtonNavigationEnabled, value); }
+        }
+
+
+        /// <summary>
+        /// Start Angle
+        /// </summary>
+        private double _startAngle = 22.5;
+        public double StartAngle
+        {
+            get { return _startAngle; }
+            set {
+                SetField(ref _startAngle, value);
+                pie.StartAngle = value;
+            }
         }
 
         private double _diameter;

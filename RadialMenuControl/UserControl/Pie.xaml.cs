@@ -19,7 +19,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Pass in the original RadialMenuButton
+        // Pass in the original RadialMenu
         public RadialMenu _sourceRadialMenu;
         public static readonly DependencyProperty _sourceRadialMenuProperty =
             DependencyProperty.Register("_sourceRadialMenu", typeof(RadialMenu), typeof(Pie), null);
@@ -50,6 +50,16 @@
         {
             get { return _highlightColor; }
             set { SetField(ref _highlightColor, value); }
+        }
+
+        private double _startAngle;
+        public double StartAngle
+        {
+            get { return _startAngle; }
+            set {
+                SetField(ref _startAngle, value);
+                Draw();
+            }
         }
 
         private double _angle;
@@ -148,14 +158,14 @@
         public void Draw()
         {
             _pieSlices.Clear();
-            var startAngle = 22.5;
+            double _startAngle = StartAngle;
 
             for (int i = 0; i < Slices.Count; i++)
             {
                 var sliceSize = 360 / Slices.Count;
                 var pieSlice = new PieSlice
                 {
-                    StartAngle = startAngle,
+                    StartAngle = _startAngle,
                     Angle = sliceSize,
                     Radius = Size / 2,
                     Height = Height,
@@ -182,7 +192,7 @@
                 pieSlice.ChangeMenuRequestEvent += _sourceRadialMenu.ChangeMenu;
 
                 _pieSlices.Add(pieSlice);
-                startAngle += sliceSize;
+                _startAngle += sliceSize;
             }
         }
 

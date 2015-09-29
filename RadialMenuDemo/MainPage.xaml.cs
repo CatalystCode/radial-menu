@@ -53,8 +53,8 @@ namespace RadialMenuDemo
             radialMenu.AddButton(button4);
             radialMenu.AddButton(button5);
             radialMenu.AddButton(button6);
-            radialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
 
+            radialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
 
             layoutRoot.DataContext = this;
             radialMenu.PropertyChanged += RadialMenu_PropertyChanged; ;

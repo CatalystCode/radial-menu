@@ -193,6 +193,10 @@
                 outerPieSlicePath.PointerReleased += outerPieSlicePath_PointerReleased;
                 outerPieSlicePath.PointerEntered += outerPieSlicePath_PointerEntered;
                 outerPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
+
+                caretRotateTransform.Angle = (this.StartAngle + (this.Angle / 2));
+                caretTranslate.X = this.Radius * Math.Sin(middleRadian);
+                caretTranslate.Y = -this.Radius * Math.Cos(middleRadian);
             }
             
             // Setup inner caret
@@ -205,9 +209,6 @@
             iconTranslate.X = 85 * Math.Sin(middleRadian);
             iconTranslate.Y = -85 * Math.Cos(middleRadian);
 
-            caretRotateTransform.Angle = (this.StartAngle + (this.Angle / 2));
-            caretTranslate.X = this.Radius * Math.Sin(middleRadian);
-            caretTranslate.Y = -this.Radius * Math.Cos(middleRadian);
         }
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

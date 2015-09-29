@@ -64,7 +64,8 @@
                 FontSize="{Binding CenterButtonFontSize}" 
                 Background="{Binding CenterButtonBackgroundFill}"
                 Height="{Binding CenterButtonSize}"
-                BorderBrush="{Binding CenterButtonBorder}" />
+                BorderBrush="{Binding CenterButtonBorder}"
+                Opacity="1" />
         <my:Pie x:Name="pie" />
     </Grid>
 </UserControl>

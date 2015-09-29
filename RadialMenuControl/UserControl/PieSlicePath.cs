@@ -70,36 +70,6 @@
                 pieSlice.Redraw();
             }
         }
-    
-        private PathFigure DrawInnerArc()
-        {
-            var figure = new PathFigure
-            {
-                StartPoint = new Point(Radius, Radius),
-                IsClosed = true
-            };
-            if (Radius >= 20)
-            {
-                var endAngle = StartAngle + Angle;
-                var arcX = Radius + Math.Sin(endAngle * Math.PI / 180) * (Radius - Thickness);
-                var arcY = Radius - Math.Cos(endAngle * Math.PI / 180) * (Radius - Thickness);
-
-                var innerArc = new ArcSegment
-                {
-                    IsLargeArc = Angle >= 180.0,
-                    Point = new Point(arcX, arcY),
-                    Size = new Size(Radius - 20, Radius - 20),
-                    SweepDirection = SweepDirection.Clockwise
-                };
-                var lineX = (Radius + Math.Sin(StartAngle * Math.PI / 180) * (Radius - Thickness));
-                var lineY = (Radius - Math.Cos(StartAngle * Math.PI / 180) * (Radius - Thickness));
-                var line = new LineSegment { Point = new Point(lineX, lineY) };
-                figure.Segments.Add(line);
-                figure.Segments.Add(innerArc);
-            }
-
-            return figure;
-        }
 
         private void Redraw()
         {
@@ -139,7 +109,7 @@
 
             figure.Segments.Add(arc);
 
-            Data = new PathGeometry { Figures = { DrawInnerArc(), figure } };
+            Data = new PathGeometry { Figures = { figure } };
             InvalidateArrange();
         }
     }

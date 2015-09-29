@@ -7,7 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControl="using:RadialMenuControl.UserControl"
     mc:Ignorable="d">
-    
+
+    <Page.Background>
+        <ImageBrush ImageSource="Assets/background.jpg" Stretch="UniformToFill" />
+    </Page.Background>
+
     <Grid x:Name="layoutRoot">
     <Grid.RowDefinitions>
         <RowDefinition Height="auto" />
@@ -15,7 +19,7 @@
         <RowDefinition Height="auto" />
     </Grid.RowDefinitions>
         <Grid Grid.Row="1" Margin="40">
-            <Border BorderBrush="Red" BorderThickness="4">
+            <Border BorderBrush="Black" BorderThickness="4">
                 <Grid>
                     <Canvas>
                         <userControl:Floating IsBoundByParent="True">
@@ -25,7 +29,9 @@
                                         x:Name="radialMenu"
                                         Diameter="300"
                                         StartAngle="22.5"
-                                        CenterButtonIcon="&#x1f369;" />
+                                        CenterButtonIcon="&#x1f369;"
+                                        Opacity="0.9">
+                                    </userControl:RadialMenu>
                                 </Grid>
                             </Border>
                         </userControl:Floating>

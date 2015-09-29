@@ -203,9 +203,9 @@
 
             // Calculating a point in the "direction" of our button
             // TODO: This calculation is, erm, "weird". It probably doesn't work for different menu sizes. It should be improved.
-            double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2) - 15);
-            iconTranslate.X = 85 * Math.Cos(middleRadian);
-            iconTranslate.Y = -85 * Math.Sin(middleRadian);
+            double middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2));
+            iconTranslate.X = 85 * Math.Sin(middleRadian);
+            iconTranslate.Y = -85 * Math.Cos(middleRadian);
         }
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

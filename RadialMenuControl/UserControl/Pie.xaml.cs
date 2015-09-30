@@ -154,6 +154,15 @@
                         break;
                 }
             };
+
+            #if DEBUG
+            // Ensure that we're drawing a circle, even if no buttons are present
+            if ((Slices == null || Slices.Count == 0) && Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                Slices.Add(new RadialMenuButton());
+                Slices.Add(new RadialMenuButton());
+            }
+            #endif
         }
 
         public void Draw()
@@ -161,6 +170,7 @@
             _pieSlices.Clear();
             double _startAngle = StartAngle;
 
+            // Draw PieSlices for each Slice Object
             for (int i = 0; i < Slices.Count; i++)
             {
                 var sliceSize = 360.00 / Slices.Count;
@@ -172,22 +182,22 @@
                     Height = Height,
                     Width = Width,
                     // The defaults below use OneNote-like purple colors
-                    InnerNormalColor = Slices[i].InnerNormalColor ?? Color.FromArgb(255, 255, 255, 255),
-                    InnerHoverColor = Slices[i].InnerHoverColor ?? Color.FromArgb(255, 245, 236, 243),
-                    InnerTappedColor = Slices[i].InnerTappedColor ?? Color.FromArgb(255, 237, 234, 236),
-                    InnerReleasedColor = Slices[i].InnerReleasedColor ?? Color.FromArgb(255, 192, 157, 190),
-                    OuterNormalColor = Slices[i].OuterNormalColor ?? Color.FromArgb(255, 128, 57, 123),
-                    OuterDisabledColor = Slices[i].OuterDisabledColor ?? Color.FromArgb(255, 237, 211, 236),
-                    OuterHoverColor = Slices[i].OuterHoverColor ?? Color.FromArgb(255, 155, 79, 150),
-                    OuterTappedColor = Slices[i].OuterTappedColor ?? Color.FromArgb(255, 104, 41, 100),
+                    InnerNormalColor = Slices[i].InnerNormalColor,
+                    InnerHoverColor = Slices[i].InnerHoverColor,
+                    InnerTappedColor = Slices[i].InnerTappedColor,
+                    InnerReleasedColor = Slices[i].InnerReleasedColor,
+                    OuterNormalColor = Slices[i].OuterNormalColor,
+                    OuterDisabledColor = Slices[i].OuterDisabledColor,
+                    OuterHoverColor = Slices[i].OuterHoverColor,
+                    OuterTappedColor = Slices[i].OuterTappedColor,
                     // Label
-                    IconSize = Slices[i].IconSize ?? 26,
-                    Icon = Slices[i].Icon ?? "",
+                    IconSize = Slices[i].IconSize,
+                    Icon = Slices[i].Icon,
                     IconImage = Slices[i].IconImage ?? null,
                     IconImageSideLength = (Size / 2) * .25,
                     HideLabel = Slices[i].HideLabel,
-                    Label = Slices[i].Label ?? "",
-                    LabelSize = Slices[i].LabelSize ?? 10,
+                    Label = Slices[i].Label,
+                    LabelSize = Slices[i].LabelSize,
                     // Original Button
                     _radialMenuButton = Slices[i]
                 };

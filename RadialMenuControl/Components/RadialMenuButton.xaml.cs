@@ -42,6 +42,9 @@
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("ValueProperty", typeof(bool), typeof(RadialMenuButton), null);
 
+        public static readonly DependencyProperty IconImageProperty =
+            DependencyProperty.Register("IconImage", typeof(ImageSource), typeof(RadialMenuButton), null);
+
         public string Label
         {
             get { return (string)GetValue(LabelProperty) ?? ""; }
@@ -98,6 +101,12 @@
             set { SetValue(ButtonTypeProperty, value); }
         }
 
+        public ImageSource IconImage
+        {
+            get { return (ImageSource)GetValue(IconImageProperty); }
+            set { SetValue(IconImageProperty, value); }
+        }
+        
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
             DependencyProperty.Register("InnerNormalColor", typeof(Color?), typeof(RadialMenuButton), null);

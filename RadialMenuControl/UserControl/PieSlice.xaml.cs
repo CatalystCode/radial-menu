@@ -59,6 +59,12 @@
         public static readonly DependencyProperty OuterDisabledColorProperty =
             DependencyProperty.Register("OuterDisabledColor", typeof(Color), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty IconImageProperty =
+            DependencyProperty.Register("IconImage", typeof(ImageSource), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty IconImageSideLengthProperty =
+            DependencyProperty.Register("IconImageSideLength", typeof(ImageSource), typeof(PieSlice), null);
+
         public Color OuterHoverColor
         {
             get { return (Color)GetValue(OuterHoverColorProperty); }
@@ -155,6 +161,32 @@
         {
             get { return (int)GetValue(IconSizeProperty); }
             set { SetValue(IconSizeProperty, value); }
+        }
+
+        public ImageSource IconImage
+        {
+            get { return (ImageSource)GetValue(IconImageProperty); }
+            set { SetValue(IconImageProperty, value); }
+        }
+
+        public double IconImageSideLength
+        {
+            get
+            {
+                return (double)GetValue(IconImageSideLengthProperty);
+            }
+            set
+            {
+                SetValue(IconImageSideLengthProperty, value);
+            }
+        }
+
+        public Visibility TextBlockVisibility
+        {
+            get
+            {
+                return this.IconImage == null ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         // Pass in the original RadialMenuButton

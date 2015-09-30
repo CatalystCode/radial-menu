@@ -3,6 +3,9 @@ using RadialMenuControl.UserControl;
 using RadialMenuControl.Components;
 using System.Diagnostics;
 using Windows.UI;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using System;
 
 namespace RadialMenuDemo
 {
@@ -34,8 +37,8 @@ namespace RadialMenuDemo
 
 
             RadialMenuButton button2 = new RadialMenuButton();
-            button2.Label = "Party Simple";
-            button2.Icon = "🎉";
+           button2.Label = "Stop";
+            button2.IconImage = new BitmapImage(new Uri("ms-appx:///Assets/button_blue_stop.png"));
             button2.Type = RadialMenuButton.ButtonType.SIMPLE;
 
             RadialMenuButton button3 = new RadialMenuButton();

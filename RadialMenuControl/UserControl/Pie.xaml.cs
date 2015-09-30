@@ -6,6 +6,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Windows.UI;
@@ -182,6 +183,8 @@
                     // Label
                     IconSize = Slices[i].IconSize ?? 26,
                     Icon = Slices[i].Icon ?? "",
+                    IconImage = Slices[i].IconImage ?? null,
+                    IconImageSideLength = (Size / 2) * .25,
                     HideLabel = Slices[i].HideLabel,
                     Label = Slices[i].Label ?? "",
                     LabelSize = Slices[i].LabelSize ?? 10,

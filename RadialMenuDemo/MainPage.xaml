@@ -31,6 +31,7 @@
                                         StartAngle="22.5"
                                         CenterButtonIcon="&#x1f369;"
                                         Opacity="0.9">
+                                        
                                     </userControl:RadialMenu>
                                 </Grid>
                             </Border>

@@ -163,7 +163,7 @@
 
             for (int i = 0; i < Slices.Count; i++)
             {
-                var sliceSize = 360 / Slices.Count;
+                var sliceSize = 360.00 / Slices.Count;
                 var pieSlice = new PieSlice
                 {
                     StartAngle = _startAngle,

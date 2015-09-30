@@ -29,6 +29,11 @@
                         <ColorAnimation To="{Binding Path=InnerTappedColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
+                <VisualState x:Name="InnerReleased">
+                    <Storyboard SpeedRatio="2">
+                        <ColorAnimation To="{Binding Path=InnerReleasedColor}" Duration="0:00:00.2" Storyboard.TargetName="innerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
+                    </Storyboard>
+                </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="OuterStates">
                 <VisualState x:Name="OuterNormal">

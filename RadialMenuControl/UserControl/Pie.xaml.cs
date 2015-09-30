@@ -174,6 +174,7 @@
                     InnerNormalColor = Slices[i].InnerNormalColor ?? Color.FromArgb(255, 255, 255, 255),
                     InnerHoverColor = Slices[i].InnerHoverColor ?? Color.FromArgb(255, 245, 236, 243),
                     InnerTappedColor = Slices[i].InnerTappedColor ?? Color.FromArgb(255, 237, 234, 236),
+                    InnerReleasedColor = Slices[i].InnerReleasedColor ?? Color.FromArgb(255, 192, 157, 190),
                     OuterNormalColor = Slices[i].OuterNormalColor ?? Color.FromArgb(255, 128, 57, 123),
                     OuterDisabledColor = Slices[i].OuterDisabledColor ?? Color.FromArgb(255, 237, 211, 236),
                     OuterHoverColor = Slices[i].OuterHoverColor ?? Color.FromArgb(255, 155, 79, 150),
@@ -190,9 +191,23 @@
 
                 // Allow slice to call the change request method on the radial menu
                 pieSlice.ChangeMenuRequestEvent += _sourceRadialMenu.ChangeMenu;
-
+                // Allow slice to call the change selected request to clear all other radio buttons
+                pieSlice.ChangeSelectedEvent += PieSlice_ChangeSelectedEvent;
                 _pieSlices.Add(pieSlice);
                 _startAngle += sliceSize;
+            }
+        }
+
+        private void PieSlice_ChangeSelectedEvent(object sender, PieSlice slice)
+        {
+            foreach(PieSlice ps in _pieSlices)
+            {
+                // find any previously selected Radio button to de-select
+                if(ps._radialMenuButton.Type == RadialMenuButton.ButtonType.RADIO && ps._radialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle)
+                {
+                    ps._radialMenuButton.MenuSelected = false;
+                    ps.updateSliceForRadio();
+                }
             }
         }
 

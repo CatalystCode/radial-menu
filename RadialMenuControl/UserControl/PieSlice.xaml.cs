@@ -20,6 +20,9 @@
         public static readonly DependencyProperty InnerTappedColorProperty =
             DependencyProperty.Register("InnerTappedColor", typeof(Color), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty InnerReleasedColorProperty =
+            DependencyProperty.Register("InnerReleasedColor", typeof(Color), typeof(PieSlice), null);
+
         public Color InnerHoverColor
         {
             get { return (Color)GetValue(InnerHoverColorProperty); }
@@ -36,6 +39,11 @@
         {
             get { return (Color)GetValue(InnerTappedColorProperty); }
             set { SetValue(InnerTappedColorProperty, value); }
+        }
+        public Color InnerReleasedColor
+        {
+            get { return (Color)GetValue(InnerReleasedColorProperty); }
+            set { SetValue(InnerReleasedColorProperty, value); }
         }
 
         // Outer Arc Colors
@@ -176,7 +184,7 @@
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            // Setup outer caret
+            // Setup outer arc
             outerPieSlicePath.Radius = this.Radius;
             outerPieSlicePath.StartAngle = this.StartAngle;
             outerPieSlicePath.Angle = this.Angle;
@@ -193,13 +201,13 @@
                 outerPieSlicePath.PointerReleased += outerPieSlicePath_PointerReleased;
                 outerPieSlicePath.PointerEntered += outerPieSlicePath_PointerEntered;
                 outerPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
-
+                // setup caret
                 caretRotateTransform.Angle = (this.StartAngle + (this.Angle / 2));
                 caretTranslate.X = this.Radius * Math.Sin(middleRadian);
                 caretTranslate.Y = -this.Radius * Math.Cos(middleRadian);
             }
             
-            // Setup inner caret
+            // Setup inner arc
             innerPieSlicePath.Radius = this.Radius - 20;
             innerPieSlicePath.StartAngle = this.StartAngle;
             innerPieSlicePath.Angle = this.Angle;
@@ -210,6 +218,9 @@
             iconTranslate.Y = -85 * Math.Cos(middleRadian);
 
         }
+        // Change Selected Menu
+        public delegate void ChangeSelectedHandler(object sender, PieSlice slice);
+        public event ChangeSelectedHandler ChangeSelectedEvent;
 
         private void outerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
@@ -243,14 +254,58 @@
 
         private void innerPieSlicePath_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "InnerHover", true);
+            if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.TOGGLE)
+            {
+                if (_radialMenuButton.Value)
+                {
+                    VisualStateManager.GoToState(this, "InnerReleased", true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, "InnerHover", true);
+                }
+            }
+            else if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.RADIO)
+            {
+                if (_radialMenuButton.MenuSelected)
+                {
+                    VisualStateManager.GoToState(this, "InnerReleased", true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, "InnerHover", true);
+                }
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "InnerHover", true);
+            }
         }
 
         private void innerPieSlicePath_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "InnerNormal", true);
+            if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.TOGGLE)
+            {
+                if (_radialMenuButton.Value)
+                {
+                    VisualStateManager.GoToState(this, "InnerReleased", true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, "InnerNormal", true);
+                }
+            }
+            else if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.RADIO)
+            {
+                updateSliceForRadio();
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "InnerNormal", true);
+            }
+            
         }
-
+       
         private void innerPieSlicePath_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "InnerPressed", true);
@@ -259,8 +314,41 @@
 
         private void innerPieSlicePath_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "InnerHover", true);
-            _radialMenuButton.OnOuterArcReleased(e);
+           
+            _radialMenuButton.OnInnerArcReleased(e);
+            if(_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.TOGGLE)
+            {
+                if (_radialMenuButton.Value)
+                {
+                    VisualStateManager.GoToState(this, "InnerReleased", true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, "InnerNormal", true);
+                }
+            }
+            else if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.RADIO)
+            {
+                VisualStateManager.GoToState(this, "InnerReleased", true);
+                // get all other menus to release now that this menu has been selected
+                ChangeSelectedEvent(sender, this);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "InnerNormal", true);
+            }
+        }
+
+        public void updateSliceForRadio()
+        {
+            if (_radialMenuButton.MenuSelected)
+            {
+                VisualStateManager.GoToState(this, "InnerReleased", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "InnerNormal", true);
+            }
         }
     }
 }

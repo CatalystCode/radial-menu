@@ -6,9 +6,17 @@
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
 
     public partial class RadialMenuButton : Button
     {
+        public enum ButtonType
+        {
+            SIMPLE = 0,
+            RADIO,
+            TOGGLE
+        };
+
         // Label
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof(string), typeof(RadialMenuButton), null);
@@ -24,6 +32,15 @@
 
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int?), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty MenuSeletedProperty =
+            DependencyProperty.Register("MenuSelected", typeof(bool), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty ButtonTypeProperty =
+            DependencyProperty.Register("ButtonTypeProperty", typeof(ButtonType), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("ValueProperty", typeof(bool), typeof(RadialMenuButton), null);
 
         public string Label
         {
@@ -54,6 +71,33 @@
             set { SetValue(IconProperty, value); }
         }
 
+        public bool MenuSelected
+        {
+            get { return (bool)GetValue(MenuSeletedProperty); }
+            set { SetValue(MenuSeletedProperty, value); }
+        }
+
+        public bool Value {
+            get { return (bool)GetValue(ValueProperty); }
+            set {
+                if(this.Type == ButtonType.SIMPLE)
+                {
+                    throw new Exception("A button of type SIMPLE should not have any value.");
+                }
+                else
+                {
+                    SetValue(ValueProperty, value);
+                }
+            }
+        }
+
+
+        public ButtonType Type
+        {
+            get { return (ButtonType)GetValue(ButtonTypeProperty); }
+            set { SetValue(ButtonTypeProperty, value); }
+        }
+
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
             DependencyProperty.Register("InnerNormalColor", typeof(Color?), typeof(RadialMenuButton), null);
@@ -63,6 +107,9 @@
 
         public static readonly DependencyProperty InnerTappedColorProperty =
             DependencyProperty.Register("InnerTappedColor", typeof(Color?), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty InnerReleasedColorProperty =
+            DependencyProperty.Register("InnerReleasedColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public Color? InnerHoverColor
         {
@@ -80,6 +127,11 @@
         {
             get { return (Color?)GetValue(InnerTappedColorProperty); }
             set { SetValue(InnerTappedColorProperty, value); }
+        }
+        public Color? InnerReleasedColor
+        {
+            get { return (Color?)GetValue(InnerReleasedColorProperty); }
+            set { SetValue(InnerReleasedColorProperty, value); }
         }
 
         // Outer Arc Colors
@@ -150,6 +202,15 @@
             if (InnerArcReleasedEvent != null)
             {
                 InnerArcReleasedEvent(this, e);
+            }
+
+            if (this.Type != ButtonType.SIMPLE)
+            {
+                this.MenuSelected = true;
+            }
+            if(this.Type == ButtonType.TOGGLE)
+            {
+                this.Value = this.Value ? false : true;
             }
         }
 

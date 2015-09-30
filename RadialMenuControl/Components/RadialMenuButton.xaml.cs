@@ -6,6 +6,7 @@
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
 
     public partial class RadialMenuButton : Button
     {
@@ -24,6 +25,9 @@
 
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int?), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty IconImageProperty =
+            DependencyProperty.Register("IconImage", typeof(ImageSource), typeof(RadialMenuButton), null);
 
         public string Label
         {
@@ -54,6 +58,12 @@
             set { SetValue(IconProperty, value); }
         }
 
+        public ImageSource IconImage
+        {
+            get { return (ImageSource)GetValue(IconImageProperty); }
+            set { SetValue(IconImageProperty, value); }
+        }
+        
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
             DependencyProperty.Register("InnerNormalColor", typeof(Color?), typeof(RadialMenuButton), null);

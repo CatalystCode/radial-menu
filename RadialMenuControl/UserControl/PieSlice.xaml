@@ -76,9 +76,19 @@
                 FontSize="{Binding IconSize}"
                 Text="{Binding Icon}"
                 IsHitTestVisible="False"
+                Visibility="{Binding TextBlockVisibility}"
                 Margin="0, -25, 0, 0">
             </TextBlock>
-
+            <Image
+                x:Name="iconImage"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Source="{Binding IconImage}"
+                Width="{Binding IconImageSideLength}"
+                Height="{Binding IconImageSideLength}"
+                IsHitTestVisible="False"
+                Margin="0, -25, 0, 0">
+            </Image>
             <TextBlock
                 x:Name="labelTextBlock"
                 HorizontalAlignment="Center"

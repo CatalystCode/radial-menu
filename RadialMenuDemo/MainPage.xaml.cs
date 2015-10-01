@@ -2,8 +2,6 @@
 using RadialMenuControl.UserControl;
 using RadialMenuControl.Components;
 using System.Diagnostics;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
 
@@ -51,9 +49,8 @@ namespace RadialMenuDemo
 
             button1.Submenu.AddButton(button11);
             button1.Submenu.AddButton(button12);
-            button1.Submenu.AddButton(button13);;
+            button1.Submenu.AddButton(button13);
             button1.Submenu.AddButton(button14);
-
 
             var button2 = new RadialMenuButton
             {
@@ -91,17 +88,17 @@ namespace RadialMenuDemo
             };
 
             InitializeComponent();
-            radialMenu.AddButton(button1);
-            radialMenu.AddButton(button2);
-            radialMenu.AddButton(button3);
-            radialMenu.AddButton(button4);
-            radialMenu.AddButton(button5);
-            radialMenu.AddButton(button6);
+            MyRadialMenu.AddButton(button1);
+            MyRadialMenu.AddButton(button2);
+            MyRadialMenu.AddButton(button3);
+            MyRadialMenu.AddButton(button4);
+            MyRadialMenu.AddButton(button5);
+            MyRadialMenu.AddButton(button6);
 
-            radialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
+            MyRadialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
 
-            layoutRoot.DataContext = this;
-            radialMenu.PropertyChanged += RadialMenu_PropertyChanged;
+            LayoutRoot.DataContext = this;
+            MyRadialMenu.PropertyChanged += RadialMenu_PropertyChanged;
         }
 
         private static void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

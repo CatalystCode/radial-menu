@@ -2,7 +2,6 @@
 {
     using UserControl;
     using System;
-    using System.Collections.ObjectModel;
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -83,7 +82,7 @@
         public bool Value {
             get { return (bool)GetValue(ValueProperty); }
             set {
-                if(this.Type == ButtonType.Simple)
+                if(Type == ButtonType.Simple)
                 {
                     throw new Exception("A button of type SIMPLE should not have any value.");
                 }
@@ -186,10 +185,7 @@
 
         public void OnInnerArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (InnerArcPressedEvent != null)
-            {
-                InnerArcPressedEvent(this, e);
-            }
+            InnerArcPressedEvent?.Invoke(this, e);
         }
 
         public delegate void OuterArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
@@ -197,10 +193,7 @@
 
         public void OnOuterArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (OuterArcPressedEvent != null)
-            {
-                OuterArcPressedEvent(this, e);
-            }
+            OuterArcPressedEvent?.Invoke(this, e);
         }
 
         public delegate void InnerArcReleasedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
@@ -208,18 +201,15 @@
 
         public void OnInnerArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (InnerArcReleasedEvent != null)
-            {
-                InnerArcReleasedEvent(this, e);
-            }
+            InnerArcReleasedEvent?.Invoke(this, e);
 
-            if (this.Type != ButtonType.Simple)
+            if (Type != ButtonType.Simple)
             {
-                this.MenuSelected = true;
+                MenuSelected = true;
             }
-            if(this.Type == ButtonType.Toggle)
+            if (Type == ButtonType.Toggle)
             {
-                this.Value = this.Value ? false : true;
+                Value = !Value;
             }
         }
 
@@ -228,10 +218,7 @@
 
         public void OnOuterArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (OuterArcReleasedEvent != null)
-            {
-                OuterArcReleasedEvent(this, e);
-            }
+            OuterArcReleasedEvent?.Invoke(this, e);
         }
 
         /// <summary>

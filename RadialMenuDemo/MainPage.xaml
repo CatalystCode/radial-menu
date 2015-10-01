@@ -12,26 +12,30 @@
         <ImageBrush ImageSource="Assets/background.jpg" Stretch="UniformToFill" />
     </Page.Background>
 
-    <Grid x:Name="layoutRoot">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="auto" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="auto" />
-    </Grid.RowDefinitions>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
         <Grid Grid.Row="1" Margin="40">
             <Border BorderBrush="Black" BorderThickness="4">
                 <Grid>
-                    <Canvas>
-                        <userControl:Floating IsBoundByParent="True" x:Name="floatingRadialMenu">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="171*"/>
+                        <RowDefinition Height="821*"/>
+                    </Grid.RowDefinitions>
+                    <Canvas Grid.RowSpan="2">
+                        <userControl:Floating IsBoundByParent="True" x:Name="FloatingRadialMenu">
                             <Border BorderBrush="Transparent" BorderThickness="1">
                                 <Grid>
                                     <userControl:RadialMenu 
-                                        x:Name="radialMenu"
+                                        x:Name="MyRadialMenu"
                                         Diameter="300"
                                         StartAngle="22.5"
                                         CenterButtonIcon="&#x1f369;"
                                         Opacity="0.9">
-                                        
+
                                     </userControl:RadialMenu>
                                 </Grid>
                             </Border>

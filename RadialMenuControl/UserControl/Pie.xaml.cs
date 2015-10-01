@@ -1,18 +1,15 @@
 ﻿namespace RadialMenuControl.UserControl
 {
     using Components;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Media;
 
     public partial class Pie : UserControl, INotifyPropertyChanged
     {
@@ -94,10 +91,7 @@
             }
         }
 
-        public string SelectedItemValue
-        {
-            get { return _selectedItem?.Label; }
-        }
+        public string SelectedItemValue => _selectedItem?.Label;
 
         private PieSlice _selectedItem;
         private PieSlice SelectedItem
@@ -168,10 +162,10 @@
         public void Draw()
         {
             _pieSlices.Clear();
-            double startAngle = StartAngle;
+            var startAngle = StartAngle;
 
             // Draw PieSlices for each Slice Object
-            for (int i = 0; i < Slices.Count; i++)
+            foreach (var slice in Slices)
             {
                 var sliceSize = 360.00 / Slices.Count;
                 var pieSlice = new PieSlice
@@ -182,24 +176,24 @@
                     Height = Height,
                     Width = Width,
                     // The defaults below use OneNote-like purple colors
-                    InnerNormalColor = Slices[i].InnerNormalColor,
-                    InnerHoverColor = Slices[i].InnerHoverColor,
-                    InnerTappedColor = Slices[i].InnerTappedColor,
-                    InnerReleasedColor = Slices[i].InnerReleasedColor,
-                    OuterNormalColor = Slices[i].OuterNormalColor,
-                    OuterDisabledColor = Slices[i].OuterDisabledColor,
-                    OuterHoverColor = Slices[i].OuterHoverColor,
-                    OuterTappedColor = Slices[i].OuterTappedColor,
+                    InnerNormalColor = slice.InnerNormalColor,
+                    InnerHoverColor = slice.InnerHoverColor,
+                    InnerTappedColor = slice.InnerTappedColor,
+                    InnerReleasedColor = slice.InnerReleasedColor,
+                    OuterNormalColor = slice.OuterNormalColor,
+                    OuterDisabledColor = slice.OuterDisabledColor,
+                    OuterHoverColor = slice.OuterHoverColor,
+                    OuterTappedColor = slice.OuterTappedColor,
                     // Label
-                    IconSize = Slices[i].IconSize,
-                    Icon = Slices[i].Icon,
-                    IconImage = Slices[i].IconImage ?? null,
+                    IconSize = slice.IconSize,
+                    Icon = slice.Icon,
+                    IconImage = slice.IconImage,
                     IconImageSideLength = (Size / 2) * .25,
-                    HideLabel = Slices[i].HideLabel,
-                    Label = Slices[i].Label,
-                    LabelSize = Slices[i].LabelSize,
+                    HideLabel = slice.HideLabel,
+                    Label = slice.Label,
+                    LabelSize = slice.LabelSize,
                     // Original Button
-                    OriginalRadialMenuButton = Slices[i]
+                    OriginalRadialMenuButton = slice
                 };
 
                 // Allow slice to call the change request method on the radial menu
@@ -216,11 +210,10 @@
             foreach(PieSlice ps in _pieSlices)
             {
                 // find any previously selected Radio button to de-select
-                if(ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio && ps.OriginalRadialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle)
-                {
-                    ps.OriginalRadialMenuButton.MenuSelected = false;
-                    ps.UpdateSliceForRadio();
-                }
+                if (ps.OriginalRadialMenuButton.Type != RadialMenuButton.ButtonType.Radio ||
+                    !ps.OriginalRadialMenuButton.MenuSelected || ps.StartAngle == slice.StartAngle) continue;
+                ps.OriginalRadialMenuButton.MenuSelected = false;
+                ps.UpdateSliceForRadio();
             }
         }
 

@@ -1,8 +1,6 @@
 ﻿namespace RadialMenuControl.UserControl
 {
-    using RadialMenuControl.UserControl;
     using System;
-    using System.Diagnostics;
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -181,7 +179,7 @@
             }
         }
 
-        public Visibility TextBlockVisibility => this.IconImage == null ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility TextBlockVisibility => IconImage == null ? Visibility.Visible : Visibility.Collapsed;
 
         // Pass in the original RadialMenuButton
         public Components.RadialMenuButton OriginalRadialMenuButton;
@@ -199,8 +197,8 @@
 
         public PieSlice()
         {
-            this.InitializeComponent();
-            this.DataContext = this;
+            InitializeComponent();
+            DataContext = this;
 
             Loaded += OnLoaded;
         }
@@ -208,33 +206,33 @@
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             // Setup outer arc
-            OuterPieSlicePath.Radius = this.Radius;
-            OuterPieSlicePath.StartAngle = this.StartAngle;
-            OuterPieSlicePath.Angle = this.Angle;
-            var middleRadian = (Math.PI / 180) * (this.StartAngle + (this.Angle / 2));
+            OuterPieSlicePath.Radius = Radius;
+            OuterPieSlicePath.StartAngle = StartAngle;
+            OuterPieSlicePath.Angle = Angle;
+            var middleRadian = (Math.PI / 180) * (StartAngle + (Angle / 2));
 
             if (OriginalRadialMenuButton.Submenu == null && !OriginalRadialMenuButton.HasOuterArcEvents())
             {
-                OuterPieSlicePath.Fill = new SolidColorBrush((Color)this.OuterDisabledColor);
+                OuterPieSlicePath.Fill = new SolidColorBrush(OuterDisabledColor);
             }
             else
             {
-                OuterPieSlicePath.Fill = new SolidColorBrush((Color)this.OuterNormalColor);
+                OuterPieSlicePath.Fill = new SolidColorBrush(OuterNormalColor);
                 OuterPieSlicePath.PointerPressed += outerPieSlicePath_PointerPressed;
                 OuterPieSlicePath.PointerReleased += outerPieSlicePath_PointerReleased;
                 OuterPieSlicePath.PointerEntered += outerPieSlicePath_PointerEntered;
                 OuterPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
                 // setup caret
-                CaretRotateTransform.Angle = (this.StartAngle + (this.Angle / 2));
-                CaretTranslate.X = this.Radius * Math.Sin(middleRadian);
-                CaretTranslate.Y = -this.Radius * Math.Cos(middleRadian);
+                CaretRotateTransform.Angle = (StartAngle + (Angle / 2));
+                CaretTranslate.X = Radius * Math.Sin(middleRadian);
+                CaretTranslate.Y = -Radius * Math.Cos(middleRadian);
             }
             
             // Setup inner arc
-            InnerPieSlicePath.Radius = this.Radius - 20;
-            InnerPieSlicePath.StartAngle = this.StartAngle;
-            InnerPieSlicePath.Angle = this.Angle;
-            InnerPieSlicePath.Fill = new SolidColorBrush((Color)this.InnerNormalColor);
+            InnerPieSlicePath.Radius = Radius - 20;
+            InnerPieSlicePath.StartAngle = StartAngle;
+            InnerPieSlicePath.Angle = Angle;
+            InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
             // Setup icon and text
             IconTranslate.X = 85 * Math.Sin(middleRadian);

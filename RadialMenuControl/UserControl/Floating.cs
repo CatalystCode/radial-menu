@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RadialMenuControl.UserControl
+﻿namespace RadialMenuControl.UserControl
 {
     using System;
     using Windows.Foundation;
@@ -33,7 +27,7 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public Floating()
         {
-            this.DefaultStyleKey = typeof(Floating);
+            DefaultStyleKey = typeof(Floating);
         }
 
         /// <summary>
@@ -62,21 +56,21 @@ namespace RadialMenuControl.UserControl
         protected override void OnApplyTemplate()
         {
             // Border
-            this._border = this.GetTemplateChild(BorderPartName) as Border;
-            if (this._border != null)
+            _border = GetTemplateChild(BorderPartName) as Border;
+            if (_border != null)
             {
                 // this.border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.TranslateInertia;
-                this._border.ManipulationDelta += this.Border_ManipulationDelta;
+                _border.ManipulationDelta += Border_ManipulationDelta;
 
                 // Move Canvas properties from control to border.
-                Canvas.SetLeft(this._border, Canvas.GetLeft(this));
+                Canvas.SetLeft(_border, Canvas.GetLeft(this));
                 Canvas.SetLeft(this, 0);
-                Canvas.SetTop(this._border, Canvas.GetTop(this));
+                Canvas.SetTop(_border, Canvas.GetTop(this));
                 Canvas.SetTop(this, 0);
 
                 // Move Margin to border.
-                this._border.Padding = this.Margin;
-                this.Margin = new Thickness(0);
+                _border.Padding = Margin;
+                Margin = new Thickness(0);
             }
             else
             {
@@ -84,7 +78,7 @@ namespace RadialMenuControl.UserControl
                 throw new Exception("Floating Control Style has no Border.");
             }
 
-            this.Loaded += Floating_Loaded;
+            Loaded += Floating_Loaded;
         }
 
         private void Floating_Loaded(object sender, RoutedEventArgs e)
@@ -100,10 +94,9 @@ namespace RadialMenuControl.UserControl
 
         private void Floating_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var left = Canvas.GetLeft(this._border);
-            var top = Canvas.GetTop(this._border);
-
-            Rect rect = new Rect(left, top, this._border.ActualWidth, this._border.ActualHeight);
+            var left = Canvas.GetLeft(_border);
+            var top = Canvas.GetTop(_border);
+            var rect = new Rect(left, top, _border.ActualWidth, _border.ActualHeight);
 
             AdjustCanvasPosition(rect);
         }
@@ -120,10 +113,10 @@ namespace RadialMenuControl.UserControl
         /// <param name="y">Delta on the Y axis</param>
         public void ManipulateControlPosition(double x, double y)
         {
-            var left = Canvas.GetLeft(this._border) + x;
-            var top = Canvas.GetTop(this._border) + y;
+            var left = Canvas.GetLeft(_border) + x;
+            var top = Canvas.GetTop(_border) + y;
 
-            Rect rect = new Rect(left, top, this._border.ActualWidth, this._border.ActualHeight);
+            Rect rect = new Rect(left, top, _border.ActualWidth, _border.ActualHeight);
             AdjustCanvasPosition(rect);
         }
 
@@ -133,10 +126,10 @@ namespace RadialMenuControl.UserControl
         private void AdjustCanvasPosition(Rect rect)
         {
             // No boundaries
-            if (!this.IsBoundByParent && !this.IsBoundByScreen)
+            if (!IsBoundByParent && !IsBoundByScreen)
             {
-                Canvas.SetLeft(this._border, rect.Left);
-                Canvas.SetTop(this._border, rect.Top);
+                Canvas.SetLeft(_border, rect.Left);
+                Canvas.SetTop(_border, rect.Top);
 
                 return;
             }
@@ -150,15 +143,15 @@ namespace RadialMenuControl.UserControl
                 return;
             }
 
-            var position = new Point(rect.Left, rect.Top); ;
+            var position = new Point(rect.Left, rect.Top);
 
-            if (this.IsBoundByParent)
+            if (IsBoundByParent)
             {
                 Rect parentRect = new Rect(0, 0, el.ActualWidth, el.ActualHeight);
                 position = AdjustedPosition(rect, parentRect);
             }
 
-            if (this.IsBoundByScreen)
+            if (IsBoundByScreen)
             {
                 var ttv = el.TransformToVisual(Window.Current.Content);
                 var topLeft = ttv.TransformPoint(new Point(0, 0));
@@ -167,8 +160,8 @@ namespace RadialMenuControl.UserControl
             }
 
             // Set new position
-            Canvas.SetLeft(this._border, position.X);
-            Canvas.SetTop(this._border, position.Y);
+            Canvas.SetLeft(_border, position.X);
+            Canvas.SetTop(_border, position.Y);
         }
 
         /// <summary>

@@ -13,55 +13,84 @@ namespace RadialMenuDemo
     {
         public MainPage()
         {
-            RadialMenuButton button1 = new RadialMenuButton();
-            button1.Label = "Rainbow Simple";
-            button1.Icon = "🌈";
-            button1.Type = RadialMenuButton.ButtonType.SIMPLE;
+            var button1 = new RadialMenuButton
+            {
+                Label = "Rainbow Simple",
+                Icon = "🌈",
+                Type = RadialMenuButton.ButtonType.Simple
+            };
             button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
             button1.OuterArcReleasedEvent += Button1_OuterArcReleasedEvent;
 
-            button1.Submenu = new RadialMenu();
-            button1.Submenu.CenterButtonIcon = "";
-            RadialMenuButton button11 = new RadialMenuButton { Label = "World", Icon = "🌍" };
-            button11.Type = RadialMenuButton.ButtonType.RADIO;
-            RadialMenuButton button12 = new RadialMenuButton { Label = "Sun", Icon = "🌞" };
-            button12.Type = RadialMenuButton.ButtonType.RADIO;
-            RadialMenuButton button13 = new RadialMenuButton { Label = "Canada!", Icon = "🍁" };
-            button13.Type = RadialMenuButton.ButtonType.RADIO;
-            RadialMenuButton button14 = new RadialMenuButton { Label = "Bento", Icon = "🍱" };
-            button14.Type = RadialMenuButton.ButtonType.RADIO;
+            button1.Submenu = new RadialMenu {CenterButtonIcon = ""};
+
+            var button11 = new RadialMenuButton
+            {
+                Label = "World",
+                Icon = "🌍",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
+            var button12 = new RadialMenuButton
+            {
+                Label = "Sun",
+                Icon = "🌞",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
+            var button13 = new RadialMenuButton
+            {
+                Label = "Canada!",
+                Icon = "🍁",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
+            var button14 = new RadialMenuButton
+            {
+                Label = "Bento",
+                Icon = "🍱",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
+
             button1.Submenu.AddButton(button11);
             button1.Submenu.AddButton(button12);
             button1.Submenu.AddButton(button13);;
             button1.Submenu.AddButton(button14);
 
 
-            RadialMenuButton button2 = new RadialMenuButton();
-            button2.Label = "Stop";
-            button2.IconImage = new BitmapImage(new Uri("ms-appx:///Assets/button_blue_stop.png"));
-            button2.Type = RadialMenuButton.ButtonType.SIMPLE;
+            var button2 = new RadialMenuButton
+            {
+                Label = "Stop",
+                IconImage = new BitmapImage(new Uri("ms-appx:///Assets/button_blue_stop.png")),
+                Type = RadialMenuButton.ButtonType.Simple
+            };
 
-            RadialMenuButton button3 = new RadialMenuButton();
-            button3.Label = "Ramen Time";
-            button3.Icon = "🍜";
-            button3.Type = RadialMenuButton.ButtonType.RADIO;
+            var button3 = new RadialMenuButton
+            {
+                Label = "Ramen Time",
+                Icon = "🍜",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
 
-            RadialMenuButton button4 = new RadialMenuButton();
-            button4.Label = "Surf's up";
-            button4.Icon = "🏄";
-            button4.Type = RadialMenuButton.ButtonType.RADIO;
+            var button4 = new RadialMenuButton
+            {
+                Label = "Surf's up",
+                Icon = "🏄",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
 
-            RadialMenuButton button5 = new RadialMenuButton();
-            button5.Label = "Effin Dragons";
-            button5.Icon = "🐉";
-            button5.Type = RadialMenuButton.ButtonType.RADIO;
+            var button5 = new RadialMenuButton
+            {
+                Label = "Effin Dragons",
+                Icon = "🐉",
+                Type = RadialMenuButton.ButtonType.Radio
+            };
 
-            RadialMenuButton button6 = new RadialMenuButton();
-            button6.Label = "Pay Rent Toggle";
-            button6.Icon = "💸";
-            button6.Type = RadialMenuButton.ButtonType.TOGGLE;
+            var button6 = new RadialMenuButton
+            {
+                Label = "Pay Rent Toggle",
+                Icon = "💸",
+                Type = RadialMenuButton.ButtonType.Toggle
+            };
 
-            this.InitializeComponent();
+            InitializeComponent();
             radialMenu.AddButton(button1);
             radialMenu.AddButton(button2);
             radialMenu.AddButton(button3);
@@ -75,22 +104,22 @@ namespace RadialMenuDemo
             radialMenu.PropertyChanged += RadialMenu_PropertyChanged;
         }
 
-        private void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private static void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Debug.WriteLine("Hi from center button!");
         }
 
-        private void Button1_OuterArcReleasedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private static void Button1_OuterArcReleasedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             Debug.WriteLine("Hi from button 1!");
         }
 
-        private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private static void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             Debug.WriteLine("Hi from button 1!");
         }
 
-        private void RadialMenu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private static void RadialMenu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var rotaryWheel = (RadialMenu)sender;
             switch (e.PropertyName)
@@ -101,11 +130,6 @@ namespace RadialMenuDemo
                         break;
                     }
             }
-        }
-
-        private void radialMenu_CenterButtonPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-
         }
     }
 }

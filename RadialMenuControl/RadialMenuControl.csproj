@@ -115,7 +115,7 @@
     <Compile Include="Extensions\StoryboardExtension.cs" />
     <Compile Include="OctetHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shims.cs" />
+    <Compile Include="Shims\Shims.cs" />
     <Compile Include="UserControl\Floating.cs" />
     <Compile Include="UserControl\PieSlice.xaml.cs">
       <DependentUpon>PieSlice.xaml</DependentUpon>

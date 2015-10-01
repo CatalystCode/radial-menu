@@ -26,7 +26,7 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty IsBoundByScreenProperty =
             DependencyProperty.Register("IsBoundByScreen", typeof(bool), typeof(Floating), new PropertyMetadata(false));
 
-        private Border border;
+        private Border _border;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Floating"/> class.
@@ -62,20 +62,20 @@ namespace RadialMenuControl.UserControl
         protected override void OnApplyTemplate()
         {
             // Border
-            this.border = this.GetTemplateChild(BorderPartName) as Border;
-            if (this.border != null)
+            this._border = this.GetTemplateChild(BorderPartName) as Border;
+            if (this._border != null)
             {
                 // this.border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.TranslateInertia;
-                this.border.ManipulationDelta += this.Border_ManipulationDelta;
+                this._border.ManipulationDelta += this.Border_ManipulationDelta;
 
                 // Move Canvas properties from control to border.
-                Canvas.SetLeft(this.border, Canvas.GetLeft(this));
+                Canvas.SetLeft(this._border, Canvas.GetLeft(this));
                 Canvas.SetLeft(this, 0);
-                Canvas.SetTop(this.border, Canvas.GetTop(this));
+                Canvas.SetTop(this._border, Canvas.GetTop(this));
                 Canvas.SetTop(this, 0);
 
                 // Move Margin to border.
-                this.border.Padding = this.Margin;
+                this._border.Padding = this.Margin;
                 this.Margin = new Thickness(0);
             }
             else
@@ -100,10 +100,10 @@ namespace RadialMenuControl.UserControl
 
         private void Floating_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var left = Canvas.GetLeft(this.border);
-            var top = Canvas.GetTop(this.border);
+            var left = Canvas.GetLeft(this._border);
+            var top = Canvas.GetTop(this._border);
 
-            Rect rect = new Rect(left, top, this.border.ActualWidth, this.border.ActualHeight);
+            Rect rect = new Rect(left, top, this._border.ActualWidth, this._border.ActualHeight);
 
             AdjustCanvasPosition(rect);
         }
@@ -116,14 +116,14 @@ namespace RadialMenuControl.UserControl
         /// <summary>
         /// Manipulate the control's positon!
         /// </summary>
-        /// <param name="X">Delta on the X axis</param>
-        /// <param name="Y">Delta on the Y axis</param>
-        public void ManipulateControlPosition(double X, double Y)
+        /// <param name="x">Delta on the X axis</param>
+        /// <param name="y">Delta on the Y axis</param>
+        public void ManipulateControlPosition(double x, double y)
         {
-            var left = Canvas.GetLeft(this.border) + X;
-            var top = Canvas.GetTop(this.border) + Y;
+            var left = Canvas.GetLeft(this._border) + x;
+            var top = Canvas.GetTop(this._border) + y;
 
-            Rect rect = new Rect(left, top, this.border.ActualWidth, this.border.ActualHeight);
+            Rect rect = new Rect(left, top, this._border.ActualWidth, this._border.ActualHeight);
             AdjustCanvasPosition(rect);
         }
 
@@ -135,8 +135,8 @@ namespace RadialMenuControl.UserControl
             // No boundaries
             if (!this.IsBoundByParent && !this.IsBoundByScreen)
             {
-                Canvas.SetLeft(this.border, rect.Left);
-                Canvas.SetTop(this.border, rect.Top);
+                Canvas.SetLeft(this._border, rect.Left);
+                Canvas.SetTop(this._border, rect.Top);
 
                 return;
             }
@@ -167,8 +167,8 @@ namespace RadialMenuControl.UserControl
             }
 
             // Set new position
-            Canvas.SetLeft(this.border, position.X);
-            Canvas.SetTop(this.border, position.Y);
+            Canvas.SetLeft(this._border, position.X);
+            Canvas.SetTop(this._border, position.Y);
         }
 
         /// <summary>

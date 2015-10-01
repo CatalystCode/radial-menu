@@ -21,9 +21,9 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Pass in the original RadialMenu
-        public RadialMenu _sourceRadialMenu;
-        public static readonly DependencyProperty _sourceRadialMenuProperty =
-            DependencyProperty.Register("_sourceRadialMenu", typeof(RadialMenu), typeof(Pie), null);
+        public RadialMenu SourceRadialMenu;
+        public static readonly DependencyProperty SourceRadialMenuProperty =
+            DependencyProperty.Register("SourceRadialMenu", typeof(RadialMenu), typeof(Pie), null);
 
         private Color _backgroundColor = Colors.White;
         public Color BackgroundColor
@@ -138,19 +138,19 @@
                     case NotifyCollectionChangedAction.Add:
                         foreach (PieSlice item in args.NewItems)
                         {
-                            layoutContent.Children.Add(item);
+                            LayoutContent.Children.Add(item);
                         }
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
                         foreach (PieSlice item in args.OldItems)
                         {
-                            layoutContent.Children.Remove(item);
+                            LayoutContent.Children.Remove(item);
                         }
                         break;
 
                     case NotifyCollectionChangedAction.Reset:
-                        layoutContent.Children.Clear();
+                        LayoutContent.Children.Clear();
                         break;
                 }
             };
@@ -168,7 +168,7 @@
         public void Draw()
         {
             _pieSlices.Clear();
-            double _startAngle = StartAngle;
+            double startAngle = StartAngle;
 
             // Draw PieSlices for each Slice Object
             for (int i = 0; i < Slices.Count; i++)
@@ -176,7 +176,7 @@
                 var sliceSize = 360.00 / Slices.Count;
                 var pieSlice = new PieSlice
                 {
-                    StartAngle = _startAngle,
+                    StartAngle = startAngle,
                     Angle = sliceSize,
                     Radius = Size / 2,
                     Height = Height,
@@ -199,15 +199,15 @@
                     Label = Slices[i].Label,
                     LabelSize = Slices[i].LabelSize,
                     // Original Button
-                    _radialMenuButton = Slices[i]
+                    OriginalRadialMenuButton = Slices[i]
                 };
 
                 // Allow slice to call the change request method on the radial menu
-                pieSlice.ChangeMenuRequestEvent += _sourceRadialMenu.ChangeMenu;
+                pieSlice.ChangeMenuRequestEvent += SourceRadialMenu.ChangeMenu;
                 // Allow slice to call the change selected request to clear all other radio buttons
                 pieSlice.ChangeSelectedEvent += PieSlice_ChangeSelectedEvent;
                 _pieSlices.Add(pieSlice);
-                _startAngle += sliceSize;
+                startAngle += sliceSize;
             }
         }
 
@@ -216,10 +216,10 @@
             foreach(PieSlice ps in _pieSlices)
             {
                 // find any previously selected Radio button to de-select
-                if(ps._radialMenuButton.Type == RadialMenuButton.ButtonType.RADIO && ps._radialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle)
+                if(ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio && ps.OriginalRadialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle)
                 {
-                    ps._radialMenuButton.MenuSelected = false;
-                    ps.updateSliceForRadio();
+                    ps.OriginalRadialMenuButton.MenuSelected = false;
+                    ps.UpdateSliceForRadio();
                 }
             }
         }

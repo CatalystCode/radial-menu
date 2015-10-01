@@ -8,7 +8,7 @@ namespace RadialMenuControl.Extensions
     {
         public static Task PlayAsync(this Storyboard storyboard)
         {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            var tcs = new TaskCompletionSource<bool>();
             if (storyboard == null)
                 tcs.SetException(new ArgumentNullException());
             else

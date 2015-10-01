@@ -53,16 +53,16 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="layoutRoot">
+    <Grid x:Name="LayoutRoot">
         <Grid.Resources>
             <Storyboard x:Name="HidePieStoryboard">
-                <FadeOutThemeAnimation TargetName="pie" />
+                <FadeOutThemeAnimation TargetName="Pie" />
             </Storyboard>
             <Storyboard x:Name="ShowPieStoryboard">
-                <FadeInThemeAnimation TargetName="pie" />
+                <FadeInThemeAnimation TargetName="Pie" />
             </Storyboard>
         </Grid.Resources>
-        <Button x:Name="centerButton"
+        <Button x:Name="CenterButton"
                 Content="{Binding CenterButtonIcon}"
                 Canvas.ZIndex="100"
                 HorizontalAlignment="Center"
@@ -74,6 +74,6 @@
                 Height="{Binding CenterButtonSize}"
                 BorderBrush="{Binding CenterButtonBorder}"
                 Opacity="1" />
-        <my:Pie x:Name="pie" />
+        <my:Pie x:Name="Pie" />
     </Grid>
 </UserControl>

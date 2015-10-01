@@ -12,9 +12,9 @@
     {
         public enum ButtonType
         {
-            SIMPLE = 0,
-            RADIO,
-            TOGGLE
+            Simple = 0,
+            Radio,
+            Toggle
         };
 
         // Label
@@ -40,7 +40,7 @@
             DependencyProperty.Register("MenuSelected", typeof(bool), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty ButtonTypeProperty =
-            DependencyProperty.Register("ButtonTypeProperty", typeof(ButtonType), typeof(RadialMenuButton), new PropertyMetadata(ButtonType.SIMPLE));
+            DependencyProperty.Register("ButtonTypeProperty", typeof(ButtonType), typeof(RadialMenuButton), new PropertyMetadata(ButtonType.Simple));
 
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("ValueProperty", typeof(bool), typeof(RadialMenuButton), null);
@@ -83,7 +83,7 @@
         public bool Value {
             get { return (bool)GetValue(ValueProperty); }
             set {
-                if(this.Type == ButtonType.SIMPLE)
+                if(this.Type == ButtonType.Simple)
                 {
                     throw new Exception("A button of type SIMPLE should not have any value.");
                 }
@@ -213,11 +213,11 @@
                 InnerArcReleasedEvent(this, e);
             }
 
-            if (this.Type != ButtonType.SIMPLE)
+            if (this.Type != ButtonType.Simple)
             {
                 this.MenuSelected = true;
             }
-            if(this.Type == ButtonType.TOGGLE)
+            if(this.Type == ButtonType.Toggle)
             {
                 this.Value = this.Value ? false : true;
             }

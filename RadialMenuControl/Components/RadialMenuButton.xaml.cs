@@ -1,4 +1,4 @@
-﻿namespace RadialMenuControl.Components
+namespace RadialMenuControl.Components
 {
     using UserControl;
     using System;
@@ -15,7 +15,8 @@
             Radio,
             Toggle
         };
-
+        
+        # region properties
         // Label
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof(string), typeof(RadialMenuButton), null);
@@ -154,7 +155,11 @@
 
         public static readonly DependencyProperty OuterTappedColorProperty =
             DependencyProperty.Register("OuterTappedColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 104, 41, 100)));
-
+        
+        // CustomMenu
+        public static readonly DependencyProperty CustomMenuProperty =
+            DependencyProperty.Register("Submenu", typeof(MenuBase), typeof(RadialMenuButton), null);
+            
         public Color OuterHoverColor
         {
             get { return (Color)GetValue(OuterHoverColorProperty); }
@@ -179,7 +184,14 @@
             set { SetValue(OuterTappedColorProperty, value); }
         }
 
-        // Events
+        public MenuBase CustomMenu
+        {
+            get { return (MenuBase)GetValue(CustomMenuProperty); }
+            set { SetValue(CustomMenuProperty, value); }
+        }
+        #endregion properties
+
+        #region events
         public delegate void InnerArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
         public event InnerArcPressedEventHandler InnerArcPressedEvent;
 
@@ -220,6 +232,7 @@
         {
             OuterArcReleasedEvent?.Invoke(this, e);
         }
+        #endregion
 
         /// <summary>
         /// Does this radial menu button have events on the outer arc?
@@ -246,3 +259,4 @@
         }
     }
 }
+

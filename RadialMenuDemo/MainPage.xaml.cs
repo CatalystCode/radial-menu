@@ -1,4 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿﻿using Windows.UI.Xaml.Controls;
 using RadialMenuControl.UserControl;
 using RadialMenuControl.Components;
 using System.Diagnostics;
@@ -58,13 +58,24 @@ namespace RadialMenuDemo
                 IconImage = new BitmapImage(new Uri("ms-appx:///Assets/button_blue_stop.png")),
                 Type = RadialMenuButton.ButtonType.Simple
             };
-
-            var button3 = new RadialMenuButton
+            
+            
+            var button3 = new RadialMenuButton();
+            button3.Label = "Ramen Time";
+            button3.Icon = "🍜";
+            button3.CustomMenu = new MeterSubMenu()
             {
-                Label = "Ramen Time",
-                Icon = "🍜",
-                Type = RadialMenuButton.ButtonType.Radio
+                MeterEndValue = 100,
+                MeterStartValue = 0,
+                TickInterval = 5,
+                MeterRadius = 50,
+                StartAngle = -90,
+                MeterPointerLength = 50,
+                RoundSelectValue = true
             };
+            
+            (button3.CustomMenu as MeterSubMenu).ValueSelected += MeterMenu_ValueSelected;
+            button3.CustomMenu.CenterButtonIcon = "";
 
             var button4 = new RadialMenuButton
             {
@@ -100,7 +111,12 @@ namespace RadialMenuDemo
             LayoutRoot.DataContext = this;
             MyRadialMenu.PropertyChanged += RadialMenu_PropertyChanged;
         }
-
+        
+        private void MeterMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
+        {
+            Debug.WriteLine("User selected value: " + (sender as MeterSubMenu).SelectedValue);
+        }
+        
         private static void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Debug.WriteLine("Hi from center button!");

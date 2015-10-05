@@ -108,6 +108,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\CenterButton.xaml.cs">
+      <DependentUpon>CenterButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\RadialMenuButton.xaml.cs">
       <DependentUpon>RadialMenuButton.xaml</DependentUpon>
     </Compile>
@@ -115,7 +118,13 @@
     <Compile Include="Extensions\StoryboardExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shims\Shims.cs" />
+    <Compile Include="Themes\Colors.cs" />
     <Compile Include="UserControl\Floating.cs" />
+    <Compile Include="UserControl\MenuBase.cs" />
+    <Compile Include="UserControl\MeterSubmenu.xaml.cs">
+      <DependentUpon>MeterSubmenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\MeterSubmenuPath.cs" />
     <Compile Include="UserControl\PieSlice.xaml.cs">
       <DependentUpon>PieSlice.xaml</DependentUpon>
     </Compile>
@@ -126,13 +135,26 @@
     <Compile Include="UserControl\RadialMenu.xaml.cs">
       <DependentUpon>RadialMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\PathBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Components\CenterButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\RadialMenuButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\MeterSubMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,8 +167,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\RadialMenu.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup />
@@ -157,7 +179,6 @@
     <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="$(XamlSpyInstallPath)MSBuild\FirstFloor.XamlSpy.WinRT.targets" Condition="'$(XamlSpyInstallPath)' != '' and '$(Configuration)' == 'DEBUG'" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

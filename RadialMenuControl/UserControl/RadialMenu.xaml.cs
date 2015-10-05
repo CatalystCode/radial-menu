@@ -11,96 +11,31 @@ using RadialMenuControl.Shims;
 
 namespace RadialMenuControl.UserControl
 {
-    public partial class RadialMenu : Windows.UI.Xaml.Controls.UserControl, INotifyPropertyChanged
+    using Components;
+    using Shims;
+    using Extensions;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using Windows.UI;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
+    using System;
+    using System.Collections.ObjectModel;
+
+    public partial class RadialMenu : MenuBase
     {
+        public ObservableCollection<MenuBase> _displayMenus = new ObservableCollection<MenuBase>();
+
+        // Events
         public delegate void CenterButtonTappedHandler(object sender, TappedRoutedEventArgs e);
-
-        private Brush _centerButtonBackgroundFill = new SolidColorBrush(Colors.WhiteSmoke);
-
-        private Brush _centerButtonBorder = new SolidColorBrush(Colors.Transparent);
+        public event CenterButtonTappedHandler CenterButtonTappedEvent;
 
         /// <summary>
-        ///     Font Size for the Center Button
-        /// </summary>
-        private double _centerButtonFontSize = 19;
-
-        /// <summary>
-        ///     Content for the Center Button (using Segoe UI Symbol)
-        /// </summary>
-        private string _centerButtonIcon = "";
-
-        /// <summary>
-        ///     Width/Height for the Center Button
-        /// </summary>
-        private int _centerButtonSize = 60;
-
-        private double _diameter;
-
-        private bool _isCenterButtonNavigationEnabled = true;
-
-        private IList<CenterButtonShim> _previousCenterButtons = new List<CenterButtonShim>();
-
-        private IList<Pie> _previousPies = new List<Pie>();
-
-
-        /// <summary>
-        ///     Start Angle
+        /// Start Angle
         /// </summary>
         private double _startAngle = 22.5;
-
-        public RadialMenu()
-        {
-            InitializeComponent();
-            Pie.SourceRadialMenu = this;
-            LayoutRoot.DataContext = this;
-            CenterButton.Tapped += OnCenterButtonTapped;
-        }
-
-        /// <summary>
-        ///     Background Fill for the Center Button
-        /// </summary>
-        public Brush CenterButtonBackgroundFill
-        {
-            get { return _centerButtonBackgroundFill; }
-            set { SetField(ref _centerButtonBackgroundFill, value); }
-        }
-
-        /// <summary>
-        ///     Border Brush for the Center Button
-        /// </summary>
-        public Brush CenterButtonBorder
-        {
-            get { return _centerButtonBorder; }
-            set { SetField(ref _centerButtonBorder, value); }
-        }
-
-        public string CenterButtonIcon
-        {
-            get { return _centerButtonIcon; }
-            set { SetField(ref _centerButtonIcon, value); }
-        }
-
-        public int CenterButtonSize
-        {
-            get { return _centerButtonSize; }
-            set { SetField(ref _centerButtonSize, value); }
-        }
-
-        public double CenterButtonFontSize
-        {
-            get { return _centerButtonFontSize; }
-            set { SetField(ref _centerButtonFontSize, value); }
-        }
-
-        /// <summary>
-        ///     If disabled, the center button won't automatically allow "back" navigation between submenue
-        /// </summary>
-        public bool IsCenterButtonNavigationEnabled
-        {
-            get { return _isCenterButtonNavigationEnabled; }
-            set { SetField(ref _isCenterButtonNavigationEnabled, value); }
-        }
-
         public double StartAngle
         {
             get { return _startAngle; }
@@ -111,21 +46,7 @@ namespace RadialMenuControl.UserControl
             }
         }
 
-        /// <summary>
-        ///     Diameter of the whole control
-        /// </summary>
-        public double Diameter
-        {
-            get { return _diameter; }
-            set
-            {
-                SetField(ref _diameter, value);
-
-                Height = _diameter;
-                Width = _diameter;
-                Pie.Size = _diameter;
-            }
-        }
+        private IList<Pie> _previousPies = new List<Pie>();
 
         /// <summary>
         ///     Storage for previous pies (for back navigation)
@@ -144,8 +65,6 @@ namespace RadialMenuControl.UserControl
             get { return _previousCenterButtons; }
             set { SetField(ref _previousCenterButtons, value); }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         ///     Find a parent element by type!
@@ -171,7 +90,7 @@ namespace RadialMenuControl.UserControl
         public async void TogglePie()
         {
             var floatingParent = FindParent<Floating>(this);
-            var distance = Diameter/2 - CenterButton.ActualHeight/2;
+            var distance = Diameter / 2 - CenterButton.ActualHeight / 2;
 
             if (Pie.Visibility == Visibility.Visible)
             {
@@ -205,33 +124,14 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        ///     Helper function ensuring that we're not wasting resources when updating a field
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="field">Field to use</param>
-        /// <param name="value">Value to use</param>
-        /// <param name="propertyName">Name of the property</param>
-        private void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (!value.Equals(field))
-            {
-                field = value;
-                var eventHandler = PropertyChanged;
-                eventHandler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public event CenterButtonTappedHandler CenterButtonTappedEvent;
-
-        /// <summary>
-        ///     Event Handler for a center button tap, calling user-registered events and handling navigation (if enabled)
+        /// Event Handler for a center button tap, calling user-registered events and handling navigation (if enabled)
         /// </summary>
         /// <param name="s">Sending object</param>
         /// <param name="e">Event information</param>
         private void OnCenterButtonTapped(object s, TappedRoutedEventArgs e)
         {
             // If an event has been registered with the center button tap, call it
-            CenterButtonTappedEvent?.Invoke(s, e);
+            CenterButtonTappedEvent?.Invoke(this, e);
 
             if (PreviousPies.Count == 0)
             {
@@ -255,19 +155,26 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         /// <param name="s">Sending object</param>
         /// <param name="menu">Menu to change to</param>
-        public void ChangeMenu(object s, RadialMenu menu)
+        public void ChangeMenu(object s, MenuBase menu)
         {
-            ChangePie(s, menu.Pie, true);
-            ChangeCenterButton(s, Helpers.ButtonToShim(menu.CenterButton), true);
+            if (menu is RadialMenu)
+            {
+                var radialMenu = menu as RadialMenu;
+                ChangePie(s, radialMenu.Pie, true);
+                ChangeCenterButton(s, Helpers.ButtonToShim(radialMenu.CenterButton), true);
+            }
+            else if (menu is MeterSubMenu)
+            {
+                ChangeToCustomMenu(s, (menu as MeterSubMenu), true);
+                ChangeCenterButton(s, Helpers.ButtonToShim((menu as MeterSubMenu).CenterButton), true);
+            }
         }
 
         /// <summary>
-        ///     Change the current pie - aka update the current radial menu buttons
+        /// Clears the current pie
         /// </summary>
-        /// <param name="s">Sending object</param>
-        /// <param name="newPie">Pie object to take RadialMenuButtons from</param>
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
-        public void ChangePie(object s, Pie newPie, bool storePrevious)
+        private void _clearPie(bool storePrevious)
         {
             // Store the current pie
             if (storePrevious)
@@ -283,6 +190,36 @@ namespace RadialMenuControl.UserControl
 
             // Delete the current slices
             Pie.Slices.Clear();
+            customRadialControlRoot.Children.Clear();
+        }
+
+        /// <summary>
+        /// Change to custom MenuBase menu.
+        /// </summary>
+        /// <param name="s">Sending object</param>
+        /// <param name="newSubMenu">The new submenu which will be placed in customRadialControlRoot Canvas</param>
+        /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
+        public void ChangeToCustomMenu(object s, MenuBase newSubMenu, bool storePrevious)
+        {
+            _clearPie(storePrevious);
+            // Redraw
+            Pie.Draw();
+            Pie.UpdateLayout();
+            // TODO use just an auxilary canvas and add custom controls to that
+            newSubMenu.Diameter = Diameter;
+            customRadialControlRoot.Children.Add(newSubMenu);
+            newSubMenu.UpdateLayout();
+        }
+
+        /// <summary>
+        /// Change the current pie - aka update the current radial menu buttons
+        /// </summary>
+        /// <param name="s">Sending object</param>
+        /// <param name="newPie">Pie object to take RadialMenuButtons from</param>
+        /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
+        public void ChangePie(object s, Pie newPie, bool storePrevious)
+        {
+            _clearPie(storePrevious);
 
             // Add the new ones
             foreach (var rmb in newPie.Slices)
@@ -318,10 +255,34 @@ namespace RadialMenuControl.UserControl
             }
 
             // Decorate the current button with new props
+
             CenterButtonBorder = newButton.BorderBrush;
             CenterButtonBackgroundFill = newButton.Background;
             CenterButtonIcon = (string) newButton.Content;
             CenterButtonFontSize = newButton.FontSize;
+        }
+
+        /// <summary>
+        /// Initializes the Center Button, since we want to share with other classes
+        /// </summary>
+        public RadialMenu()
+        {
+            InitializeComponent();
+            PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "Diameter")
+                {
+                    Pie.Size = Diameter;
+                }
+
+            };
+            
+            CenterButton.Style = Resources["RoundedCenterButton"] as Style;
+
+            Pie.SourceRadialMenu = this;
+            layoutRoot.DataContext = this;
+            CenterButton.Tapped += OnCenterButtonTapped;
+            
         }
     }
 }

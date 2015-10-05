@@ -14,7 +14,8 @@
         {
             SIMPLE = 0,
             RADIO,
-            TOGGLE
+            TOGGLE,
+            LIST
         };
 
         // Label
@@ -80,8 +81,8 @@
             set { SetValue(MenuSeletedProperty, value); }
         }
 
-        public bool Value {
-            get { return (bool)GetValue(ValueProperty); }
+        public object Value {
+            get { return (object)GetValue(ValueProperty); }
             set {
                 if(this.Type == ButtonType.SIMPLE)
                 {
@@ -219,7 +220,7 @@
             }
             if(this.Type == ButtonType.TOGGLE)
             {
-                this.Value = this.Value ? false : true;
+                this.Value = (bool)this.Value ? false : true;
             }
         }
 
@@ -243,13 +244,13 @@
             return (OuterArcPressedEvent != null || OuterArcReleasedEvent != null);
         }
 
-        // SubMenu
+        // SubMenu can be a RadialMenu or a ListMenu
         public static readonly DependencyProperty SubmenuProperty =
-            DependencyProperty.Register("Submenu", typeof(RadialMenu), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("Submenu", typeof(UserControl), typeof(RadialMenuButton), null);
 
-        public RadialMenu Submenu
+        public UserControl Submenu
         {
-            get { return (RadialMenu)GetValue(SubmenuProperty); }
+            get { return (UserControl)GetValue(SubmenuProperty); }
             set { SetValue(SubmenuProperty, value); }
         }
 

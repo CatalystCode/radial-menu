@@ -201,17 +201,18 @@
             }
         }
 
-        private void PieSlice_ChangeSelectedEvent(object sender, PieSlice slice)
+        private void PieSlice_ChangeSelectedEvent(object sender, PieSlice selectedSlice)
         {
             foreach(PieSlice ps in _pieSlices)
             {
                 // find any previously selected Radio button to de-select
-                if(ps._radialMenuButton.Type == RadialMenuButton.ButtonType.RADIO && ps._radialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle)
+                if(ps._radialMenuButton.Type == RadialMenuButton.ButtonType.RADIO && ps._radialMenuButton.MenuSelected && ps.StartAngle != selectedSlice.StartAngle)
                 {
                     ps._radialMenuButton.MenuSelected = false;
                     ps.updateSliceForRadio();
                 }
             }
+            this.SelectedItem = selectedSlice;
         }
 
         private void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)

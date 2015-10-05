@@ -195,10 +195,10 @@
             DependencyProperty.Register("_radialMenuButton", typeof(Components.RadialMenuButton), typeof(PieSlice), null);
 
         // Change Menu
-        public delegate void ChangeMenuRequestHandler(object sender, RadialMenu submenu);
+        public delegate void ChangeMenuRequestHandler(object sender, UserControl submenu);
         public event ChangeMenuRequestHandler ChangeMenuRequestEvent;
 
-        private void OnChangeMenuRequest(object s, RadialMenu sm)
+        private void OnChangeMenuRequest(object s, UserControl sm)
         {
             if (ChangeMenuRequestEvent != null)
             {
@@ -288,7 +288,7 @@
         {
             if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.TOGGLE)
             {
-                if (_radialMenuButton.Value)
+                if ((bool)_radialMenuButton.Value)
                 {
                     VisualStateManager.GoToState(this, "InnerReleased", true);
                 }
@@ -318,7 +318,7 @@
         {
             if (_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.TOGGLE)
             {
-                if (_radialMenuButton.Value)
+                if ((bool)_radialMenuButton.Value)
                 {
                     VisualStateManager.GoToState(this, "InnerReleased", true);
                 }
@@ -350,7 +350,7 @@
             _radialMenuButton.OnInnerArcReleased(e);
             if(_radialMenuButton.Type == Components.RadialMenuButton.ButtonType.TOGGLE)
             {
-                if (_radialMenuButton.Value)
+                if ((bool)_radialMenuButton.Value)
                 {
                     VisualStateManager.GoToState(this, "InnerReleased", true);
                 }

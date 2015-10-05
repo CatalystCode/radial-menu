@@ -13,15 +13,17 @@ namespace RadialMenuDemo
     {
         public MainPage()
         {
+            this.InitializeComponent();
+
             RadialMenuButton button1 = new RadialMenuButton();
             button1.Label = "Rainbow Simple";
             button1.Icon = "🌈";
             button1.Type = RadialMenuButton.ButtonType.SIMPLE;
             button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
             button1.OuterArcReleasedEvent += Button1_OuterArcReleasedEvent;
-
-            button1.Submenu = new RadialMenu();
-            button1.Submenu.CenterButtonIcon = "";
+            
+            RadialMenu button1Submenu = new RadialMenu();
+            button1Submenu.CenterButtonIcon = "";
             RadialMenuButton button11 = new RadialMenuButton { Label = "World", Icon = "🌍" };
             button11.Type = RadialMenuButton.ButtonType.RADIO;
             RadialMenuButton button12 = new RadialMenuButton { Label = "Sun", Icon = "🌞" };
@@ -30,10 +32,12 @@ namespace RadialMenuDemo
             button13.Type = RadialMenuButton.ButtonType.RADIO;
             RadialMenuButton button14 = new RadialMenuButton { Label = "Bento", Icon = "🍱" };
             button14.Type = RadialMenuButton.ButtonType.RADIO;
-            button1.Submenu.AddButton(button11);
-            button1.Submenu.AddButton(button12);
-            button1.Submenu.AddButton(button13);;
-            button1.Submenu.AddButton(button14);
+            button1Submenu.AddButton(button11);
+            button1Submenu.AddButton(button12);
+            button1Submenu.AddButton(button13);;
+            button1Submenu.AddButton(button14);
+            button1.Submenu = button1Submenu;
+
 
 
             RadialMenuButton button2 = new RadialMenuButton();
@@ -61,10 +65,45 @@ namespace RadialMenuDemo
             button6.Icon = "💸";
             button6.Type = RadialMenuButton.ButtonType.TOGGLE;
 
-            this.InitializeComponent();
+            RadialMenuButton button7 = new RadialMenuButton();
+            button7.Label = "Text Font Type";
+            button7.Icon = "✎";
+            button7.Type = RadialMenuButton.ButtonType.SIMPLE;
+
+            ListMenu button7SubMenu = new ListMenu();
+            RadialMenuButton button71 = new RadialMenuButton { Label = "Arial" };
+            button71.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button72 = new RadialMenuButton { Label = "Calibri" };
+            button72.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button73 = new RadialMenuButton { Label = "Cambria" };
+            button73.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button74 = new RadialMenuButton { Label = "Courier" };
+            button74.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button75 = new RadialMenuButton { Label = "Georgia" };
+            button75.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button76 = new RadialMenuButton { Label = "Helvetica" };
+            button76.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button77 = new RadialMenuButton { Label = "Tahoma" };
+            button77.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button78 = new RadialMenuButton { Label = "Times New Roman" };
+            button78.Type = RadialMenuButton.ButtonType.LIST;
+            RadialMenuButton button79 = new RadialMenuButton { Label = "Verdana" };
+            button79.Type = RadialMenuButton.ButtonType.LIST;
+            button7SubMenu.AddButton(button71);
+            button7SubMenu.AddButton(button72);
+            button7SubMenu.AddButton(button73);
+            button7SubMenu.AddButton(button74);
+            button7SubMenu.AddButton(button75);
+            button7SubMenu.AddButton(button76);
+            button7SubMenu.AddButton(button77);
+            button7SubMenu.AddButton(button78);
+            button7SubMenu.AddButton(button79);
+            button7.Submenu = button7SubMenu;
+
             radialMenu.AddButton(button1);
             radialMenu.AddButton(button2);
             radialMenu.AddButton(button3);
+            radialMenu.AddButton(button7);
             radialMenu.AddButton(button4);
             radialMenu.AddButton(button5);
             radialMenu.AddButton(button6);

@@ -73,7 +73,10 @@
                 Background="{Binding CenterButtonBackgroundFill}"
                 Height="{Binding CenterButtonSize}"
                 BorderBrush="{Binding CenterButtonBorder}"
-                Opacity="1" />
+                Opacity="1" 
+                >
+        </Button>
         <my:Pie x:Name="pie" />
+        <my:ListMenu x:Name="listmenu"/>
     </Grid>
 </UserControl>

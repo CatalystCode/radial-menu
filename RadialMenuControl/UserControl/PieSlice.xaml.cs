@@ -1,4 +1,4 @@
-﻿namespace RadialMenuControl.UserControl
+namespace RadialMenuControl.UserControl
 {
     using System;
     using Windows.UI;
@@ -187,10 +187,10 @@
             DependencyProperty.Register("OriginalRadialMenuButton", typeof(Components.RadialMenuButton), typeof(PieSlice), null);
 
         // Change Menu
-        public delegate void ChangeMenuRequestHandler(object sender, RadialMenu submenu);
+        public delegate void ChangeMenuRequestHandler(object sender, MenuBase submenu);
         public event ChangeMenuRequestHandler ChangeMenuRequestEvent;
 
-        private void OnChangeMenuRequest(object s, RadialMenu sm)
+        private void OnChangeMenuRequest(object s, MenuBase sm)
         {
             ChangeMenuRequestEvent?.Invoke(s, sm);
         }
@@ -211,7 +211,8 @@
             OuterPieSlicePath.Angle = Angle;
             var middleRadian = (Math.PI / 180) * (StartAngle + (Angle / 2));
 
-            if (OriginalRadialMenuButton.Submenu == null && !OriginalRadialMenuButton.HasOuterArcEvents())
+            if ((OriginalRadialMenuButton.Submenu == null && OriginalRadialMenuButton.CustomMenu == null) 
+                && !OriginalRadialMenuButton.HasOuterArcEvents())
             {
                 OuterPieSlicePath.Fill = new SolidColorBrush(OuterDisabledColor);
             }
@@ -247,10 +248,14 @@
         {
             VisualStateManager.GoToState(this, "OuterPressed", true);
 
-            // Check for Submenu
+            // Check for Submenu & Custom Menu
             if (OriginalRadialMenuButton.Submenu != null)
             {
                 OnChangeMenuRequest(OriginalRadialMenuButton, OriginalRadialMenuButton.Submenu);
+            }
+            else if (OriginalRadialMenuButton.CustomMenu != null)
+            {
+                OnChangeMenuRequest(OriginalRadialMenuButton, OriginalRadialMenuButton.CustomMenu);
             }
 
             OriginalRadialMenuButton.OnOuterArcPressed(e);
@@ -336,3 +341,4 @@
         }
     }
 }
+

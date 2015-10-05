@@ -11,7 +11,7 @@
     <my:MenuBase.Resources>
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </my:MenuBase.Resources>
-    <Grid x:Name="layoutRoot">
+    <Grid x:Name="LayoutRoot">
         <Grid.Resources>
             <Storyboard x:Name="HidePieStoryboard">
                 <FadeOutThemeAnimation TargetName="Pie" />
@@ -33,6 +33,6 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 Opacity="1" />
         <my:Pie x:Name="Pie" />
-        <Canvas x:Name="customRadialControlRoot"/>
+        <Canvas x:Name="CustomRadialControlRoot"/>
     </Grid>
 </my:MenuBase>

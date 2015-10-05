@@ -58,22 +58,24 @@ namespace RadialMenuDemo
                 IconImage = new BitmapImage(new Uri("ms-appx:///Assets/button_blue_stop.png")),
                 Type = RadialMenuButton.ButtonType.Simple
             };
-            
-            
-            var button3 = new RadialMenuButton();
-            button3.Label = "Ramen Time";
-            button3.Icon = "🍜";
-            button3.CustomMenu = new MeterSubMenu()
+
+
+            var button3 = new RadialMenuButton
             {
-                MeterEndValue = 100,
-                MeterStartValue = 0,
-                TickInterval = 5,
-                MeterRadius = 50,
-                StartAngle = -90,
-                MeterPointerLength = 50,
-                RoundSelectValue = true
+                Label = "Ramen Time",
+                Icon = "🍜",
+                CustomMenu = new MeterSubMenu()
+                {
+                    MeterEndValue = 100,
+                    MeterStartValue = 0,
+                    TickInterval = 5,
+                    MeterRadius = 50,
+                    StartAngle = -90,
+                    MeterPointerLength = 50,
+                    RoundSelectValue = true
+                }
             };
-            
+
             (button3.CustomMenu as MeterSubMenu).ValueSelected += MeterMenu_ValueSelected;
             button3.CustomMenu.CenterButtonIcon = "";
 
@@ -134,7 +136,6 @@ namespace RadialMenuDemo
 
         private static void RadialMenu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var rotaryWheel = (RadialMenu)sender;
             switch (e.PropertyName)
             {
                 case "SelectedItemValue":

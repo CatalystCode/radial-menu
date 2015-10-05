@@ -1,6 +1,7 @@
 namespace RadialMenuControl.UserControl
 {
     using Components;
+    using Themes;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
@@ -10,7 +11,6 @@ namespace RadialMenuControl.UserControl
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-    using RadialMenuControl.Themes;
 
     public partial class Pie : UserControl, INotifyPropertyChanged
     {

@@ -1,13 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using RadialMenuControl.Components;
-using RadialMenuControl.Extensions;
-using RadialMenuControl.Shims;
+﻿using Windows.UI.Xaml.Input;
 
 namespace RadialMenuControl.UserControl
 {
@@ -15,18 +6,13 @@ namespace RadialMenuControl.UserControl
     using Shims;
     using Extensions;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using Windows.UI;
     using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
-    using System;
     using System.Collections.ObjectModel;
 
     public partial class RadialMenu : MenuBase
     {
-        public ObservableCollection<MenuBase> _displayMenus = new ObservableCollection<MenuBase>();
+        public ObservableCollection<MenuBase> DisplayMenus = new ObservableCollection<MenuBase>();
 
         // Events
         public delegate void CenterButtonTappedHandler(object sender, TappedRoutedEventArgs e);
@@ -62,8 +48,8 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public IList<CenterButtonShim> PreviousButtons
         {
-            get { return _previousCenterButtons; }
-            set { SetField(ref _previousCenterButtons, value); }
+            get { return PreviousCenterButtons; }
+            set { SetField(ref PreviousCenterButtons, value); }
         }
 
         /// <summary>
@@ -159,14 +145,14 @@ namespace RadialMenuControl.UserControl
         {
             if (menu is RadialMenu)
             {
-                var radialMenu = menu as RadialMenu;
+                var radialMenu = (RadialMenu) menu;
                 ChangePie(s, radialMenu.Pie, true);
                 ChangeCenterButton(s, Helpers.ButtonToShim(radialMenu.CenterButton), true);
             }
             else if (menu is MeterSubMenu)
             {
-                ChangeToCustomMenu(s, (menu as MeterSubMenu), true);
-                ChangeCenterButton(s, Helpers.ButtonToShim((menu as MeterSubMenu).CenterButton), true);
+                ChangeToCustomMenu(s, ((MeterSubMenu) menu), true);
+                ChangeCenterButton(s, Helpers.ButtonToShim(((MeterSubMenu) menu).CenterButton), true);
             }
         }
 
@@ -190,7 +176,7 @@ namespace RadialMenuControl.UserControl
 
             // Delete the current slices
             Pie.Slices.Clear();
-            customRadialControlRoot.Children.Clear();
+            CustomRadialControlRoot.Children.Clear();
         }
 
         /// <summary>
@@ -207,7 +193,7 @@ namespace RadialMenuControl.UserControl
             Pie.UpdateLayout();
             // TODO use just an auxilary canvas and add custom controls to that
             newSubMenu.Diameter = Diameter;
-            customRadialControlRoot.Children.Add(newSubMenu);
+            CustomRadialControlRoot.Children.Add(newSubMenu);
             newSubMenu.UpdateLayout();
         }
 
@@ -280,7 +266,7 @@ namespace RadialMenuControl.UserControl
             CenterButton.Style = Resources["RoundedCenterButton"] as Style;
 
             Pie.SourceRadialMenu = this;
-            layoutRoot.DataContext = this;
+            LayoutRoot.DataContext = this;
             CenterButton.Tapped += OnCenterButtonTapped;
             
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Shapes;
 namespace RadialMenuControl.UserControl
 {
@@ -48,13 +43,13 @@ namespace RadialMenuControl.UserControl
 
         protected static void Changed(PathBase path)
         {
-            if (path._isLoaded)
+            if (path.IsLoaded)
             {
                 path.Redraw();
             }
         }
 
-        protected bool _isLoaded;
+        protected bool IsLoaded;
         
         /// <summary>
         /// Specifies how to draw this path
@@ -64,11 +59,11 @@ namespace RadialMenuControl.UserControl
         /// <summary>
         /// Constructs a new PathBase instance
         /// </summary>
-        public PathBase()
+        protected PathBase()
         {
             Loaded += (s, e) =>
             {
-                _isLoaded = true;
+                IsLoaded = true;
                 Redraw();
             };
         }

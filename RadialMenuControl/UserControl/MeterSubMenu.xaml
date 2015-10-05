@@ -14,13 +14,13 @@
     <my:MenuBase.Resources>
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </my:MenuBase.Resources>
-    <Canvas x:Name="layoutRoot">
-        <Path x:Name="outerCircle" Stroke="{Binding OuterEdgeBrush}" StrokeThickness="20" Canvas.ZIndex="100">
+    <Canvas x:Name="LayoutRoot">
+        <Path x:Name="OuterCircle" Stroke="{Binding OuterEdgeBrush}" StrokeThickness="20" Canvas.ZIndex="100">
             <Path.Data>
                 <EllipseGeometry RadiusX="{Binding OuterCircleRadius}" RadiusY="{Binding OuterCircleRadius}" Center="{Binding Center}"/>
             </Path.Data> 
         </Path>
-        <Path x:Name="innerCircle" Fill="{Binding BackgroundFillBrush}" Canvas.ZIndex="0">
+        <Path x:Name="InnerCircle" Fill="{Binding BackgroundFillBrush}" Canvas.ZIndex="0">
             <Path.Data>
                 <EllipseGeometry RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" Center="{Binding Center}"/>
             </Path.Data>
@@ -30,7 +30,7 @@
                 <EllipseGeometry RadiusX="{Binding MeterRadius}" RadiusY="{Binding MeterRadius}" Center="{Binding Center}"/>
             </Path.Data>
         </Path>
-        <userControl:MeterSubmenuPath x:Name="path" Fill="AliceBlue" StrokeThickness="1" Stroke="Black" Canvas.ZIndex="100"/>
+        <userControl:MeterSubmenuPath x:Name="Path" Fill="AliceBlue" StrokeThickness="1" Stroke="Black" Canvas.ZIndex="100"/>
 
         <Path Stroke="{Binding HoverValueBrush}" StrokeThickness="1" Canvas.ZIndex="100">
             <Path.Data>
@@ -40,7 +40,7 @@
                             <PathFigure StartPoint="{Binding Center}">
                                 <PathFigure.Segments>
                                     <PathSegmentCollection>
-                                        <LineSegment x:Name="meterLine" />
+                                        <LineSegment x:Name="MeterLine" />
                                     </PathSegmentCollection>
                                 </PathFigure.Segments>
                             </PathFigure>
@@ -57,7 +57,7 @@
                             <PathFigure StartPoint="{Binding Center}">
                                 <PathFigure.Segments>
                                     <PathSegmentCollection>
-                                        <LineSegment x:Name="selectedValueLine"  />
+                                        <LineSegment x:Name="SelectedValueLine"  />
                                     </PathSegmentCollection>
                                 </PathFigure.Segments>
                             </PathFigure>
@@ -66,7 +66,7 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <Button x:Name="_centerButton"
+        <Button x:Name="SubMenuCenterButton"
                 Content="{Binding CenterButtonIcon}"
                 Canvas.ZIndex="100"
                 HorizontalAlignment="Center"
@@ -79,6 +79,6 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 Opacity="1"
                 Visibility="Collapsed"/>
-        <TextBlock x:Name="title" Canvas.ZIndex="1" Text="{Binding SelectedValue}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Canvas.Left="{Binding MeterTextX}" Canvas.Top="{Binding MeterTextY}"/>
+        <TextBlock x:Name="Title" Canvas.ZIndex="1" Text="{Binding SelectedValue}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Canvas.Left="{Binding MeterTextX}" Canvas.Top="{Binding MeterTextY}"/>
     </Canvas>
 </my:MenuBase>

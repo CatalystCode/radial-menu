@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Globalization;
 using Windows.Foundation;
 
 namespace RadialMenuControl.UserControl
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using Windows.Foundation.Collections;
-    using Windows.UI;
+    using Themes;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Controls.Primitives;
-    using Windows.UI.Xaml.Data;
     using Windows.UI.Xaml.Input;
     using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Navigation;
-    using RadialMenuControl.Themes;
+
     public partial class MeterSubMenu : MenuBase
     {
 
@@ -207,10 +198,7 @@ namespace RadialMenuControl.UserControl
         /// <summary>
         /// Radius of the whole control
         /// </summary>
-        public double Radius
-        {
-            get { return Diameter / 2; }
-        }
+        public double Radius => Diameter / 2;
 
         private Point _center;
         public Point Center
@@ -221,21 +209,19 @@ namespace RadialMenuControl.UserControl
         
         public Button CenterButton
         {
-            get { return _centerButton; }
-            set { SetField(ref _centerButton, value); }
+            get { return SubMenuCenterButton; }
+            set { SetField(ref SubMenuCenterButton, value); }
         }
 
-        public double OuterCircleRadius
-        {
-            get { return Radius - 10; }
-        }
+        public double OuterCircleRadius => Radius - 10;
+
         #endregion
 
-        private void setMeterPoint(Point point, bool setSelectedLine = false)
+        private void SetMeterPoint(Point point, bool setSelectedLine = false)
         {
 
             double angle;
-            meterLine.Point = computeMeterLinePoint(MeterPointerLength, point, out angle);
+            MeterLine.Point = ComputeMeterLinePoint(MeterPointerLength, point, out angle);
 
 
             var startAngleRad = StartAngle * (Math.PI / 180);
@@ -247,8 +233,8 @@ namespace RadialMenuControl.UserControl
             }
             var value = Math.Abs(((angle) / (2 * Math.PI)) * (MeterEndValue - MeterStartValue));
 
-            MeterTextX = Diameter / 2 - (title.ActualWidth / 2);
-            MeterTextY = Diameter - (40 + title.ActualHeight / 2);
+            MeterTextX = Diameter / 2 - (Title.ActualWidth / 2);
+            MeterTextY = Diameter - (40 + Title.ActualHeight / 2);
 
             if (!_valueSelected || setSelectedLine)
             {
@@ -259,7 +245,7 @@ namespace RadialMenuControl.UserControl
             if (setSelectedLine)
             {
                 _valueSelected = true;
-                selectedValueLine.Point = computeMeterLinePoint(MeterPointerLength, point, out angle);
+                SelectedValueLine.Point = ComputeMeterLinePoint(MeterPointerLength, point, out angle);
             }
         }
 
@@ -268,8 +254,9 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         /// <param name="radius"></param>
         /// <param name="pointerPoint"></param>
+        /// <param name="angle"></param>
         /// <returns></returns>
-        private Point computeMeterLinePoint(double radius, Point pointerPoint, out double angle)
+        private Point ComputeMeterLinePoint(double radius, Point pointerPoint, out double angle)
         {
             var theta = Math.Atan((pointerPoint.X - Center.X) / (Center.Y - pointerPoint.Y));
 
@@ -285,26 +272,26 @@ namespace RadialMenuControl.UserControl
 
         public void Draw()
         {
-            path.Radius = Diameter / 2;
-            path.MeterStartValue = MeterStartValue;
-            path.MeterEndValue = MeterEndValue;
-            path.MeterRadius = MeterRadius;
-            path.TickInterval = TickInterval;
-            path.StartAngle = StartAngle * (Math.PI / 180);
-            path.LabelOffset = 10;
-            path.Draw();
+            Path.Radius = Diameter / 2;
+            Path.MeterStartValue = MeterStartValue;
+            Path.MeterEndValue = MeterEndValue;
+            Path.MeterRadius = MeterRadius;
+            Path.TickInterval = TickInterval;
+            Path.StartAngle = StartAngle * (Math.PI / 180);
+            Path.LabelOffset = 10;
+            Path.Draw();
 
             var count = MeterStartValue;
 
-            foreach (var tick in path.MeterTickPoints)
+            foreach (var tick in Path.MeterTickPoints)
             {
                 TextBlock tickLabel = new TextBlock
                 {
-                    Text = count.ToString(),
+                    Text = count.ToString(CultureInfo.CurrentCulture),
                     FontSize = 8
                 };
                 tickLabel.Measure(new Size());
-                layoutRoot.Children.Add(tickLabel);
+                LayoutRoot.Children.Add(tickLabel);
                 
                 Canvas.SetTop(tickLabel, tick.Y - (tickLabel.ActualHeight / 2));
                 Canvas.SetLeft(tickLabel, tick.X - (tickLabel.ActualWidth / 2));
@@ -320,16 +307,16 @@ namespace RadialMenuControl.UserControl
             DataContext = this;
             BackgroundFillBrush = new SolidColorBrush(DefaultColors.InnerNormalColor);
             OuterEdgeBrush = new SolidColorBrush(DefaultColors.HighlightColor);
-            this.PointerMoved += (sender, args) =>
+            PointerMoved += (sender, args) =>
             {
                 var point = args.GetCurrentPoint(sender as UIElement);
-                setMeterPoint(point.Position);
+                SetMeterPoint(point.Position);
             };
 
-            this.Tapped += (sender, args) =>
+            Tapped += (sender, args) =>
             {
                 var point = args.GetPosition((sender as UIElement));
-                setMeterPoint(point, true);
+                SetMeterPoint(point, true);
                 ValueSelected?.Invoke(this, args);
             };
 
@@ -344,7 +331,7 @@ namespace RadialMenuControl.UserControl
             Loaded += (sender, e) =>
             {
                 // point meter to left initially
-                setMeterPoint(new Point(0, Diameter / 2), true);
+                SetMeterPoint(new Point(0, Diameter / 2), true);
                 Draw();
             };
         }

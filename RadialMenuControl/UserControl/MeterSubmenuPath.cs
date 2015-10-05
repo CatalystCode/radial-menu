@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Shapes;
+
 namespace RadialMenuControl.UserControl
 {
     class MeterSubmenuPath : PathBase
@@ -37,18 +33,9 @@ namespace RadialMenuControl.UserControl
         {
             get; set;
         }
-        private double _labelOffset;
-        public double LabelOffset
-        {
-            get
-            {
-                return _labelOffset;
-            }
-            set
-            {
-                _labelOffset = value;
-            }
-        }
+
+        public double LabelOffset { get; set; }
+
         public IList<Point> MeterTickPoints
         {
             get; set;

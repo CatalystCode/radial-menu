@@ -20,7 +20,7 @@ namespace RadialMenuDemo
             button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
             button1.OuterArcReleasedEvent += Button1_OuterArcReleasedEvent;
 
-            button1.Submenu = new RadialMenu {CenterButtonIcon = ""};
+            RadialMenu button1Submenu = new RadialMenu {CenterButtonIcon = ""};
 
             var button11 = new RadialMenuButton
             {
@@ -46,11 +46,12 @@ namespace RadialMenuDemo
                 Icon = "🍱",
                 Type = RadialMenuButton.ButtonType.Radio
             };
-
-            button1.Submenu.AddButton(button11);
-            button1.Submenu.AddButton(button12);
-            button1.Submenu.AddButton(button13);
-            button1.Submenu.AddButton(button14);
+            
+            button1Submenu.AddButton(button11);
+            button1Submenu.AddButton(button12);
+            button1Submenu.AddButton(button13);
+            button1Submenu.AddButton(button14);
+            button1.Submenu = button1Submenu;
 
             var button2 = new RadialMenuButton
             {
@@ -86,11 +87,76 @@ namespace RadialMenuDemo
                 Icon = "💸",
                 Type = RadialMenuButton.ButtonType.Toggle
             };
+            var button7 = new RadialMenuButton
+            {
+                Label = "Text Font Type",
+                Icon = "✎",
+                Type = RadialMenuButton.ButtonType.Simple
+            };
+
+            ListMenu button7SubMenu = new ListMenu();
+            var button71 = new RadialMenuButton
+            {
+                Label = "Arial",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button72 = new RadialMenuButton
+            {
+                Label = "Calibri",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button73 = new RadialMenuButton
+            {
+                Label = "Cambria",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button74 = new RadialMenuButton
+            {
+                Label = "Courier",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button75 = new RadialMenuButton
+            {
+                Label = "Georgia",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button76 = new RadialMenuButton
+            {
+                Label = "Helvetica",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button77 = new RadialMenuButton
+            {
+                Label = "Tahoma",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button78 = new RadialMenuButton
+            {
+                Label = "Times New Roman",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            var button79 = new RadialMenuButton
+            {
+                Label = "Verdana",
+                Type = RadialMenuButton.ButtonType.List
+            };
+            
+            button7SubMenu.AddButton(button71);
+            button7SubMenu.AddButton(button72);
+            button7SubMenu.AddButton(button73);
+            button7SubMenu.AddButton(button74);
+            button7SubMenu.AddButton(button75);
+            button7SubMenu.AddButton(button76);
+            button7SubMenu.AddButton(button77);
+            button7SubMenu.AddButton(button78);
+            button7SubMenu.AddButton(button79);
+            button7.Submenu = button7SubMenu;
 
             InitializeComponent();
             MyRadialMenu.AddButton(button1);
             MyRadialMenu.AddButton(button2);
             MyRadialMenu.AddButton(button3);
+            MyRadialMenu.AddButton(button7);
             MyRadialMenu.AddButton(button4);
             MyRadialMenu.AddButton(button5);
             MyRadialMenu.AddButton(button6);

@@ -75,5 +75,6 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 Opacity="1" />
         <my:Pie x:Name="Pie" />
+        <my:ListMenu x:Name="listmenu"/>
     </Grid>
 </UserControl>

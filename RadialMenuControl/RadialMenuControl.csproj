@@ -116,6 +116,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shims\Shims.cs" />
     <Compile Include="UserControl\Floating.cs" />
+    <Compile Include="UserControl\ListMenu.xaml.cs" />
     <Compile Include="UserControl\PieSlice.xaml.cs">
       <DependentUpon>PieSlice.xaml</DependentUpon>
     </Compile>
@@ -135,6 +136,10 @@
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\ListMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\PieSlice.xaml">
       <SubType>Designer</SubType>

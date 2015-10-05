@@ -187,10 +187,10 @@
             DependencyProperty.Register("OriginalRadialMenuButton", typeof(Components.RadialMenuButton), typeof(PieSlice), null);
 
         // Change Menu
-        public delegate void ChangeMenuRequestHandler(object sender, RadialMenu submenu);
+        public delegate void ChangeMenuRequestHandler(object sender, UserControl submenu);
         public event ChangeMenuRequestHandler ChangeMenuRequestEvent;
 
-        private void OnChangeMenuRequest(object s, RadialMenu sm)
+        private void OnChangeMenuRequest(object s, UserControl sm)
         {
             ChangeMenuRequestEvent?.Invoke(s, sm);
         }
@@ -277,7 +277,7 @@
         {
             if (OriginalRadialMenuButton.Type == Components.RadialMenuButton.ButtonType.Toggle)
             {
-                VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerHover", true);
+                VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value !=null && (bool)OriginalRadialMenuButton.Value) ? "InnerReleased" : "InnerHover", true);
             }
             else if (OriginalRadialMenuButton.Type == Components.RadialMenuButton.ButtonType.Radio)
             {
@@ -294,7 +294,7 @@
             switch (OriginalRadialMenuButton.Type)
             {
                 case Components.RadialMenuButton.ButtonType.Toggle:
-                    VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerNormal", true);
+                    VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value != null && (bool)OriginalRadialMenuButton.Value) ? "InnerReleased" : "InnerNormal", true);
                     break;
                 case Components.RadialMenuButton.ButtonType.Radio:
                     UpdateSliceForRadio();
@@ -317,7 +317,7 @@
             switch (OriginalRadialMenuButton.Type)
             {
                 case Components.RadialMenuButton.ButtonType.Toggle:
-                    VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerNormal", true);
+                    VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value != null && (bool)OriginalRadialMenuButton.Value) ? "InnerReleased" : "InnerNormal", true);
                     break;
                 case Components.RadialMenuButton.ButtonType.Radio:
                     VisualStateManager.GoToState(this, "InnerReleased", true);

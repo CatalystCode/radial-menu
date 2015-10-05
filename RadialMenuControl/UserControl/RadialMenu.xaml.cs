@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Media;
 using RadialMenuControl.Components;
 using RadialMenuControl.Extensions;
 using RadialMenuControl.Shims;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Automation.Provider;
+using Windows.UI.Xaml.Controls;
 
 namespace RadialMenuControl.UserControl
 {
@@ -255,10 +258,83 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         /// <param name="s">Sending object</param>
         /// <param name="menu">Menu to change to</param>
-        public void ChangeMenu(object s, RadialMenu menu)
+        public void ChangeMenu(object s, Windows.UI.Xaml.Controls.UserControl menu)
         {
-            ChangePie(s, menu.Pie, true);
-            ChangeCenterButton(s, Helpers.ButtonToShim(menu.CenterButton), true);
+            // If submenu is a Radial menu
+            if (menu.GetType() == typeof(RadialMenu))
+            {
+                ChangePie(s, ((RadialMenu)menu).Pie, true);
+                ChangeCenterButton(s, Helpers.ButtonToShim(((RadialMenu)menu).CenterButton), true);
+            }
+            else // If submenu is a list menu
+            {
+                listmenu = (ListMenu)menu;
+                IList<RadialMenuButton> ListItems = listmenu.ListItems;
+
+                TogglePie();
+                CenterButton.Visibility = Visibility.Collapsed;
+
+                Style menuStyle = new Windows.UI.Xaml.Style { TargetType = typeof(MenuFlyoutPresenter) };
+                menuStyle.Setters.Add(new Setter(WidthProperty, this.Width));
+                menuStyle.Setters.Add(new Setter(MaxHeightProperty, this.Height / 2));
+                menuStyle.Setters.Add(new Setter(MarginProperty, new Thickness(0, 150, 0, 0)));
+                MenuFlyout flyoutMenu = new MenuFlyout();
+                flyoutMenu.MenuFlyoutPresenterStyle = menuStyle;
+
+                ToggleMenuFlyoutItem toggle = new ToggleMenuFlyoutItem();
+                toggle.Text = "◀ Back";
+                toggle.Click += ToggleMenu_Click;
+                flyoutMenu.Items.Add(toggle);
+
+                flyoutMenu.Items.Add(new MenuFlyoutSeparator());
+                foreach (RadialMenuButton btn in ListItems)
+                {
+                    MenuFlyoutItem menuItem = new MenuFlyoutItem();
+                    menuItem.Text = btn.Label;
+                    menuItem.Margin = new Thickness(0, 0, 50, 0);
+                    flyoutMenu.Items.Add(menuItem);
+                    if (btn.MenuSelected)
+                    {
+                        menuItem.Background = new SolidColorBrush(Colors.Gray);
+                    }
+                    menuItem.Click += MenuItem_Click;
+                }
+                RadialMenuButton pieButton = (RadialMenuButton)s;
+                CenterButton.Flyout = flyoutMenu;
+                flyoutMenu.ShowAt(CenterButton);
+
+                ButtonAutomationPeer peer = new ButtonAutomationPeer(CenterButton);
+                IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                invokeProv.Invoke();
+            }
+
+        }
+
+        private void ToggleMenu_Click(object sender, RoutedEventArgs e)
+        {
+            CenterButton.Visibility = Visibility.Visible;
+            TogglePie();
+            CenterButton.Flyout = null;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFlyoutItem selectedItem = (MenuFlyoutItem)sender;
+            foreach (RadialMenuButton btn in listmenu.ListItems)
+            {
+                if (btn.Label == selectedItem.Text)
+                {
+                    btn.MenuSelected = true;
+
+                }
+                else if (btn.MenuSelected)
+                {
+                    btn.MenuSelected = false;
+                }
+            }
+            CenterButton.Visibility = Visibility.Visible;
+            TogglePie();
+            CenterButton.Flyout = null;
         }
 
         /// <summary>

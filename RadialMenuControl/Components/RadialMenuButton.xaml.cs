@@ -13,7 +13,8 @@
         {
             Simple = 0,
             Radio,
-            Toggle
+            Toggle,
+            List
         };
 
         // Label
@@ -42,7 +43,7 @@
             DependencyProperty.Register("ButtonTypeProperty", typeof(ButtonType), typeof(RadialMenuButton), new PropertyMetadata(ButtonType.Simple));
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("ValueProperty", typeof(bool), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("ValueProperty", typeof(object), typeof(RadialMenuButton), null);
 
         public string Label
         {
@@ -79,8 +80,8 @@
             set { SetValue(MenuSeletedProperty, value); }
         }
 
-        public bool Value {
-            get { return (bool)GetValue(ValueProperty); }
+        public object Value {
+            get { return (object)GetValue(ValueProperty); }
             set {
                 if(Type == ButtonType.Simple)
                 {
@@ -209,7 +210,7 @@
             }
             if (Type == ButtonType.Toggle)
             {
-                Value = !Value;
+                Value = Value != null && (bool)Value ? false : true;
             }
         }
 
@@ -232,11 +233,11 @@
 
         // SubMenu
         public static readonly DependencyProperty SubmenuProperty =
-            DependencyProperty.Register("Submenu", typeof(RadialMenu), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("Submenu", typeof(UserControl), typeof(RadialMenuButton), null);
 
-        public RadialMenu Submenu
+        public UserControl Submenu
         {
-            get { return (RadialMenu)GetValue(SubmenuProperty); }
+            get { return (UserControl)GetValue(SubmenuProperty); }
             set { SetValue(SubmenuProperty, value); }
         }
 

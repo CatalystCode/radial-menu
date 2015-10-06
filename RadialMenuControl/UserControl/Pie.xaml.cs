@@ -1,6 +1,7 @@
-﻿namespace RadialMenuControl.UserControl
+namespace RadialMenuControl.UserControl
 {
     using Components;
+    using Themes;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
@@ -29,21 +30,21 @@
             set { SetField(ref _backgroundColor, value); }
         }
 
-        private Color _backgroundHighlightColor = Color.FromArgb(255, 235, 235, 235);
+        private Color _backgroundHighlightColor = DefaultColors.BackgroundHighlightColor;
         public Color BackgroundHighlightColor
         {
             get { return _backgroundHighlightColor; }
             set { SetField(ref _backgroundHighlightColor, value); }
         }
 
-        private Color _foregroundColor = Color.FromArgb(255, 241, 218, 234);
+        private Color _foregroundColor = DefaultColors.ForegroundColor;
         public Color ForegroundColor
         {
             get { return _foregroundColor; }
             set { SetField(ref _foregroundColor, value); }
         }
 
-        private Color _highlightColor = Color.FromArgb(255, 128, 57, 123);
+        private Color _highlightColor = DefaultColors.HighlightColor;
         public Color HighlightColor
         {
             get { return _highlightColor; }
@@ -228,3 +229,4 @@
         }
     }
 }
+

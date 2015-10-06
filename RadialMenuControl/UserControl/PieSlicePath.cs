@@ -5,45 +5,14 @@
     using Windows.Foundation;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Shapes;
 
-    public class PieSlicePath : Path
+    public class PieSlicePath : PathBase
     {
-        private bool _isLoaded;
-
-        // StartAngle
-        public static readonly DependencyProperty StartAngleProperty =
-            DependencyProperty.Register("StartAngle", typeof(double), typeof(PieSlice),
-                new PropertyMetadata(default(double), (s, e) => { Changed(s as PieSlicePath); }));
-
         // Angle
         public static readonly DependencyProperty AngleProperty =
             DependencyProperty.Register("Angle", typeof(double), typeof(PieSlice),
-                new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PieSlicePath); }));
+                new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PathBase); }));
 
-        // Radius
-        public static readonly DependencyProperty RadiusProperty =
-            DependencyProperty.Register("Radius", typeof(double), typeof(PieSlice),
-            new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PieSlicePath); }));
-
-        public static readonly DependencyProperty ThicknessProperty =
-            DependencyProperty.Register("Thickness", typeof(double), typeof(PieSlice),
-            new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PieSlicePath); }));
-
-        public PieSlicePath()
-        {
-            Loaded += (s, e) =>
-            {
-                _isLoaded = true;
-                Redraw();
-            };
-        }
-
-        public double StartAngle
-        {
-            get { return (double)GetValue(StartAngleProperty); }
-            set { SetValue(StartAngleProperty, value); }
-        }
 
         public double Angle
         {
@@ -51,31 +20,16 @@
             set { SetValue(AngleProperty, value); }
         }
 
-        public double Radius
+        public PieSlicePath() : base()
         {
-            get { return (double)GetValue(RadiusProperty); }
-            set { SetValue(RadiusProperty, value); }
+            
         }
 
-        public double Thickness
-        {
-            get { return (double)GetValue(ThicknessProperty); }
-            set { SetValue(ThicknessProperty, value); }
-        }
-
-        private static void Changed(PieSlicePath pieSlice)
-        {
-            if (pieSlice._isLoaded)
-            {
-                pieSlice.Redraw();
-            }
-        }
-
-        private void Redraw()
+        protected override void Redraw()
         {
             // Reference:
             // http://blog.jerrynixon.com/2012/06/windows-8-animated-pie-slice.html
-
+            
             Debug.Assert(GetValue(StartAngleProperty) != DependencyProperty.UnsetValue);
             Debug.Assert(GetValue(RadiusProperty) != DependencyProperty.UnsetValue);
             Debug.Assert(GetValue(AngleProperty) != DependencyProperty.UnsetValue);
@@ -111,6 +65,7 @@
 
             Data = new PathGeometry { Figures = { figure } };
             InvalidateArrange();
+            
         }
     }
 }

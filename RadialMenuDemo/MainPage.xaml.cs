@@ -1,10 +1,11 @@
-﻿﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 using RadialMenuControl.UserControl;
 using RadialMenuControl.Components;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
 ﻿using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml;
 
 namespace RadialMenuDemo
 {
@@ -108,10 +109,46 @@ namespace RadialMenuDemo
                 Type = RadialMenuButton.ButtonType.Toggle
             };
 
+            var button8 = new RadialMenuButton
+            {
+                Label = "Text Font Type",
+                Icon = "✎",
+                Type = RadialMenuButton.ButtonType.Simple
+            };
+
+            var button8SubMenu = new ListSubMenu
+            {
+                ListHeight = 250.00,
+                ListMargin = new Thickness(0, 0, 0, 50)
+            };
+
+            var button71 = new RadialMenuButton { Label = "Arial" };
+            var button72 = new RadialMenuButton { Label = "Calibri" };
+            var button73 = new RadialMenuButton { Label = "Cambria" };
+            var button74 = new RadialMenuButton { Label = "Courier" };
+            var button75 = new RadialMenuButton { Label = "Georgia" };
+            var button76 = new RadialMenuButton { Label = "Helvetica" };
+            var button77 = new RadialMenuButton { Label = "Tahoma" };
+            var button78 = new RadialMenuButton { Label = "Times New Roman" };
+            var button79 = new RadialMenuButton { Label = "Verdana" };
+
+            button8SubMenu.AddButton(button71);
+            button8SubMenu.AddButton(button72);
+            button8SubMenu.AddButton(button73);
+            button8SubMenu.AddButton(button74);
+            button8SubMenu.AddButton(button75);
+            button8SubMenu.AddButton(button76);
+            button8SubMenu.AddButton(button77);
+            button8SubMenu.AddButton(button78);
+            button8SubMenu.AddButton(button79);
+            button8.CustomMenu = button8SubMenu;
+
             InitializeComponent();
             MyRadialMenu.AddButton(button1);
             MyRadialMenu.AddButton(button2);
             MyRadialMenu.AddButton(button3);
+            MyRadialMenu.AddButton(button7);
+            MyRadialMenu.AddButton(button8);
             MyRadialMenu.AddButton(button4);
             MyRadialMenu.AddButton(button5);
             MyRadialMenu.AddButton(button6);

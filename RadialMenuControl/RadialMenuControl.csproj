@@ -120,6 +120,7 @@
     <Compile Include="Shims\Shims.cs" />
     <Compile Include="Themes\Colors.cs" />
     <Compile Include="UserControl\Floating.cs" />
+    <Compile Include="UserControl\ListSubMenu.xaml.cs" />
     <Compile Include="UserControl\MenuBase.cs" />
     <Compile Include="UserControl\MeterSubmenu.xaml.cs">
       <DependentUpon>MeterSubmenu.xaml</DependentUpon>
@@ -153,6 +154,10 @@
     <Page Include="Themes\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\ListSubMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\MeterSubMenu.xaml">
       <SubType>Designer</SubType>

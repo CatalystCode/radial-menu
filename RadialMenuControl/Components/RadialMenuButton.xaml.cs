@@ -30,6 +30,9 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(string), typeof(RadialMenuButton), new PropertyMetadata(""));
 
+        public static readonly DependencyProperty IconFontFamilyProperty =
+            DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(RadialMenuButton), new PropertyMetadata(new FontFamily("Segoe UI")));
+
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int), typeof(RadialMenuButton), new PropertyMetadata(26));
 
@@ -66,6 +69,12 @@ namespace RadialMenuControl.Components
         {
             get { return (string)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
+        }
+
+        public FontFamily IconFontFamily
+        {
+            get { return (FontFamily)GetValue(IconFontFamilyProperty); }
+            set { SetValue(IconFontFamilyProperty, value); }
         }
 
         public int IconSize

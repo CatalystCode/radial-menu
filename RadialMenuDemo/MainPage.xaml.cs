@@ -4,6 +4,7 @@ using RadialMenuControl.Components;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
+﻿using Windows.UI.Xaml.Input;
 
 namespace RadialMenuDemo
 {
@@ -13,36 +14,36 @@ namespace RadialMenuDemo
         {
             var button1 = new RadialMenuButton
             {
-                Label = "Rainbow Simple",
-                Icon = "🌈",
+                Label = "Melbourne",
+                Icon = "🌏",
                 Type = RadialMenuButton.ButtonType.Simple
             };
+
             button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
-            button1.OuterArcReleasedEvent += Button1_OuterArcReleasedEvent;
 
             button1.Submenu = new RadialMenu {CenterButtonIcon = ""};
 
             var button11 = new RadialMenuButton
             {
-                Label = "World",
+                Label = "Radio #1",
                 Icon = "🌍",
                 Type = RadialMenuButton.ButtonType.Radio
             };
             var button12 = new RadialMenuButton
             {
-                Label = "Sun",
+                Label = "Radio #2",
                 Icon = "🌞",
                 Type = RadialMenuButton.ButtonType.Radio
             };
             var button13 = new RadialMenuButton
             {
-                Label = "Canada!",
+                Label = "Radio #3",
                 Icon = "🍁",
                 Type = RadialMenuButton.ButtonType.Radio
             };
             var button14 = new RadialMenuButton
             {
-                Label = "Bento",
+                Label = "Radio #4",
                 Icon = "🍱",
                 Type = RadialMenuButton.ButtonType.Radio
             };
@@ -54,7 +55,7 @@ namespace RadialMenuDemo
 
             var button2 = new RadialMenuButton
             {
-                Label = "Stop",
+                Label = "Image",
                 IconImage = new BitmapImage(new Uri("ms-appx:///Assets/button_blue_stop.png")),
                 Type = RadialMenuButton.ButtonType.Simple
             };
@@ -62,7 +63,7 @@ namespace RadialMenuDemo
 
             var button3 = new RadialMenuButton
             {
-                Label = "Ramen Time",
+                Label = "Meter",
                 Icon = "🍜",
                 CustomMenu = new MeterSubMenu()
                 {
@@ -81,21 +82,28 @@ namespace RadialMenuDemo
 
             var button4 = new RadialMenuButton
             {
-                Label = "Surf's up",
-                Icon = "🏄",
+                Label = "Radio",
+                Icon = "🐙",
                 Type = RadialMenuButton.ButtonType.Radio
             };
 
             var button5 = new RadialMenuButton
             {
-                Label = "Effin Dragons",
+                Label = "Radio #1",
                 Icon = "🐉",
                 Type = RadialMenuButton.ButtonType.Radio
             };
 
             var button6 = new RadialMenuButton
             {
-                Label = "Pay Rent Toggle",
+                Label = "Toggle #1",
+                Icon = "🎉",
+                Type = RadialMenuButton.ButtonType.Toggle
+            };
+
+            var button7 = new RadialMenuButton
+            {
+                Label = "Toggle #2",
                 Icon = "💸",
                 Type = RadialMenuButton.ButtonType.Toggle
             };
@@ -124,14 +132,9 @@ namespace RadialMenuDemo
             Debug.WriteLine("Hi from center button!");
         }
 
-        private static void Button1_OuterArcReleasedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Debug.WriteLine("Hi from button 1!");
-        }
-
-        private static void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            Debug.WriteLine("Hi from button 1!");
+            this.Frame.Navigate(typeof (Melbourne));
         }
 
         private static void RadialMenu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

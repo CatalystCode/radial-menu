@@ -20,7 +20,7 @@
                                     Height="{TemplateBinding Height}"
                                     Width="{TemplateBinding Height}"
                                     Stroke="{TemplateBinding BorderBrush}"
-                                    StrokeThickness="5">
+                                    StrokeThickness="2">
                         </Ellipse>
                         <ContentPresenter Name="Content" Grid.Row="0" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
                         <VisualStateManager.VisualStateGroups>

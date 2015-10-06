@@ -31,6 +31,7 @@
                 Background="{Binding CenterButtonBackgroundFill}"
                 Height="{Binding CenterButtonSize}"
                 BorderBrush="{Binding CenterButtonBorder}"
+                BorderThickness="2"
                 Opacity="1" />
         <my:Pie x:Name="Pie" />
         <Canvas x:Name="CustomRadialControlRoot"/>

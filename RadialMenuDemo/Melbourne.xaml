@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="RadialMenuDemo.Melbourne"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RadialMenuDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControl="using:RadialMenuControl.UserControl"
+    mc:Ignorable="d">
+
+    <Page.Background>
+        <ImageBrush ImageSource="Assets/background2.jpg" Stretch="UniformToFill" />
+    </Page.Background>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="40">
+            <Border BorderBrush="Black" BorderThickness="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="171*"/>
+                        <RowDefinition Height="821*"/>
+                    </Grid.RowDefinitions>
+                    <Canvas Grid.RowSpan="2">
+                        <userControl:Floating IsBoundByParent="True" x:Name="FloatingRadialMenu">
+                            <Border BorderBrush="Transparent" BorderThickness="1">
+                                <Grid>
+                                    <userControl:RadialMenu 
+                                        x:Name="MyRadialMenu"
+                                        Diameter="300"
+                                        CenterButtonBorder="Black"
+                                        CenterButtonIcon="&#x1f369;"
+                                        Opacity="1">
+
+                                    </userControl:RadialMenu>
+                                </Grid>
+                            </Border>
+                        </userControl:Floating>
+                    </Canvas>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

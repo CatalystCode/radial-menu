@@ -54,11 +54,13 @@
 
         <userControl:PieSlicePath x:Name="OuterPieSlicePath"
             StrokeThickness="10"
+            Opacity="1"
             Thickness="18">
         </userControl:PieSlicePath>
 
         <userControl:PieSlicePath x:Name="InnerPieSlicePath"
             StrokeThickness="10"
+            Opacity="1"
             PointerPressed="innerPieSlicePath_PointerPressed"
             PointerReleased="innerPieSlicePath_PointerReleased"
             PointerEntered="innerPieSlicePath_PointerEntered"
@@ -73,6 +75,7 @@
                 </TransformGroup>
             </Grid.RenderTransform>
             <TextBlock
+                x:Name="IconTextElement"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="{Binding IconSize}"

@@ -34,6 +34,7 @@
                 BorderThickness="2"
                 Opacity="1" />
         <my:Pie x:Name="Pie" />
+        <my:ListSubMenu x:Name="listSubMenu" />
         <Canvas x:Name="CustomRadialControlRoot"/>
     </Grid>
 </my:MenuBase>

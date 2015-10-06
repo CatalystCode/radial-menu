@@ -42,6 +42,7 @@
             {
                 StartPoint = new Point(Radius, Radius),
                 IsClosed = true,
+                IsFilled = true
             };
 
             //  start angle line

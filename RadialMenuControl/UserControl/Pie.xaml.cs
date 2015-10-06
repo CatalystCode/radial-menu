@@ -154,8 +154,7 @@ namespace RadialMenuControl.UserControl
             // Ensure that we're drawing a circle, even if no buttons are present
             if ((Slices == null || Slices.Count == 0) && Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                Slices.Add(new RadialMenuButton());
-                Slices.Add(new RadialMenuButton());
+                Slices = new List<RadialMenuButton> {new RadialMenuButton(), new RadialMenuButton()};
             }
             #endif
         }
@@ -188,6 +187,7 @@ namespace RadialMenuControl.UserControl
                     // Label
                     IconSize = slice.IconSize,
                     Icon = slice.Icon,
+                    IconFontFamily = slice.IconFontFamily,
                     IconImage = slice.IconImage,
                     IconImageSideLength = (Size / 2) * .25,
                     HideLabel = slice.HideLabel,
@@ -208,7 +208,7 @@ namespace RadialMenuControl.UserControl
 
         private void PieSlice_ChangeSelectedEvent(object sender, PieSlice slice)
         {
-            foreach(PieSlice ps in _pieSlices)
+            foreach (PieSlice ps in _pieSlices)
             {
                 // find any previously selected Radio button to de-select
                 if (ps.OriginalRadialMenuButton.Type != RadialMenuButton.ButtonType.Radio ||

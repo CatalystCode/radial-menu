@@ -128,6 +128,9 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(string), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty IconFontFamilyProperty =
+            DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(PieSlice), null);
+
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int), typeof(PieSlice), null);
 
@@ -153,6 +156,16 @@ namespace RadialMenuControl.UserControl
         {
             get { return (string)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
+        }
+
+        public FontFamily IconFontFamily
+        {
+            get { return (FontFamily)GetValue(IconFontFamilyProperty); }
+            set
+            {
+                IconTextElement.FontFamily = value;
+                SetValue(IconFontFamilyProperty, value);
+            }
         }
 
         public int IconSize

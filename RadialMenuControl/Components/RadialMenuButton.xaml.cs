@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace RadialMenuControl.Components
 {
     using UserControl;
@@ -6,6 +8,7 @@ namespace RadialMenuControl.Components
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
+    using System.Reflection;
 
     public partial class RadialMenuButton : Button
     {
@@ -118,78 +121,78 @@ namespace RadialMenuControl.Components
         
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
-            DependencyProperty.Register("InnerNormalColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 255, 255, 255)));
+            DependencyProperty.Register("InnerNormalColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty InnerHoverColorProperty =
-            DependencyProperty.Register("InnerHoverColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 245, 236, 243)));
+            DependencyProperty.Register("InnerHoverColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty InnerTappedColorProperty =
-            DependencyProperty.Register("InnerTappedColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 237, 234, 236)));
+            DependencyProperty.Register("InnerTappedColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty InnerReleasedColorProperty =
-            DependencyProperty.Register("InnerReleasedColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 192, 157, 190)));
+            DependencyProperty.Register("InnerReleasedColor", typeof(Color?), typeof(RadialMenuButton), null);
 
-        public Color InnerHoverColor
+        public Color? InnerHoverColor
         {
-            get { return (Color)GetValue(InnerHoverColorProperty); }
+            get { return (Color?)GetValue(InnerHoverColorProperty); }
             set { SetValue(InnerHoverColorProperty, value); }
         }
 
-        public Color InnerNormalColor
+        public Color? InnerNormalColor
         {
-            get { return (Color)GetValue(InnerNormalColorProperty); }
+            get { return (Color?)GetValue(InnerNormalColorProperty); }
             set { SetValue(InnerNormalColorProperty, value); }
         }
 
-        public Color InnerTappedColor
+        public Color? InnerTappedColor
         {
-            get { return (Color)GetValue(InnerTappedColorProperty); }
+            get { return (Color?)GetValue(InnerTappedColorProperty); }
             set { SetValue(InnerTappedColorProperty, value); }
         }
-        public Color InnerReleasedColor
+        public Color? InnerReleasedColor
         {
-            get { return (Color)GetValue(InnerReleasedColorProperty); }
+            get { return (Color?)GetValue(InnerReleasedColorProperty); }
             set { SetValue(InnerReleasedColorProperty, value); }
         }
 
         // Outer Arc Colors
         public static readonly DependencyProperty OuterNormalColorProperty =
-            DependencyProperty.Register("OuterNormalColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 128, 57, 123)));
+            DependencyProperty.Register("OuterNormalColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty OuterDisabledColorProperty =
-            DependencyProperty.Register("OuterDisabledColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 237, 211, 236)));
+            DependencyProperty.Register("OuterDisabledColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty OuterHoverColorProperty =
-            DependencyProperty.Register("OuterHoverColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 155, 79, 150)));
+            DependencyProperty.Register("OuterHoverColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty OuterTappedColorProperty =
-            DependencyProperty.Register("OuterTappedColor", typeof(Color), typeof(RadialMenuButton), new PropertyMetadata(Color.FromArgb(255, 104, 41, 100)));
+            DependencyProperty.Register("OuterTappedColor", typeof(Color?), typeof(RadialMenuButton), null);
         
         // CustomMenu
         public static readonly DependencyProperty CustomMenuProperty =
             DependencyProperty.Register("Submenu", typeof(MenuBase), typeof(RadialMenuButton), null);
             
-        public Color OuterHoverColor
+        public Color? OuterHoverColor
         {
-            get { return (Color)GetValue(OuterHoverColorProperty); }
+            get { return (Color?)GetValue(OuterHoverColorProperty); }
             set { SetValue(OuterHoverColorProperty, value); }
         }
 
-        public Color OuterNormalColor
+        public Color? OuterNormalColor
         {
-            get { return (Color)GetValue(OuterNormalColorProperty); }
+            get { return (Color?)GetValue(OuterNormalColorProperty); }
             set { SetValue(OuterNormalColorProperty, value); }
         }
 
-        public Color OuterDisabledColor
+        public Color? OuterDisabledColor
         {
-            get { return (Color)GetValue(OuterDisabledColorProperty); }
+            get { return (Color?)GetValue(OuterDisabledColorProperty); }
             set { SetValue(OuterDisabledColorProperty, value); }
         }
 
-        public Color OuterTappedColor
+        public Color? OuterTappedColor
         {
-            get { return (Color)GetValue(OuterTappedColorProperty); }
+            get { return (Color?)GetValue(OuterTappedColorProperty); }
             set { SetValue(OuterTappedColorProperty, value); }
         }
 
@@ -250,6 +253,22 @@ namespace RadialMenuControl.Components
         public bool HasOuterArcEvents()
         {
             return (OuterArcPressedEvent != null || OuterArcReleasedEvent != null);
+        }
+
+        /// <summary>
+        /// Allows the use of key/value pairs to set the colors
+        /// </summary>
+        /// <param name="colors"></param>
+        public void SetColors(Dictionary<string, Color> colors)
+        {
+            foreach (var colorVariable in colors)
+            {
+                if (this.GetType().GetProperty(colorVariable.Key) != null)
+                {
+                    var prop = this.GetType().GetProperty(colorVariable.Key);
+                    prop.SetValue(this, colorVariable.Value);
+                }
+            }
         }
 
         // SubMenu

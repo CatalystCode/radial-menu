@@ -15,41 +15,12 @@ namespace RadialMenuControl.UserControl
     public partial class Pie : UserControl, INotifyPropertyChanged
     {
         private readonly ObservableCollection<PieSlice> _pieSlices = new ObservableCollection<PieSlice>();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Pass in the original RadialMenu
         public RadialMenu SourceRadialMenu;
         public static readonly DependencyProperty SourceRadialMenuProperty =
             DependencyProperty.Register("SourceRadialMenu", typeof(RadialMenu), typeof(Pie), null);
-
-        private Color _backgroundColor = Colors.White;
-        public Color BackgroundColor
-        {
-            get { return _backgroundColor; }
-            set { SetField(ref _backgroundColor, value); }
-        }
-
-        private Color _backgroundHighlightColor = DefaultColors.BackgroundHighlightColor;
-        public Color BackgroundHighlightColor
-        {
-            get { return _backgroundHighlightColor; }
-            set { SetField(ref _backgroundHighlightColor, value); }
-        }
-
-        private Color _foregroundColor = DefaultColors.ForegroundColor;
-        public Color ForegroundColor
-        {
-            get { return _foregroundColor; }
-            set { SetField(ref _foregroundColor, value); }
-        }
-
-        private Color _highlightColor = DefaultColors.HighlightColor;
-        public Color HighlightColor
-        {
-            get { return _highlightColor; }
-            set { SetField(ref _highlightColor, value); }
-        }
 
         private double _startAngle;
         public double StartAngle
@@ -176,14 +147,14 @@ namespace RadialMenuControl.UserControl
                     Height = Height,
                     Width = Width,
                     // The defaults below use OneNote-like purple colors
-                    InnerNormalColor = slice.InnerNormalColor,
-                    InnerHoverColor = slice.InnerHoverColor,
-                    InnerTappedColor = slice.InnerTappedColor,
-                    InnerReleasedColor = slice.InnerReleasedColor,
-                    OuterNormalColor = slice.OuterNormalColor,
-                    OuterDisabledColor = slice.OuterDisabledColor,
-                    OuterHoverColor = slice.OuterHoverColor,
-                    OuterTappedColor = slice.OuterTappedColor,
+                    InnerNormalColor = slice.InnerNormalColor ?? SourceRadialMenu.ButtonDefaultColors["InnerNormalColor"],
+                    InnerHoverColor = slice.InnerHoverColor ?? SourceRadialMenu.ButtonDefaultColors["InnerHoverColor"],
+                    InnerTappedColor = slice.InnerTappedColor ?? SourceRadialMenu.ButtonDefaultColors["InnerTappedColor"],
+                    InnerReleasedColor = slice.InnerReleasedColor ?? SourceRadialMenu.ButtonDefaultColors["InnerReleasedColor"],
+                    OuterNormalColor = slice.OuterNormalColor ?? SourceRadialMenu.ButtonDefaultColors["OuterNormalColor"],
+                    OuterDisabledColor = slice.OuterDisabledColor ?? SourceRadialMenu.ButtonDefaultColors["OuterDisabledColor"],
+                    OuterHoverColor = slice.OuterHoverColor ?? SourceRadialMenu.ButtonDefaultColors["OuterHoverColor"],
+                    OuterTappedColor = slice.OuterTappedColor ?? SourceRadialMenu.ButtonDefaultColors["OuterTappedColor"],
                     // Label
                     IconSize = slice.IconSize,
                     Icon = slice.Icon,

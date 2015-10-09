@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml.Input;
+﻿using System;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace RadialMenuControl.UserControl
 {
@@ -29,6 +32,17 @@ namespace RadialMenuControl.UserControl
             {
                 SetField(ref _startAngle, value);
                 Pie.StartAngle = value;
+            }
+        }
+
+        private TimeSpan _pieAnimationTimeSpan = TimeSpan.FromSeconds(0.3);
+        public TimeSpan PieAnimationTimeSpan
+        {
+            get { return _pieAnimationTimeSpan; }
+            set
+            {
+                SetField(ref _pieAnimationTimeSpan, value);
+                SetupStoryboards();
             }
         }
 
@@ -80,7 +94,8 @@ namespace RadialMenuControl.UserControl
 
             if (Pie.Visibility == Visibility.Visible)
             {
-                await HidePieStoryboard.PlayAsync();
+                await CloseStoryboard.PlayAsync();
+
                 Pie.Visibility = Visibility.Collapsed;
                 Width = CenterButton.ActualWidth;
                 Height = CenterButton.ActualHeight;
@@ -90,13 +105,14 @@ namespace RadialMenuControl.UserControl
             }
             else
             {
-                Pie.Visibility = Visibility.Visible;
-                await ShowPieStoryboard.PlayAsync();
                 Width = Diameter;
                 Height = Diameter;
 
                 // Check if we're floating
                 floatingParent?.ManipulateControlPosition(-distance, -distance);
+                Pie.Visibility = Visibility.Visible;
+
+                await OpenStoryboard.PlayAsync();
             }
         }
 
@@ -249,6 +265,33 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
+        /// Initializes our storyboard animations
+        /// </summary>
+        private void SetupStoryboards()
+        {
+            PieOpenRotateAnimation.Duration = PieAnimationTimeSpan;
+            PieOpenScaleXAnimation.Duration = PieAnimationTimeSpan;
+            PieOpenScaleYAnimation.Duration = PieAnimationTimeSpan;
+            PieCloseRotateAnimation.Duration = PieAnimationTimeSpan;
+            PieCloseScaleXAnimation.Duration = PieAnimationTimeSpan;
+            PieCloseScaleYAnimation.Duration = PieAnimationTimeSpan;
+
+            Storyboard.SetTarget(PieOpenRotateAnimation, PieCompositeTransform);
+            Storyboard.SetTargetProperty(PieOpenRotateAnimation, "Rotation");
+            Storyboard.SetTarget(PieOpenScaleXAnimation, PieCompositeTransform);
+            Storyboard.SetTargetProperty(PieOpenScaleXAnimation, "ScaleX");
+            Storyboard.SetTarget(PieOpenScaleYAnimation, PieCompositeTransform);
+            Storyboard.SetTargetProperty(PieOpenScaleYAnimation, "ScaleY");
+
+            Storyboard.SetTarget(PieCloseRotateAnimation, PieCompositeTransform);
+            Storyboard.SetTargetProperty(PieCloseRotateAnimation, "Rotation");
+            Storyboard.SetTarget(PieCloseScaleXAnimation, PieCompositeTransform);
+            Storyboard.SetTargetProperty(PieCloseScaleXAnimation, "ScaleX");
+            Storyboard.SetTarget(PieCloseScaleYAnimation, PieCompositeTransform);
+            Storyboard.SetTargetProperty(PieCloseScaleYAnimation, "ScaleY");
+        }
+ 
+        /// <summary>
         /// Initializes the Center Button, since we want to share with other classes
         /// </summary>
         public RadialMenu()
@@ -268,7 +311,8 @@ namespace RadialMenuControl.UserControl
             Pie.SourceRadialMenu = this;
             LayoutRoot.DataContext = this;
             CenterButton.Tapped += OnCenterButtonTapped;
-            
+
+            SetupStoryboards();
         }
     }
 }

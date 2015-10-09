@@ -13,11 +13,15 @@
     </my:MenuBase.Resources>
     <Grid x:Name="LayoutRoot">
         <Grid.Resources>
-            <Storyboard x:Name="HidePieStoryboard">
-                <FadeOutThemeAnimation TargetName="Pie" />
+            <Storyboard x:Name="OpenStoryboard">
+                <DoubleAnimation x:Name="PieOpenRotateAnimation" From="-90" To="0"></DoubleAnimation>
+                <DoubleAnimation x:Name="PieOpenScaleXAnimation" From="0" To="1"></DoubleAnimation>
+                <DoubleAnimation x:Name="PieOpenScaleYAnimation" From="0" To="1"></DoubleAnimation>
             </Storyboard>
-            <Storyboard x:Name="ShowPieStoryboard">
-                <FadeInThemeAnimation TargetName="Pie" />
+            <Storyboard x:Name="CloseStoryboard">
+                <DoubleAnimation x:Name="PieCloseRotateAnimation" From="0" To="-90"></DoubleAnimation>
+                <DoubleAnimation x:Name="PieCloseScaleXAnimation" From="1" To="0"></DoubleAnimation>
+                <DoubleAnimation x:Name="PieCloseScaleYAnimation" From="1" To="0"></DoubleAnimation>
             </Storyboard>
         </Grid.Resources>
         <Button x:Name="CenterButton"
@@ -33,7 +37,11 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 BorderThickness="2"
                 Opacity="1" />
-        <my:Pie x:Name="Pie" />
+        <my:Pie x:Name="Pie">
+            <my:Pie.RenderTransform>
+                <CompositeTransform x:Name="PieCompositeTransform" CenterX="150" CenterY="150" />
+            </my:Pie.RenderTransform>
+        </my:Pie>
         <Canvas x:Name="CustomRadialControlRoot"/>
     </Grid>
 </my:MenuBase>

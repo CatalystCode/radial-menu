@@ -11,6 +11,7 @@ namespace RadialMenuControl.UserControl
     using System.Collections.Generic;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
+    using Windows.UI.Xaml.Input;
     using System.Collections.ObjectModel;
 
     public partial class RadialMenu : MenuBase
@@ -60,7 +61,7 @@ namespace RadialMenuControl.UserControl
         /// <summary>
         ///     Storage for previous center buttons (for back navigation)
         /// </summary>
-        public IList<CenterButtonShim> PreviousButtons
+        public Stack<CenterButtonShim> PreviousButtons
         {
             get { return PreviousCenterButtons; }
             set { SetField(ref PreviousCenterButtons, value); }
@@ -148,8 +149,7 @@ namespace RadialMenuControl.UserControl
             // We don't necessarily have the same amount of pies and center buttons.
             // Users can create submenues that don't bring their own center button
             if (PreviousButtons.Count <= 0) return;
-            ChangeCenterButton(this, PreviousButtons[PreviousButtons.Count - 1], false);
-            PreviousButtons.RemoveAt(PreviousButtons.Count - 1);
+            ChangeCenterButton(this, PreviousButtons.Pop(), false);
         }
 
         /// <summary>
@@ -165,10 +165,10 @@ namespace RadialMenuControl.UserControl
                 ChangePie(s, radialMenu.Pie, true);
                 ChangeCenterButton(s, Helpers.ButtonToShim(radialMenu.CenterButton), true);
             }
-            else if (menu is MeterSubMenu)
+            else
             {
-                ChangeToCustomMenu(s, ((MeterSubMenu) menu), true);
-                ChangeCenterButton(s, Helpers.ButtonToShim(((MeterSubMenu) menu).CenterButton), true);
+                ChangeToCustomMenu(s, menu, true);
+                ChangeCenterButton(s, Helpers.ButtonToShim(menu.CenterButton), true);
             }
         }
 
@@ -207,7 +207,6 @@ namespace RadialMenuControl.UserControl
             // Redraw
             Pie.Draw();
             Pie.UpdateLayout();
-            // TODO use just an auxilary canvas and add custom controls to that
             newSubMenu.Diameter = Diameter;
             CustomRadialControlRoot.Children.Add(newSubMenu);
             newSubMenu.UpdateLayout();
@@ -250,18 +249,28 @@ namespace RadialMenuControl.UserControl
                     BorderBrush = CenterButtonBorder,
                     Background = CenterButtonBackgroundFill,
                     Content = CenterButtonIcon,
-                    FontSize = CenterButtonFontSize
+                    FontSize = CenterButtonFontSize,
+                    Top = CenterButtonTop,
+                    Left = CenterButtonLeft
+
                 };
 
-                PreviousButtons.Add(backupButton);
+                PreviousButtons.Push(backupButton);
             }
 
             // Decorate the current button with new props
+            // Center button style defaults to current style unless overridden
+            CenterButtonBorder = newButton?.BorderBrush ?? CenterButtonBorder;
+            CenterButtonBackgroundFill = newButton?.Background ?? CenterButtonBackgroundFill;
+            CenterButtonIcon = (string) newButton?.Content ?? CenterButtonIcon;
+            CenterButtonFontSize = newButton?.FontSize ?? CenterButtonFontSize;
 
-            CenterButtonBorder = newButton.BorderBrush;
-            CenterButtonBackgroundFill = newButton.Background;
-            CenterButtonIcon = (string) newButton.Content;
-            CenterButtonFontSize = newButton.FontSize;
+            if (newButton != null && !double.IsNaN(newButton.Top ?? 0) && !double.IsNaN(newButton.Left ?? 0))
+            {
+                CenterButtonTop = newButton.Top ?? CenterButtonTop;
+                CenterButtonLeft = newButton.Left ?? CenterButtonTop;
+            }
+            
         }
 
         /// <summary>
@@ -297,6 +306,7 @@ namespace RadialMenuControl.UserControl
         public RadialMenu()
         {
             InitializeComponent();
+            
             PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == "Diameter")
@@ -305,7 +315,12 @@ namespace RadialMenuControl.UserControl
                 }
 
             };
-            
+
+            Loaded += (sender, args) =>
+            {
+                CenterButtonTop = Diameter/2 - (CenterButton.ActualWidth/2);
+                CenterButtonLeft = Diameter/2 - (CenterButton.ActualHeight/2);
+            };
             CenterButton.Style = Resources["RoundedCenterButton"] as Style;
 
             Pie.SourceRadialMenu = this;

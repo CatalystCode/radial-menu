@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:my="using:RadialMenuControl.UserControl"
+    xmlns:components="using:RadialMenuControl.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -11,8 +12,9 @@
     <my:MenuBase.Resources>
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </my:MenuBase.Resources>
-    <Grid x:Name="LayoutRoot">
-        <Grid.Resources>
+
+    <Canvas x:Name="LayoutRoot">
+        <Canvas.Resources>
             <Storyboard x:Name="OpenStoryboard">
                 <DoubleAnimation x:Name="PieOpenRotateAnimation" From="-90" To="0"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieOpenScaleXAnimation" From="0" To="1"></DoubleAnimation>
@@ -23,18 +25,19 @@
                 <DoubleAnimation x:Name="PieCloseScaleXAnimation" From="1" To="0"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieCloseScaleYAnimation" From="1" To="0"></DoubleAnimation>
             </Storyboard>
-        </Grid.Resources>
-        <Button x:Name="CenterButton"
+        </Canvas.Resources>
+
+        <components:CenterButton x:Name="CenterButton"
                 Content="{Binding CenterButtonIcon}"
                 Canvas.ZIndex="100"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
                 FontFamily="Segoe Ui Symbol"
                 Style="{StaticResource RoundedCenterButton}"
                 FontSize="{Binding CenterButtonFontSize}" 
                 Background="{Binding CenterButtonBackgroundFill}"
                 Height="{Binding CenterButtonSize}"
                 BorderBrush="{Binding CenterButtonBorder}"
+                Canvas.Top="{Binding CenterButtonTop}"
+                Canvas.Left="{Binding CenterButtonLeft}"
                 BorderThickness="2"
                 Opacity="1" />
         <my:Pie x:Name="Pie">
@@ -43,5 +46,5 @@
             </my:Pie.RenderTransform>
         </my:Pie>
         <Canvas x:Name="CustomRadialControlRoot"/>
-    </Grid>
+    </Canvas>
 </my:MenuBase>

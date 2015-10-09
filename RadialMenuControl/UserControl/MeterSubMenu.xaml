@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:my="using:RadialMenuControl.UserControl"
+    xmlns:components="using:RadialMenuControl.Components"
     xmlns:theme="using:RadialMenuControl.Themes"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:userControl="using:RadialMenuControl.UserControl"
@@ -66,7 +67,7 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <Button x:Name="SubMenuCenterButton"
+        <components:CenterButton x:Name="SubMenuCenterButton"
                 Content="{Binding CenterButtonIcon}"
                 Canvas.ZIndex="100"
                 HorizontalAlignment="Center"

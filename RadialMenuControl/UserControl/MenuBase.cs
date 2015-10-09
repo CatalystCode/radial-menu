@@ -1,5 +1,6 @@
 ﻿namespace RadialMenuControl.UserControl
 {
+    using Components;
     using Shims;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -65,10 +66,30 @@
             set { SetField(ref _centerButtonFontSize, value); }
         }
 
+        /// <summary>
+        /// Font Size for the Center Button
+        /// </summary>
+        private double _centerButtonTop = 19;
+        public double CenterButtonTop
+        {
+            get { return _centerButtonTop; }
+            set { SetField(ref _centerButtonTop, value); }
+        }
+        /// <summary>
+        /// Font Size for the Center Button
+        /// </summary>
+        private double _centerButtonLeft = 19;
+        public double CenterButtonLeft
+        {
+            get { return _centerButtonLeft; }
+            set { SetField(ref _centerButtonLeft, value); }
+        }
+
+        public virtual CenterButton CenterButton { get; set; }
 
         private bool _isCenterButtonNavigationEnabled = true;
 
-        protected IList<CenterButtonShim> PreviousCenterButtons = new List<CenterButtonShim>();
+        protected Stack<CenterButtonShim> PreviousCenterButtons = new Stack<CenterButtonShim>();
 
         /// <summary>
         /// If disabled, the center button won't automatically allow "back" navigation between submenue 

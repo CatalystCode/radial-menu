@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Windows.Foundation;
+using RadialMenuControl.Components;
 
 namespace RadialMenuControl.UserControl
 {
@@ -207,7 +208,7 @@ namespace RadialMenuControl.UserControl
             set { SetField(ref _center, value); }
         }
         
-        public Button CenterButton
+        public override CenterButton CenterButton
         {
             get { return SubMenuCenterButton; }
             set { SetField(ref SubMenuCenterButton, value); }
@@ -303,6 +304,7 @@ namespace RadialMenuControl.UserControl
         public event ValueSelectedHandler ValueSelected;
         public MeterSubMenu()
         {
+
             InitializeComponent();
             DataContext = this;
             BackgroundFillBrush = new SolidColorBrush(DefaultColors.InnerNormalColor);
@@ -325,6 +327,8 @@ namespace RadialMenuControl.UserControl
                 if(args.PropertyName == "Diameter")
                 {
                     Center = new Point(Diameter / 2, Diameter / 2);
+                    CenterButton.Top = Diameter / 2 - CenterButton.Width / 2;
+                    CenterButton.Left = Diameter / 2 - CenterButton.Width / 2;
                 }
                 
             };
@@ -332,8 +336,11 @@ namespace RadialMenuControl.UserControl
             {
                 // point meter to left initially
                 SetMeterPoint(new Point(0, Diameter / 2), true);
+                
                 Draw();
+               
             };
+            
         }
     }
 }

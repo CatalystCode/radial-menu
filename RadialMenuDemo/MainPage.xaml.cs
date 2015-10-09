@@ -17,6 +17,7 @@ namespace RadialMenuDemo
                 Label = "Melbourne",
                 Icon = "🌏",
                 Type = RadialMenuButton.ButtonType.Simple
+
             };
 
             button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
@@ -45,7 +46,8 @@ namespace RadialMenuDemo
             {
                 Label = "Radio #4",
                 Icon = "🍱",
-                Type = RadialMenuButton.ButtonType.Radio
+                Type = RadialMenuButton.ButtonType.Radio,
+                Submenu = new RadialMenu()
             };
 
             button1.Submenu.AddButton(button11);

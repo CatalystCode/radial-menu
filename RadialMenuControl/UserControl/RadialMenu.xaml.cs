@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Windows.UI;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
@@ -8,6 +10,7 @@ namespace RadialMenuControl.UserControl
     using Components;
     using Shims;
     using Extensions;
+    using Themes;
     using System.Collections.Generic;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
@@ -32,6 +35,29 @@ namespace RadialMenuControl.UserControl
             {
                 SetField(ref _startAngle, value);
                 Pie.StartAngle = value;
+            }
+        }
+
+        private Dictionary<string, Color> _buttonDefaultColors = new Dictionary<string, Color>()
+        {
+            { "OuterNormalColor", DefaultColors.OuterNormalColor },
+            { "OuterHoverColor", DefaultColors.OuterHoverColor },
+            { "OuterDisabledColor", DefaultColors.OuterDisabledColor },
+            { "OuterTappedColor", DefaultColors.OuterTappedColor },
+            { "InnerNormalColor", DefaultColors.InnerNormalColor },
+            { "InnerHoverColor", DefaultColors.InnerHoverColor },
+            { "InnerTappedColor", DefaultColors.InnerTappedColor },
+            { "InnerReleasedColor", DefaultColors.InnerReleasedColor },
+        };
+        public Dictionary<string, Color> ButtonDefaultColors
+        {
+            get { return _buttonDefaultColors; }
+            set
+            {
+                foreach (var colorPair in value.Where(colorPair => _buttonDefaultColors.ContainsKey(colorPair.Key)))
+                {
+                    _buttonDefaultColors[colorPair.Key] = colorPair.Value;
+                }
             }
         }
 

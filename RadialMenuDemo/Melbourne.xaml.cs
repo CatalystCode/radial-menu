@@ -27,18 +27,23 @@ namespace RadialMenuDemo
     {
         public Melbourne()
         {
+            var buttonColors = new Dictionary<string, Color>()
+            {
+                { "OuterNormalColor", Color.FromArgb(255, 56, 55, 57) },
+                { "OuterHoverColor", Color.FromArgb(255, 70, 102, 102) },
+                { "OuterDisabledColor", Color.FromArgb(255, 96, 139, 139) },
+                { "InnerNormalColor", Colors.White },
+                { "InnerHoverColor", Color.FromArgb(255, 227, 235, 235) },
+                { "InnerDisabledColor", Color.FromArgb(255, 227, 235, 235) },
+                { "InnerReleasedColor", Color.FromArgb(255, 227, 235, 235) },
+            };
+
             var eraser = new RadialMenuButton
             {
                 Label = "Eraser",
                 Icon = "",
                 IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio,
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                Type = RadialMenuButton.ButtonType.Radio
             };
 
             var pan = new RadialMenuButton
@@ -47,12 +52,6 @@ namespace RadialMenuDemo
                 Icon = "",
                 IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
                 Type = RadialMenuButton.ButtonType.Radio,
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235),
                 Submenu = new RadialMenu()
             };
 
@@ -74,79 +73,43 @@ namespace RadialMenuDemo
                 Label = "Pen",
                 Icon = "",
                 IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio,
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                Type = RadialMenuButton.ButtonType.Radio
             };
             var pen2 = new RadialMenuButton
             {
                 Label = "Pen",
                 Icon = "",
                 IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio,
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                Type = RadialMenuButton.ButtonType.Radio
             };
             var add = new RadialMenuButton
             {
                 Label = "Add",
                 Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
             };
             var insert = new RadialMenuButton
             {
                 Label = "Insert",
                 Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
             };
             var highlight = new RadialMenuButton
             {
                 Label = "Highlight",
                 Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio,
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
             };
             var undo = new RadialMenuButton
             {
                 Label = "Undo",
                 Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                OuterNormalColor = Color.FromArgb(255, 56, 55, 57),
-                OuterHoverColor = Color.FromArgb(255, 70, 102, 102),
-                OuterDisabledColor = Color.FromArgb(255, 96, 139, 139),
-                InnerNormalColor = Colors.White,
-                InnerHoverColor = Color.FromArgb(255, 227, 235, 235),
-                InnerReleasedColor = Color.FromArgb(255, 227, 235, 235)
+                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
             };
 
             this.InitializeComponent();
 
+            MyRadialMenu.ButtonDefaultColors = buttonColors;
             MyRadialMenu.AddButton(eraser);
             MyRadialMenu.AddButton(pan);
             MyRadialMenu.AddButton(pen1);

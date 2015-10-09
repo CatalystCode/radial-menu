@@ -10,6 +10,7 @@ namespace RadialMenuControl.Themes
         public static Color InnerNormalColor = Color.FromArgb(255, 255, 255, 255),
                             InnerHoverColor = Color.FromArgb(255, 245, 236, 243),
                             InnerTappedColor = Color.FromArgb(255, 237, 234, 236),
+                            InnerReleasedColor = Color.FromArgb(255, 192, 157, 190),
                             OuterNormalColor = Color.FromArgb(255, 128, 57, 123),
                             OuterDisabledColor = Color.FromArgb(255, 237, 211, 236),
                             OuterHoverColor = Color.FromArgb(255, 155, 79, 150),

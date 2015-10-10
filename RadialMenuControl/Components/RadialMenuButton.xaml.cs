@@ -22,7 +22,7 @@ namespace RadialMenuControl.Components
         # region properties
         // Label
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("Label", typeof(string), typeof(RadialMenuButton), new PropertyMetadata(""));
 
         public static readonly DependencyProperty LabelSizeProperty =
             DependencyProperty.Register("LabelSize", typeof(int), typeof(RadialMenuButton), new PropertyMetadata(10));

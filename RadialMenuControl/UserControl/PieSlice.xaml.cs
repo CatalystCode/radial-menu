@@ -1,3 +1,5 @@
+using RadialMenuControl.Components;
+
 namespace RadialMenuControl.UserControl
 {
     using System;
@@ -252,6 +254,10 @@ namespace RadialMenuControl.UserControl
             IconTranslate.X = 85 * Math.Sin(middleRadian);
             IconTranslate.Y = -85 * Math.Cos(middleRadian);
 
+            // Go to correct visual state, if radio button
+            UpdateSliceForToggle();
+            UpdateSliceForRadio();
+
         }
         // Change Selected Menu
         public delegate void ChangeSelectedHandler(object sender, PieSlice slice);
@@ -312,7 +318,7 @@ namespace RadialMenuControl.UserControl
             switch (OriginalRadialMenuButton.Type)
             {
                 case Components.RadialMenuButton.ButtonType.Toggle:
-                    VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerNormal", true);
+                    UpdateSliceForToggle();
                     break;
                 case Components.RadialMenuButton.ButtonType.Radio:
                     UpdateSliceForRadio();
@@ -350,7 +356,14 @@ namespace RadialMenuControl.UserControl
 
         public void UpdateSliceForRadio()
         {
+            if (OriginalRadialMenuButton.Type != RadialMenuButton.ButtonType.Radio) return;
             VisualStateManager.GoToState(this, OriginalRadialMenuButton.MenuSelected ? "InnerReleased" : "InnerNormal", true);
+        }
+
+        public void UpdateSliceForToggle()
+        {
+            if (OriginalRadialMenuButton.Type != RadialMenuButton.ButtonType.Toggle) return;
+            VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerNormal", true);
         }
     }
 }

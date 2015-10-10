@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography.Core;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,8 +13,10 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using RadialMenuControl.Components;
+using RadialMenuControl.Extensions;
 using RadialMenuControl.UserControl;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,6 +28,34 @@ namespace RadialMenuDemo
     /// </summary>
     public sealed partial class Melbourne : Page
     {
+        private RadialMenuButton CreateColorRadialMenuButton(Color sourceColor)
+        {
+            return new RadialMenuButton
+            {
+                InnerNormalColor = sourceColor,
+                InnerHoverColor = sourceColor,
+                InnerReleasedColor = sourceColor,
+                InnerTappedColor = sourceColor,
+                OuterNormalColor = sourceColor,
+                OuterHoverColor = sourceColor.Lighten(),
+                OuterDisabledColor = sourceColor,
+            };
+        }
+
+        private RadialMenuButton CreateColorRadialMenuButtonWithSubMenu(Color sourceColor, double subMenuButtonCount)
+        {
+            var colorButton = CreateColorRadialMenuButton(sourceColor);
+            colorButton.Submenu = new RadialMenu();
+
+            for (var i = 0; i < subMenuButtonCount; i++)
+            {
+                var lightenFactor = (float) i/10;
+                colorButton.Submenu.AddButton(CreateColorRadialMenuButton(sourceColor.Lighten(lightenFactor)));
+            }
+
+            return colorButton;
+        }
+
         public Melbourne()
         {
             var buttonColors = new Dictionary<string, Color>()
@@ -38,86 +69,21 @@ namespace RadialMenuDemo
                 { "InnerReleasedColor", Color.FromArgb(255, 227, 235, 235) },
             };
 
-            var eraser = new RadialMenuButton
-            {
-                Label = "Eraser",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio
-            };
-
-            var pan = new RadialMenuButton
-            {
-                Label = "Pan",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio,
-                Submenu = new RadialMenu()
-            };
-
-            pan.Submenu.AddButton(new RadialMenuButton
-            {
-                Label = "Line"
-            });
-            pan.Submenu.AddButton(new RadialMenuButton
-            {
-                Label = "Select"
-            });
-            pan.Submenu.AddButton(new RadialMenuButton
-            {
-                Label = "Text"
-            });
-
-            var pen1 = new RadialMenuButton
-            {
-                Label = "Pen",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio
-            };
-            var pen2 = new RadialMenuButton
-            {
-                Label = "Pen",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Type = RadialMenuButton.ButtonType.Radio
-            };
-            var add = new RadialMenuButton
-            {
-                Label = "Add",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
-            };
-            var insert = new RadialMenuButton
-            {
-                Label = "Insert",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
-            };
-            var highlight = new RadialMenuButton
-            {
-                Label = "Highlight",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
-            };
-            var undo = new RadialMenuButton
-            {
-                Label = "Undo",
-                Icon = "",
-                IconFontFamily = new FontFamily("Segoe MDL2 Assets")
-            };
-
             this.InitializeComponent();
 
+            Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Black, 10));
+            Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Red, 10));
+            Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Blue, 10));
+            Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Green, 10));
+            Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Yellow, 10));
+
+            Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Black, 10));
+            Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Red, 10));
+            Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Blue, 10));
+            Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Green, 10));
+            Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Yellow, 10));
+                  
             MyRadialMenu.ButtonDefaultColors = buttonColors;
-            MyRadialMenu.AddButton(eraser);
-            MyRadialMenu.AddButton(pan);
-            MyRadialMenu.AddButton(pen1);
-            MyRadialMenu.AddButton(pen2);
-            MyRadialMenu.AddButton(highlight);
-            MyRadialMenu.AddButton(add);
-            MyRadialMenu.AddButton(insert);
-            MyRadialMenu.AddButton(undo);
         }
     }
 }

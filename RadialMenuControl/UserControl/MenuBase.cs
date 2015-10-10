@@ -36,10 +36,20 @@
             set { SetField(ref _centerButtonBorder, value); }
         }
 
+        private double _centerButtonBorderThickness = 2;
+        /// <summary>
+        /// Border Brush for the Center Button
+        /// </summary>
+        public double CenterButtonBorderThickness
+        {
+            get { return _centerButtonBorderThickness; }
+            set { SetField(ref _centerButtonBorderThickness, value); }
+        }
+
         /// <summary>
         /// Content for the Center Button (using Segoe UI Symbol)
         /// </summary>
-        private string _centerButtonIcon = "";
+        private string _centerButtonIcon = "";
         public string CenterButtonIcon
         {
             get { return _centerButtonIcon; }

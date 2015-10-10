@@ -38,7 +38,7 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 Canvas.Top="{Binding CenterButtonTop}"
                 Canvas.Left="{Binding CenterButtonLeft}"
-                BorderThickness="2"
+                BorderThickness="{Binding CenterButtonBorderThickness}"
                 Opacity="1" />
         <my:Pie x:Name="Pie">
             <my:Pie.RenderTransform>

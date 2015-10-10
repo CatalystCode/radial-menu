@@ -147,7 +147,16 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        ///     Add a RadialMenuButton to the current pie
+        /// RadialMenuButtons on this menu
+        /// </summary>
+        public IList<RadialMenuButton> Buttons
+        {
+            get { return Pie.Slices; }
+            set { Pie.Slices = value; }
+        }
+
+        /// <summary>
+        ///  Add a RadialMenuButton to the current pie
         /// </summary>
         /// <param name="button">RadialMenuButton to add to the current pie</param>
         public void AddButton(RadialMenuButton button)
@@ -211,11 +220,13 @@ namespace RadialMenuControl.UserControl
             if (storePrevious)
             {
                 var backupPie = new Pie();
+
                 foreach (var rmb in Pie.Slices)
                 {
                     backupPie.Slices.Add(rmb);
                 }
 
+                backupPie.SelectedItem = Pie.SelectedItem;
                 PreviousPies.Add(backupPie);
             }
 
@@ -260,6 +271,13 @@ namespace RadialMenuControl.UserControl
             // Redraw
             Pie.Draw();
             Pie.UpdateLayout();
+
+            // Ensure that we remember what the last selected item was
+            if (newPie.SelectedItem != null)
+            {
+                Pie.SelectedItem = newPie.SelectedItem;
+                Pie.UpdatePieSlicesVisualState();
+            }
         }
 
         /// <summary>

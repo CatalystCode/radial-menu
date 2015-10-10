@@ -113,10 +113,22 @@
         /// <param name="y">Delta on the Y axis</param>
         public void ManipulateControlPosition(double x, double y)
         {
+            ManipulateControlPosition(x, y, _border.ActualHeight, _border.ActualWidth);
+        }
+
+        /// <summary>
+        /// Manipulate the control's positon!
+        /// </summary>
+        /// <param name="x">Delta on the X axis</param>
+        /// <param name="y">Delta on the Y axis</param>
+        /// <param name="exptectedHeight">Expected heigth of the floating control</param>
+        /// <param name="expectedWidth">Expected width of the floating control</param>
+        public void ManipulateControlPosition(double x, double y, double exptectedHeight, double expectedWidth)
+        {
             var left = Canvas.GetLeft(_border) + x;
             var top = Canvas.GetTop(_border) + y;
 
-            Rect rect = new Rect(left, top, _border.ActualWidth, _border.ActualHeight);
+            Rect rect = new Rect(left, top, exptectedHeight, expectedWidth);
             AdjustCanvasPosition(rect);
         }
 

@@ -128,7 +128,7 @@ namespace RadialMenuControl.UserControl
                 Width = CenterButton.ActualWidth;
                 Height = CenterButton.ActualHeight;
                 // Check if we're floating
-                floatingParent?.ManipulateControlPosition(distance, distance);
+                floatingParent?.ManipulateControlPosition(distance, distance, Width, Height);
                 Canvas.SetTop(CenterButton, 0);
                 Canvas.SetLeft(CenterButton, 0);
             }
@@ -137,7 +137,7 @@ namespace RadialMenuControl.UserControl
                 Width = Diameter;
                 Height = Diameter;
                 // Check if we're floating
-                floatingParent?.ManipulateControlPosition(-distance, -distance);
+                floatingParent?.ManipulateControlPosition(-distance, -distance, Width, Height);
                 Canvas.SetTop(CenterButton, Diameter / 2 - CenterButton.ActualHeight / 2);
                 Canvas.SetLeft(CenterButton, Diameter / 2 - CenterButton.ActualWidth / 2);
                 Pie.Visibility = Visibility.Visible;

@@ -12,8 +12,8 @@
     <my:MenuBase.Resources>
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </my:MenuBase.Resources>
-
     <Canvas x:Name="LayoutRoot">
+
         <Canvas.Resources>
             <Storyboard x:Name="OpenStoryboard">
                 <DoubleAnimation x:Name="PieOpenRotateAnimation" From="-90" To="0"></DoubleAnimation>
@@ -47,4 +47,5 @@
         </my:Pie>
         <Canvas x:Name="CustomRadialControlRoot"/>
     </Canvas>
+
 </my:MenuBase>

@@ -4,7 +4,10 @@ using RadialMenuControl.Components;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
+﻿using System.Collections.Generic;
+﻿using Windows.UI;
 ﻿using Windows.UI.Xaml.Input;
+﻿using Windows.UI.Xaml.Media;
 
 namespace RadialMenuDemo
 {
@@ -62,20 +65,69 @@ namespace RadialMenuDemo
                 Type = RadialMenuButton.ButtonType.Simple
             };
 
-
+            List<MeterRangeInterval> fontRanges = new List<MeterRangeInterval>();
+            fontRanges.Add((new MeterRangeInterval
+            {
+               StartValue = 5,
+               EndValue = 11,
+               TickInterval = 1,
+               StartDegree = 0,
+               EndDegree = 90
+            }));
+            fontRanges.Add((new MeterRangeInterval
+            {
+                StartValue = 11,
+                EndValue = 12,
+                TickInterval = 1,
+                StartDegree = 90,
+                EndDegree = 110
+            }));
+            fontRanges.Add((new MeterRangeInterval
+            {
+                StartValue = 12,
+                EndValue = 28,
+                TickInterval = 2,
+                StartDegree = 110,
+                EndDegree = 250
+            }));
+            fontRanges.Add((new MeterRangeInterval
+            {
+                StartValue = 28,
+                EndValue = 36,
+                TickInterval = 8,
+                StartDegree = 250,
+                EndDegree = 280
+            }));
+            fontRanges.Add((new MeterRangeInterval
+            {
+                StartValue = 36,
+                EndValue = 48,
+                TickInterval = 12,
+                StartDegree = 280,
+                EndDegree = 300
+            }));
+            fontRanges.Add((new MeterRangeInterval
+            {
+                StartValue = 48,
+                EndValue = 72,
+                TickInterval = 24,
+                StartDegree = 300,
+                EndDegree = 320
+            }));
             var button3 = new RadialMenuButton
             {
                 Label = "Meter",
                 Icon = "🍜",
                 CustomMenu = new MeterSubMenu()
                 {
-                    MeterEndValue = 100,
-                    MeterStartValue = 0,
-                    TickInterval = 5,
-                    MeterRadius = 50,
+                    MeterEndValue = 72,
+                    MeterStartValue = 5,
+                    MeterRadius = 70,
                     StartAngle = -90,
-                    MeterPointerLength = 50,
-                    RoundSelectValue = true
+                    MeterPointerLength = 70,
+                    RoundSelectValue = true,
+                    OuterEdgeBrush = new SolidColorBrush(Colors.DarkGreen),
+                    Intervals =  fontRanges
                 }
             };
 

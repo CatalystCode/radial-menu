@@ -66,12 +66,12 @@ namespace RadialMenuControl.UserControl
         public string SelectedItemValue => _selectedItem?.Label;
 
         private PieSlice _selectedItem;
-        private PieSlice SelectedItem
+        public PieSlice SelectedItem
         {
             get { return _selectedItem; }
             set
             {
-                if (value != null)
+                if (value != null && _pieSlices.Contains(value))
                 {
                     SetField(ref _selectedItem, value);
 
@@ -120,14 +120,6 @@ namespace RadialMenuControl.UserControl
                         break;
                 }
             };
-
-            #if DEBUG
-            // Ensure that we're drawing a circle, even if no buttons are present
-            if ((Slices == null || Slices.Count == 0) && Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            {
-                Slices = new List<RadialMenuButton> {new RadialMenuButton(), new RadialMenuButton()};
-            }
-            #endif
         }
 
         public void Draw()
@@ -177,6 +169,15 @@ namespace RadialMenuControl.UserControl
             }
         }
 
+        public void UpdatePieSlicesVisualState()
+        {
+            foreach (PieSlice ps in _pieSlices)
+            {
+                // find any previously selected Radio button to de-select
+                if (ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio) ps.UpdateSliceForRadio();
+            }
+        }
+
         private void PieSlice_ChangeSelectedEvent(object sender, PieSlice slice)
         {
             foreach (PieSlice ps in _pieSlices)
@@ -186,6 +187,7 @@ namespace RadialMenuControl.UserControl
                     !ps.OriginalRadialMenuButton.MenuSelected || ps.StartAngle == slice.StartAngle) continue;
                 ps.OriginalRadialMenuButton.MenuSelected = false;
                 ps.UpdateSliceForRadio();
+                SelectedItem = slice;
             }
         }
 

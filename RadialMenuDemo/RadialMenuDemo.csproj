@@ -114,6 +114,17 @@
     <Content Include="Assets\background.jpg" />
     <Content Include="Assets\background2.jpg" />
     <Content Include="Assets\button_blue_stop.png" />
+    <Content Include="Icons\Chisel Tip Marker-50.png" />
+    <Content Include="Icons\Cursor-50.png" />
+    <Content Include="Icons\Delete-50.png" />
+    <Content Include="Icons\Hand Cursor-50.png" />
+    <Content Include="Icons\Icons License.txt" />
+    <Content Include="Icons\opacity.png" />
+    <Content Include="Icons\Polygon-50.png" />
+    <Content Include="Icons\Strikethrough-50.png" />
+    <Content Include="Icons\stroke.png" />
+    <Content Include="Icons\Text Cursor-50.png" />
+    <Content Include="Icons\Underline-50.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

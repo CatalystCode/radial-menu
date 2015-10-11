@@ -121,8 +121,8 @@
     <Compile Include="Themes\Colors.cs" />
     <Compile Include="UserControl\Floating.cs" />
     <Compile Include="UserControl\MenuBase.cs" />
-    <Compile Include="UserControl\MeterSubmenu.xaml.cs">
-      <DependentUpon>MeterSubmenu.xaml</DependentUpon>
+    <Compile Include="UserControl\MeterSubMenu.xaml.cs">
+      <DependentUpon>MeterSubMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\MeterSubmenuPath.cs" />
     <Compile Include="UserControl\PieSlice.xaml.cs">

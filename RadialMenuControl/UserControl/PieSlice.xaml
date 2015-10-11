@@ -97,6 +97,7 @@
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                TextAlignment="Center"
                 FontSize="{Binding LabelSize}"
                 Text="{Binding Label}"
                 IsHitTestVisible="False"

@@ -226,7 +226,7 @@ namespace RadialMenuControl.UserControl
             OuterPieSlicePath.Angle = Angle;
             var middleRadian = (Math.PI / 180) * (StartAngle + (Angle / 2));
 
-            if ((OriginalRadialMenuButton.Submenu == null && OriginalRadialMenuButton.CustomMenu == null) 
+            if ((OriginalRadialMenuButton.Submenu == null && OriginalRadialMenuButton.CustomMenu == null)
                 && !OriginalRadialMenuButton.HasOuterArcEvents())
             {
                 OuterPieSlicePath.Fill = new SolidColorBrush(OuterDisabledColor);
@@ -243,7 +243,7 @@ namespace RadialMenuControl.UserControl
                 CaretTranslate.X = Radius * Math.Sin(middleRadian);
                 CaretTranslate.Y = -Radius * Math.Cos(middleRadian);
             }
-            
+
             // Setup inner arc
             InnerPieSlicePath.Radius = Radius - 20;
             InnerPieSlicePath.StartAngle = StartAngle;
@@ -301,7 +301,7 @@ namespace RadialMenuControl.UserControl
         {
             if (OriginalRadialMenuButton.Type == Components.RadialMenuButton.ButtonType.Toggle)
             {
-                VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerHover", true);
+                VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value != null && ((bool)OriginalRadialMenuButton.Value)) ? "InnerReleased" : "InnerHover", true);
             }
             else if (OriginalRadialMenuButton.Type == Components.RadialMenuButton.ButtonType.Radio)
             {
@@ -341,7 +341,7 @@ namespace RadialMenuControl.UserControl
             switch (OriginalRadialMenuButton.Type)
             {
                 case Components.RadialMenuButton.ButtonType.Toggle:
-                    VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerNormal", true);
+                    VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value != null && ((bool)OriginalRadialMenuButton.Value)) ? "InnerReleased" : "InnerNormal", true);
                     break;
                 case Components.RadialMenuButton.ButtonType.Radio:
                     VisualStateManager.GoToState(this, "InnerReleased", true);
@@ -363,8 +363,7 @@ namespace RadialMenuControl.UserControl
         public void UpdateSliceForToggle()
         {
             if (OriginalRadialMenuButton.Type != RadialMenuButton.ButtonType.Toggle) return;
-            VisualStateManager.GoToState(this, OriginalRadialMenuButton.Value ? "InnerReleased" : "InnerNormal", true);
+            VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value != null && ((bool)OriginalRadialMenuButton.Value)) ? "InnerReleased" : "InnerNormal", true);
         }
     }
 }
-

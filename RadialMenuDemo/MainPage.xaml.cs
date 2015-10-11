@@ -1,4 +1,4 @@
-﻿﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 using RadialMenuControl.UserControl;
 using RadialMenuControl.Components;
 using System.Diagnostics;
@@ -162,6 +162,45 @@ namespace RadialMenuDemo
                 Type = RadialMenuButton.ButtonType.Toggle
             };
 
+            var button8 = new RadialMenuButton
+            {
+                Label = "List",
+                Icon = "💸"
+            };
+            button8.CustomMenu = new ListSubMenu();
+            (button8.CustomMenu as ListSubMenu).ValueSelected += ListSubMenu_ValueSelected;
+            button8.CustomMenu.CenterButtonIcon = "";
+            List<RadialMenuButton> listMenuItems = new List<RadialMenuButton>();
+            var button81 = new RadialMenuButton
+            {
+                Label = "Arial",
+                Type = RadialMenuButton.ButtonType.Radio,
+                Value = "Arial"
+            };
+            var button82 = new RadialMenuButton
+            {
+                Label = "Calibri",
+                Type = RadialMenuButton.ButtonType.Radio,
+                Value = "Calibri"
+            };
+            var button83 = new RadialMenuButton
+            {
+                Label = "Courier",
+                Type = RadialMenuButton.ButtonType.Radio,
+                Value = "Courier"
+            };
+            var button84 = new RadialMenuButton
+            {
+                Label = "Times New Roman",
+                Type = RadialMenuButton.ButtonType.Radio,
+                Value = "Times New Roman"
+            };
+            listMenuItems.Add(button81);
+            listMenuItems.Add(button82);
+            listMenuItems.Add(button83);
+            listMenuItems.Add(button84);
+            (button8.CustomMenu as ListSubMenu).ListMenuItems = listMenuItems;
+
             InitializeComponent();
             MyRadialMenu.AddButton(button1);
             MyRadialMenu.AddButton(button2);
@@ -169,13 +208,18 @@ namespace RadialMenuDemo
             MyRadialMenu.AddButton(button4);
             MyRadialMenu.AddButton(button5);
             MyRadialMenu.AddButton(button6);
+            MyRadialMenu.AddButton(button8);
 
             MyRadialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
 
             LayoutRoot.DataContext = this;
             MyRadialMenu.PropertyChanged += RadialMenu_PropertyChanged;
         }
-        
+
+        private void ListSubMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
+        {
+            Debug.WriteLine("User selected value: " + (sender as ListSubMenu).SelectedValue);
+        }
         private void MeterMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
         {
             Debug.WriteLine("User selected value: " + (sender as MeterSubMenu).SelectedValue);

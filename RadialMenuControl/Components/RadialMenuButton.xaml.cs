@@ -49,7 +49,7 @@ namespace RadialMenuControl.Components
             DependencyProperty.Register("ButtonTypeProperty", typeof(ButtonType), typeof(RadialMenuButton), new PropertyMetadata(ButtonType.Simple));
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("ValueProperty", typeof(bool), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("ValueProperty", typeof(object), typeof(RadialMenuButton), null);
 
         public string Label
         {
@@ -92,8 +92,8 @@ namespace RadialMenuControl.Components
             set { SetValue(MenuSeletedProperty, value); }
         }
 
-        public bool Value {
-            get { return (bool)GetValue(ValueProperty); }
+        public object Value {
+            get { return (object)GetValue(ValueProperty); }
             set {
                 if(Type == ButtonType.Simple)
                 {
@@ -233,7 +233,7 @@ namespace RadialMenuControl.Components
             }
             if (Type == ButtonType.Toggle)
             {
-                Value = !Value;
+                Value = (Value != null && (bool)Value) ? false : true;
             }
         }
 

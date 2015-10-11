@@ -26,14 +26,26 @@
                 <EllipseGeometry RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" Center="{Binding Center}"/>
             </Path.Data>
         </Path>
-        <Path Stroke="Black" StrokeThickness="1" Canvas.ZIndex="100">
+        <Path Stroke="{Binding MeterLineBrush}" StrokeThickness="1" Canvas.ZIndex="100" Canvas.Top="0" Canvas.Left="0">
             <Path.Data>
-                <EllipseGeometry RadiusX="{Binding MeterRadius}" RadiusY="{Binding MeterRadius}" Center="{Binding Center}"/>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure StartPoint="{Binding MeterStartPoint}">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment IsLargeArc="{Binding MeterIsLargeArc}" SweepDirection="Clockwise" Size="{Binding MeterSize}" Point="{Binding MeterEndPoint}" RotationAngle="{Binding MeterArcSweepAngle}"></ArcSegment>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
             </Path.Data>
         </Path>
-        <userControl:MeterSubmenuPath x:Name="Path" Fill="AliceBlue" StrokeThickness="1" Stroke="Black" Canvas.ZIndex="100"/>
+        <userControl:MeterSubmenuPath x:Name="Path" StrokeThickness="1" Stroke="Black" Canvas.ZIndex="100"/>
 
-        <Path Stroke="{Binding HoverValueBrush}" StrokeThickness="1" Canvas.ZIndex="100">
+        <Path x:Name="MeterLinePath" Stroke="{Binding HoverValueBrush}" StrokeThickness="1" Canvas.ZIndex="100">
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
@@ -50,7 +62,7 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <Path Stroke="{Binding SelectedValueBrush}" StrokeThickness="1" Canvas.ZIndex="100">
+        <Path x:Name="SelectedMeterLinePath" Stroke="{Binding SelectedValueBrush}" StrokeThickness="1" Canvas.ZIndex="100">
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
@@ -80,6 +92,6 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 Opacity="1"
                 Visibility="Collapsed"/>
-        <TextBlock x:Name="Title" Canvas.ZIndex="1" Text="{Binding SelectedValue}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Canvas.Left="{Binding MeterTextX}" Canvas.Top="{Binding MeterTextY}"/>
+        <TextBlock x:Name="SelectedValueBlock" TextAlignment="Center" Foreground="{Binding SelectedValueTextBrush}" Canvas.ZIndex="1" Text="{Binding SelectedValue}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Canvas.Left="{Binding MeterTextX}" Canvas.Top="{Binding MeterTextY}"/>
     </Canvas>
 </my:MenuBase>

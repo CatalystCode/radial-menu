@@ -89,7 +89,12 @@ namespace RadialMenuDemo
 
         private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)
         {
-            Debug.WriteLine("Hi!");
+            var sendingMenu = sender as RadialMenu;
+            if (sendingMenu != null && sendingMenu.Pie.SelectedItem != null)
+            {
+                Highlight.Label = sendingMenu.Pie.SelectedItem.Label;
+                Highlight.IconImage = sendingMenu.Pie.SelectedItem.IconImage;
+            }
         }
     }
 }

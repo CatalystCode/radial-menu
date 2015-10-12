@@ -22,6 +22,12 @@ namespace RadialMenuControl.UserControl
     {
         public ObservableCollection<MenuBase> DisplayMenus = new ObservableCollection<MenuBase>();
 
+        public Pie Pie
+        {
+            get { return DesignPie; }
+            private set { DesignPie = value; }
+        }
+
         // Events
         public delegate void CenterButtonTappedHandler(object sender, TappedRoutedEventArgs e);
         public event CenterButtonTappedHandler CenterButtonTappedEvent;
@@ -276,7 +282,10 @@ namespace RadialMenuControl.UserControl
             if (newPie.SelectedItem != null)
             {
                 Pie.SelectedItem = newPie.SelectedItem;
-                Pie.UpdatePieSlicesVisualState();
+            }
+            else
+            {
+                Pie.SelectedItem = null;
             }
         }
 

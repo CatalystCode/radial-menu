@@ -65,13 +65,13 @@ namespace RadialMenuControl.UserControl
 
         public string SelectedItemValue => _selectedItem?.Label;
 
-        private PieSlice _selectedItem;
-        public PieSlice SelectedItem
+        private RadialMenuButton _selectedItem;
+        public RadialMenuButton SelectedItem
         {
             get { return _selectedItem; }
             set
             {
-                if (value != null && _pieSlices.Contains(value))
+                if (value != null)
                 {
                     SetField(ref _selectedItem, value);
 
@@ -89,13 +89,13 @@ namespace RadialMenuControl.UserControl
             Loaded += (sender, args) =>
             {
                 Draw();
-                SelectedItem = _pieSlices.FirstOrDefault();
 
-                if (SelectedItem != null)
+                if (_pieSlices.FirstOrDefault() != null)
                 {
-                    Angle = 360 - SelectedItem.Angle / 4;
+                    Angle = 360 - _pieSlices.FirstOrDefault().Angle / 4;
                 }
             };
+
 
             _pieSlices.CollectionChanged += (sender, args) =>
             {
@@ -167,27 +167,45 @@ namespace RadialMenuControl.UserControl
                 _pieSlices.Add(pieSlice);
                 startAngle += sliceSize;
             }
+
+            FindSelectedPieSlice();
+        }
+
+        public void FindSelectedPieSlice()
+        {
+            foreach (var ps in _pieSlices)
+            {
+                var ormb = ps.OriginalRadialMenuButton;
+                if (ormb.Type == RadialMenuButton.ButtonType.Radio && ormb.MenuSelected == true)
+                {
+                    SelectedItem = ps.OriginalRadialMenuButton;
+                }
+            }
         }
 
         public void UpdatePieSlicesVisualState()
         {
-            foreach (PieSlice ps in _pieSlices)
+            foreach (var ps in _pieSlices)
             {
-                // find any previously selected Radio button to de-select
                 if (ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio) ps.UpdateSliceForRadio();
+                if (ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Toggle) ps.UpdateSliceForToggle();
             }
         }
 
         private void PieSlice_ChangeSelectedEvent(object sender, PieSlice slice)
         {
-            foreach (PieSlice ps in _pieSlices)
+            if (slice != null && slice.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio)
+            {
+                SelectedItem = slice.OriginalRadialMenuButton;
+            }
+
+            foreach (var ps in _pieSlices)
             {
                 // find any previously selected Radio button to de-select
                 if (ps.OriginalRadialMenuButton.Type != RadialMenuButton.ButtonType.Radio ||
                     !ps.OriginalRadialMenuButton.MenuSelected || ps.StartAngle == slice.StartAngle) continue;
                 ps.OriginalRadialMenuButton.MenuSelected = false;
                 ps.UpdateSliceForRadio();
-                SelectedItem = slice;
             }
         }
 

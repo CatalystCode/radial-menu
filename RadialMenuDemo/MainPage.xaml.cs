@@ -210,8 +210,6 @@ namespace RadialMenuDemo
             MyRadialMenu.AddButton(button6);
             MyRadialMenu.AddButton(button8);
 
-            MyRadialMenu.CenterButtonTappedEvent += RadialMenu_CenterButtonTappedEvent;
-
             LayoutRoot.DataContext = this;
             MyRadialMenu.PropertyChanged += RadialMenu_PropertyChanged;
         }
@@ -223,11 +221,6 @@ namespace RadialMenuDemo
         private void MeterMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
         {
             Debug.WriteLine("User selected value: " + (sender as MeterSubMenu).SelectedValue);
-        }
-        
-        private static void RadialMenu_CenterButtonTappedEvent(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            Debug.WriteLine("Hi from center button!");
         }
 
         private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

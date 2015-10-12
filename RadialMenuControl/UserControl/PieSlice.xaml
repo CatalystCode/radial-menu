@@ -80,6 +80,7 @@
                 VerticalAlignment="Center"
                 FontSize="{Binding IconSize}"
                 Text="{Binding Icon}"
+                Foreground="{Binding IconForegroundBrush}"
                 IsHitTestVisible="False"
                 Visibility="{Binding TextBlockVisibility}"
                 Margin="0, -25, 0, 0">
@@ -95,6 +96,7 @@
                 Margin="0, -25, 0, 0">
             </Image>
             <TextBlock
+                x:Name="LabelTextElement"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 TextAlignment="Center"

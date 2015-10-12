@@ -13,17 +13,24 @@
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </my:MenuBase.Resources>
     <Canvas x:Name="LayoutRoot">
-
         <Canvas.Resources>
             <Storyboard x:Name="OpenStoryboard">
+                <DoubleAnimation x:Name="PieOpenOpacityAnimation" From="0" To="1"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieOpenRotateAnimation" From="-90" To="0"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieOpenScaleXAnimation" From="0" To="1"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieOpenScaleYAnimation" From="0" To="1"></DoubleAnimation>
             </Storyboard>
             <Storyboard x:Name="CloseStoryboard">
+                <DoubleAnimation x:Name="PieCloseOpacityAnimation" From="1" To="0"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieCloseRotateAnimation" From="0" To="-90"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieCloseScaleXAnimation" From="1" To="0"></DoubleAnimation>
                 <DoubleAnimation x:Name="PieCloseScaleYAnimation" From="1" To="0"></DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Name="PieExitForChangeStoryboard">
+                <DoubleAnimation From="1" To="0" Duration="0:00:00.1" Storyboard.TargetName="DesignPie" Storyboard.TargetProperty="Opacity" />
+            </Storyboard>
+            <Storyboard x:Name="PieEnterForChangeStoryboard">
+                <DoubleAnimation From="0" To="1" Duration="0:00:00.1" Storyboard.TargetName="DesignPie" Storyboard.TargetProperty="Opacity" />
             </Storyboard>
         </Canvas.Resources>
 

@@ -130,6 +130,9 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(string), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty IconForegroundBrushProperty =
+            DependencyProperty.Register("IconForegroundBrush", typeof(Brush), typeof(PieSlice), null);
+
         public static readonly DependencyProperty IconFontFamilyProperty =
             DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(PieSlice), null);
 
@@ -158,6 +161,12 @@ namespace RadialMenuControl.UserControl
         {
             get { return (string)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
+        }
+
+        public Brush IconForegroundBrush
+        {
+            get { return (Brush)GetValue(IconForegroundBrushProperty); }
+            set { SetValue(IconForegroundBrushProperty, value); }
         }
 
         public FontFamily IconFontFamily
@@ -254,11 +263,11 @@ namespace RadialMenuControl.UserControl
             IconTranslate.X = 85 * Math.Sin(middleRadian);
             IconTranslate.Y = -85 * Math.Cos(middleRadian);
 
-            // Go to correct visual state, if radio button
+            // Go to correct visual state
             UpdateSliceForToggle();
             UpdateSliceForRadio();
-
         }
+
         // Change Selected Menu
         public delegate void ChangeSelectedHandler(object sender, PieSlice slice);
         public event ChangeSelectedHandler ChangeSelectedEvent;

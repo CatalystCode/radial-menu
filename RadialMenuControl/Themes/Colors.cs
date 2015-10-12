@@ -1,4 +1,5 @@
-﻿using Windows.UI;
+﻿using System.Collections.Generic;
+using Windows.UI;
 
 namespace RadialMenuControl.Themes
 {
@@ -20,6 +21,5 @@ namespace RadialMenuControl.Themes
             HighlightColor = Color.FromArgb(255, 128, 57, 123),
             MeterSelectorColor = Colors.Green,
             MeterLineColor = Colors.Black;
-
     }
 }

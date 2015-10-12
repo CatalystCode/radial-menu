@@ -8,23 +8,22 @@
 
     public class PieSlicePath : PathBase
     {
-        // Angle
         public static readonly DependencyProperty AngleProperty =
             DependencyProperty.Register("Angle", typeof(double), typeof(PieSlice),
                 new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PathBase); }));
 
-
+        /// <summary>
+        /// Angle for the path
+        /// </summary>
         public double Angle
         {
             get { return (double)GetValue(AngleProperty); }
             set { SetValue(AngleProperty, value); }
         }
 
-        public PieSlicePath() : base()
-        {
-            
-        }
-
+        /// <summary>
+        /// Override for the path's redraw mehtod, controlling how the path is drawns
+        /// </summary>
         protected override void Redraw()
         {
             // Reference:

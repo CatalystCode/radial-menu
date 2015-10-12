@@ -30,60 +30,54 @@ namespace RadialMenuControl.UserControl
 
         #region properties
         private double _meterStartValue;
+        /// <summary>
+        /// Starting value of the meter. If set to 5, the first selectable value will be 5.
+        /// </summary>
         public double MeterStartValue
         {
-            get
-            {
-                return _meterStartValue;
-            }
-            set
-            {
-                SetField(ref _meterStartValue, value);
-            }
+            get { return _meterStartValue; }
+            set { SetField(ref _meterStartValue, value); }
         }
         
         private double _meterEndValue;
+        /// <summary>
+        /// Ending value of the meter. If set to 5, the last selectable value will be 5.
+        /// </summary>
         public double MeterEndValue
         {
-            get
-            {
-                return _meterEndValue;
-            }
-            set
-            {
-                SetField(ref _meterEndValue, value);
-            }
+            get { return _meterEndValue; }
+            set { SetField(ref _meterEndValue, value); }
         }
         
         private double _meterPointerLength;
+        /// <summary>
+        /// Length of the pointer (the line drawn from the center of the menu towards the potential selection)
+        /// </summary>
         public double MeterPointerLength
         {
-            set
-            {
-                SetField(ref _meterPointerLength, value);
-            }
-            get
-            {
-                return _meterPointerLength;
-            }
+            set { SetField(ref _meterPointerLength, value); }
+            get { return _meterPointerLength; }
         }
 
         private double _meterRadius;
+        /// <summary>
+        /// Radius of the whole meter. If bigger, the user will have an easier time making fine-grained selections.
+        /// </summary>
         public double MeterRadius
         {
-            set
-            {
-                SetField(ref _meterRadius, value);
-            }
-            get
-            {
-                return _meterRadius;
-            }
+            set { SetField(ref _meterRadius, value); }
+            get { return _meterRadius; }
         }
         
+        /// <summary>
+        /// Shortcut for the meter size as size.
+        /// </summary>
         public Size MeterSize => new Size(MeterRadius, MeterRadius);
 
         private Point _meterEndPoint;
+        /// <summary>
+        /// Ending point for the meter
+        /// </summary>
         public Point MeterEndPoint
         {
             set { SetField(ref _meterEndPoint, value); }
@@ -92,6 +86,9 @@ namespace RadialMenuControl.UserControl
         }
 
         private Point _meterStartPoint;
+        /// <summary>
+        /// Starting point for the meter
+        /// </summary>
         public Point MeterStartPoint
         {
             set { SetField(ref _meterStartPoint, value); }
@@ -104,39 +101,27 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public double MeterArcSweepAngle
         {
-            get
-            {
-                return Intervals.Sum(i => (i.EndDegree - i.StartDegree));
-            }
+            get { return Intervals.Sum(i => (i.EndDegree - i.StartDegree)); }
         }
-        private double _meterTextX;
 
+        private double _meterTextX;
         /// <summary>
         /// The X position of the value indicator
         /// </summary>
         public double MeterTextX
         {
-            set
-            {
-                SetField(ref _meterTextX, value);
-            }
-            get
-            {
-                return _meterTextX;
-            }
+            set { SetField(ref _meterTextX, value); }
+            get { return _meterTextX; }
         }
 
         private double _meterTextY;
+        /// <summary>
+        /// The Y position of the value indicator
+        /// </summary>
         public double MeterTextY
         {
-            set
-            {
-                SetField(ref _meterTextY, value);
-            }
-            get
-            {
-                return _meterTextY;
-            }
+            set { SetField(ref _meterTextY, value); }
+            get { return _meterTextY; }
         }
         /// <summary>
         /// The value the user is currently hovering over
@@ -144,14 +129,8 @@ namespace RadialMenuControl.UserControl
         private double _selectedValue;
         public double SelectedValue
         {
-            set
-            {
-                SetField(ref _selectedValue, value);
-            }
-            get
-            {
-                return _selectedValue;
-            }
+            set { SetField(ref _selectedValue, value); }
+            get { return _selectedValue; }
         }
 
         /// <summary>
@@ -160,132 +139,99 @@ namespace RadialMenuControl.UserControl
         private double _lockedValue;
         public double LockedValue
         {
-            set
-            {
-                SetField(ref _lockedValue, value);
-            }
-            get
-            {
-                return _lockedValue;
-            }
+            set { SetField(ref _lockedValue, value); }
+            get { return _lockedValue; }
         }
 
         private Brush _outerEdgeBrush = new SolidColorBrush(DefaultColors.HighlightColor);
+        /// <summary>
+        /// Brush for the outer edge of the meter (analog to the outer arc on a RadialMenuButton)
+        /// </summary>
         public Brush OuterEdgeBrush
         {
-            set
-            {
-                SetField(ref _outerEdgeBrush, value);
-            }
-            get
-            {
-                return _outerEdgeBrush;
-            }
+            set { SetField(ref _outerEdgeBrush, value); }
+            get { return _outerEdgeBrush; }
         }
 
         private Brush _backgroundFillBrush = new SolidColorBrush(DefaultColors.InnerNormalColor);
+        /// <summary>
+        /// Brush for the background of the meter
+        /// </summary>
         public Brush BackgroundFillBrush
         {
-            set
-            {
-                SetField(ref _backgroundFillBrush, value);
-            }
-            get
-            {
-                return _backgroundFillBrush;
-            }
-        }
-
-        private Brush _selectedValueBrush = new SolidColorBrush(DefaultColors.MeterSelectorColor);
-        public Brush SelectedValueBrush
-        {
-            set
-            {
-                SetField(ref _selectedValueBrush, value);
-            }
-            get
-            {
-                return _selectedValueBrush;
-            }
-        }
-
-        private Brush _selectedValueTextBrush = new SolidColorBrush(DefaultColors.HighlightColor);
-        public Brush SelectedValueTextBrush
-        {
-            set
-            {
-                SetField(ref _selectedValueTextBrush, value);
-            }
-            get
-            {
-                return _selectedValueTextBrush;
-            }
+            set { SetField(ref _backgroundFillBrush, value); }
+            get { return _backgroundFillBrush; }
         }
 
         private Brush _hoverValueBrush = new SolidColorBrush(DefaultColors.HighlightColor);
+        /// <summary>
+        /// Brush for the pointer for the potentially selected value.
+        /// </summary>
         public Brush HoverValueBrush
         {
-            set
-            {
-                SetField(ref _hoverValueBrush, value);
-            }
-            get
-            {
-                return _hoverValueBrush;
-            }
+            set { SetField(ref _hoverValueBrush, value); }
+            get { return _hoverValueBrush; }
+        }
+
+        private Brush _selectedValueBrush = new SolidColorBrush(DefaultColors.MeterSelectorColor);
+        /// <summary>
+        /// Brush for the pointer for the selected value
+        /// </summary>
+        public Brush SelectedValueBrush
+        {
+            set { SetField(ref _selectedValueBrush, value); }
+            get { return _selectedValueBrush; }
+        }
+
+        private Brush _selectedValueTextBrush = new SolidColorBrush(DefaultColors.HighlightColor);
+        /// <summary>
+        /// Brush for the text label for the selected value
+        /// </summary>
+        public Brush SelectedValueTextBrush
+        {
+            set { SetField(ref _selectedValueTextBrush, value); }
+            get { return _selectedValueTextBrush; }
         }
 
         private Brush _meterLineBrush = new SolidColorBrush(DefaultColors.MeterLineColor);
+        /// <summary>
+        /// Brush for the meter line
+        /// </summary>
         public Brush MeterLineBrush
         {
-            set
-            {
-                SetField(ref _meterLineBrush, value);
-            }
-            get
-            {
-                return _meterLineBrush;
-            }
+            set { SetField(ref _meterLineBrush, value); }
+            get { return _meterLineBrush; }
         }
 
+        private double _startAngle = 22.5;
         /// <summary>
         /// Start Angle
         /// </summary>
-        private double _startAngle = 22.5;
         public double StartAngle
         {
             get { return _startAngle; }
-            set
-            {
-                SetField(ref _startAngle, value);
-            }
+            set { SetField(ref _startAngle, value); }
         }
 
+        private double _tickLength = 5;
         /// <summary>
         /// The length of the incremental ticks on the raidal meter
         /// </summary>
-        private double _tickLength = 5;
         public double TickLength
         {
             get { return _tickLength; }
-            set
-            {
-                SetField(ref _tickLength, value);
-            }
+            set { SetField(ref _tickLength, value); }
         }
-
+  
+        private bool _roundSelectValue = true;
         /// <summary>
         /// When true, selected value event will return the number selected
         /// rounded to the nearest integer number
         /// </summary>
-        private bool _roundSelectValue = true;
         public bool RoundSelectValue
         {
             get { return _roundSelectValue; }
-            set
-            {
-                SetField(ref _roundSelectValue, value);
-            }
+            set { SetField(ref _roundSelectValue, value); }
         }
 
         /// <summary>
@@ -294,12 +240,18 @@ namespace RadialMenuControl.UserControl
         public double Radius => Diameter / 2;
 
         private Point _center;
+        /// <summary>
+        /// Center point of the meter
+        /// </summary>
         public Point Center
         {
             get { return _center; }
             set { SetField(ref _center, value); }
         }
         
+        /// <summary>
+        /// Center button for this meter
+        /// </summary>
         public override CenterButton CenterButton
         {
             get { return SubMenuCenterButton; }
@@ -315,10 +267,17 @@ namespace RadialMenuControl.UserControl
             get { return Intervals.Sum(i => (i.EndDegree + i.StartDegree)) > 180; }
         }
 
+        /// <summary>
+        /// Radius of the outer circle
+        /// </summary>
         public double OuterCircleRadius => Radius - 10;
 
+        /// <summary>
+        /// A list containing defined intervals, allowing you to set custom intervals for the meter. 
+        /// The upper half of the meter could contain values between 0 and 10, while the lower half
+        /// could contain values between 10 and 50.
+        /// </summary>
         public IList<MeterRangeInterval> Intervals = new List<MeterRangeInterval>();
-
         #endregion
 
         /// <summary>
@@ -328,34 +287,24 @@ namespace RadialMenuControl.UserControl
         /// <param name="setSelectedLine"></param>
         private void SetMeterPoint(Point point, bool checkRange = false, bool setSelectedLine = false)
         {
-
             double angle;
             var newPoint = ComputeMeterLinePoint(MeterPointerLength, point, out angle);
 
-
-            var startAngleRad = StartAngle * (Math.PI / 180);
+            var startAngleRad = StartAngle*(Math.PI/180);
             angle -= startAngleRad;
 
-            if (angle < 0)
-            {
-                angle += (2 * Math.PI);
-            }
+            if (angle < 0) angle += (2*Math.PI);
 
-            MeterTextX = Diameter / 2 - (SelectedValueBlock.ActualWidth / 2);
-            MeterTextY = Diameter - (40 + SelectedValueBlock.ActualHeight / 2);
+            MeterTextX = Diameter/2 - (SelectedValueBlock.ActualWidth/2);
+            MeterTextY = Diameter - (40 + SelectedValueBlock.ActualHeight/2);
 
             var inRange = ComputeSelectedValue(angle);
 
-            if (!inRange && checkRange)
-            {
-                return;
-            }
+            if (!inRange && checkRange) return;
+
             MeterLine.Point = newPoint;
 
-            if (setSelectedLine)
-            {
-                SelectedValueLine.Point = ComputeMeterLinePoint(MeterPointerLength, point, out angle);
-            }
+            if (setSelectedLine) SelectedValueLine.Point = ComputeMeterLinePoint(MeterPointerLength, point, out angle);
         }
 
         /// <summary>
@@ -364,15 +313,14 @@ namespace RadialMenuControl.UserControl
         /// <param name="angle"></param>
         private bool ComputeSelectedValue(double angle)
         {
-            bool selected = false;
+            var selected = false;
             // Scan each meter interval segment and calculate selected value
             foreach (var interval in Intervals)
             {
                 double startRad = interval.StartDegree*(Math.PI/180),
                     endRad = interval.EndDegree*(Math.PI/180);
 
-                if (angle > startRad &&
-                    angle < endRad)
+                if (angle > startRad && angle < endRad)
                 {
                     var value = Math.Abs(((angle - startRad) / (endRad - startRad)) * (interval.StartValue - interval.EndValue)) + interval.StartValue;
                     SelectedValue = RoundSelectValue ? Math.Round(value) : value;
@@ -405,6 +353,9 @@ namespace RadialMenuControl.UserControl
             return new Point(x + Center.X, Center.Y - y);
         }
 
+        /// <summary>
+        /// Draws the meter, running all necessary math operations and making sure that pixels appear
+        /// </summary>
         public void Draw()
         {
             Path.Radius = Diameter / 2;
@@ -416,8 +367,7 @@ namespace RadialMenuControl.UserControl
             Path.LabelOffset = 10;
             Path.Draw();
 
-            // set the meter arc
-
+            // Set the meter arc
             MeterStartPoint = Path.MeterTickPoints[0].Point;
             MeterEndPoint = Path.MeterTickPoints[Path.MeterTickPoints.Count - 1].Point;
 
@@ -436,6 +386,12 @@ namespace RadialMenuControl.UserControl
                 Canvas.SetZIndex(tickLabel, 100);
             }
         }
+
+        /// <summary>
+        /// Delegate for the ValueSelectedEvent, fired whenever the user selects a value
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public delegate void ValueSelectedHandler(object sender, TappedRoutedEventArgs args);
         public event ValueSelectedHandler ValueSelected;
   

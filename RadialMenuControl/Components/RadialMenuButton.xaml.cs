@@ -28,7 +28,7 @@ namespace RadialMenuControl.Components
             DependencyProperty.Register("LabelSize", typeof(int), typeof(RadialMenuButton), new PropertyMetadata(10));
 
         public static readonly DependencyProperty HideLabelProperty =
-            DependencyProperty.Register("HideLabel", typeof(bool), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("IsLabelHidden", typeof(bool), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(string), typeof(RadialMenuButton), new PropertyMetadata(""));
@@ -110,7 +110,7 @@ namespace RadialMenuControl.Components
 
         public object Value
         {
-            get { return (object)GetValue(ValueProperty); }
+            get { return GetValue(ValueProperty); }
             set
             {
                 if (Type == ButtonType.Simple)
@@ -274,9 +274,9 @@ namespace RadialMenuControl.Components
         {
             foreach (var colorVariable in colors)
             {
-                if (this.GetType().GetProperty(colorVariable.Key) != null)
+                if (GetType().GetProperty(colorVariable.Key) != null)
                 {
-                    var prop = this.GetType().GetProperty(colorVariable.Key);
+                    var prop = GetType().GetProperty(colorVariable.Key);
                     prop.SetValue(this, colorVariable.Value);
                 }
             }

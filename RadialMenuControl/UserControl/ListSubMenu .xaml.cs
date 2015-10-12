@@ -1,14 +1,10 @@
-﻿using System;
-using System.Globalization;
-using Windows.Foundation;
-using RadialMenuControl.Components;
+﻿using RadialMenuControl.Components;
 
 namespace RadialMenuControl.UserControl
 {
     using System.Collections.Generic;
     using Themes;
     using Windows.UI;
-    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Input;
     using Windows.UI.Xaml.Media;

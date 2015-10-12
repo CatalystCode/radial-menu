@@ -11,6 +11,7 @@ namespace RadialMenuControl.UserControl
         public Point LabelPoint { get; set; }
         public double Value { get; set; }
     }
+
     class MeterSubmenuPath : PathBase
     {
         
@@ -20,30 +21,52 @@ namespace RadialMenuControl.UserControl
             Redraw();
         }
 
+        /// <summary>
+        /// Starting value for the meter. If set to 5, the first selectable value will be 5.
+        /// </summary>
         public double MeterStartValue
         {
             get; set;
         }
 
+        /// <summary>
+        /// Ending value for the meter. If set to 10, the last selectable value will be 10.
+        /// </summary>
         public double MeterEndValue
         {
             get; set;
         }
         
+        /// <summary>
+        /// Radius of the inner meter. If bigger, the user will have an easier time making fine-grained selections.
+        /// </summary>
         public double MeterRadius
         {
             get; set;
         }
 
+        /// <summary>
+        /// Offset for the labe;
+        /// </summary>
         public double LabelOffset { get; set; }
 
+        /// <summary>
+        /// List of all TickPoints for this Meter
+        /// </summary>
         public IList<TickPoint> MeterTickPoints
         {
             get; set;
         }
 
+        /// <summary>
+        /// Length of a tick
+        /// </summary>
         public double? TickLength { get; set; }
 
+        /// <summary>
+        /// A list containing defined intervals, allowing you to set custom intervals for the meter. The upper half of the meter could contain
+        /// values between 0 and 10, while the lower half could contain values between 10 and 50.
+        /// </summary>
         public IList<MeterRangeInterval> Intervals { get; set; } 
         #endregion
 
@@ -77,20 +100,17 @@ namespace RadialMenuControl.UserControl
 
         }
 
-
-        private void DrawInterval(MeterRangeInterval interval, double tickLength, GeometryGroup group,
-            double startAngle = 0.0)
+        private void DrawInterval(MeterRangeInterval interval, double tickLength, GeometryGroup group, double startAngle = 0.0)
         {
-            double startRad = interval.StartDegree*(Math.PI/180),
-                endRad = interval.EndDegree*(Math.PI/180);
+            double startRad = interval.StartDegree*(Math.PI/180), endRad = interval.EndDegree*(Math.PI/180);
             double radianInterval = (endRad - startRad) * (interval.TickInterval / (interval.EndValue - interval.StartValue));
-            uint tickCount = (uint)((endRad - startRad)/ radianInterval);
+            var tickCount = (uint)((endRad - startRad)/ radianInterval);
 
             
             for (var i = 0; i <= tickCount; i++)
             {
-                PathGeometry pathGeometry = new PathGeometry();
-                PathFigure figure = new PathFigure();
+                var pathGeometry = new PathGeometry();
+                var figure = new PathFigure();
 
                 // draw tick line
                 double x1 = MeterRadius * Math.Sin(startAngle),
@@ -100,32 +120,25 @@ namespace RadialMenuControl.UserControl
                        labelX = (MeterRadius + LabelOffset + (tickLength / 2)) * Math.Sin(startAngle),
                        labelY = (MeterRadius + LabelOffset + (tickLength / 2)) * Math.Cos(startAngle);
 
-
                 figure.StartPoint = new Point(Radius + x1, Radius - y1);
 
                 var line = new LineSegment
                 {
                     Point = new Point(Radius + x2, Radius - y2)
                 };
+
                 MeterTickPoints?.Add(new TickPoint() {
                     // midway point in the tick - the point the tick crosses the meter circle
                     Point = new Point(Radius + (MeterRadius * Math.Sin(startAngle)), Radius - (MeterRadius * Math.Cos(startAngle))),
                     LabelPoint = new Point(Radius + labelX, Radius - labelY),
                     Value = i * interval.TickInterval + interval.StartValue
                 });
-                figure.Segments.Add(line);
 
+                figure.Segments.Add(line);
                 pathGeometry.Figures.Add(figure);
                 group.Children.Add(pathGeometry);
                 startAngle += radianInterval;
             }
-
-            var scale = new EllipseGeometry()
-            {
-                RadiusX = MeterRadius,
-                RadiusY = MeterRadius,
-                Center = new Point(Radius, Radius)
-            };
         }
         /// <summary>
         /// Redraws this meter

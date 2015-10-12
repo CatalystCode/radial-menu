@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -28,17 +29,28 @@ namespace RadialMenuDemo
     /// </summary>
     public sealed partial class Melbourne : Page
     {
+        private readonly Dictionary<string, Color> _buttonColors = new Dictionary<string, Color>()
+        {
+            {"OuterNormalColor", Color.FromArgb(255, 56, 55, 57)},
+            {"OuterHoverColor", Color.FromArgb(255, 70, 102, 102)},
+            {"OuterDisabledColor", Color.FromArgb(255, 96, 139, 139)},
+            {"InnerNormalColor", Colors.White},
+            {"InnerHoverColor", Color.FromArgb(255, 227, 235, 235)},
+            {"InnerDisabledColor", Color.FromArgb(255, 227, 235, 235)},
+            {"InnerReleasedColor", Color.FromArgb(255, 227, 235, 235)},
+        };
+
         private RadialMenuButton CreateColorRadialMenuButton(Color sourceColor)
         {
             return new RadialMenuButton
             {
                 InnerNormalColor = sourceColor,
-                InnerHoverColor = sourceColor,
+                InnerHoverColor = sourceColor.Lighten(),
                 InnerReleasedColor = sourceColor,
                 InnerTappedColor = sourceColor,
-                OuterNormalColor = sourceColor,
-                OuterHoverColor = sourceColor.Lighten(),
-                OuterDisabledColor = sourceColor,
+                OuterNormalColor = _buttonColors["OuterNormalColor"],
+                OuterHoverColor = _buttonColors["OuterHoverColor"],
+                OuterDisabledColor = _buttonColors["OuterDisabledColor"]
             };
         }
 
@@ -58,17 +70,6 @@ namespace RadialMenuDemo
 
         public Melbourne()
         {
-            var buttonColors = new Dictionary<string, Color>()
-            {
-                { "OuterNormalColor", Color.FromArgb(255, 56, 55, 57) },
-                { "OuterHoverColor", Color.FromArgb(255, 70, 102, 102) },
-                { "OuterDisabledColor", Color.FromArgb(255, 96, 139, 139) },
-                { "InnerNormalColor", Colors.White },
-                { "InnerHoverColor", Color.FromArgb(255, 227, 235, 235) },
-                { "InnerDisabledColor", Color.FromArgb(255, 227, 235, 235) },
-                { "InnerReleasedColor", Color.FromArgb(255, 227, 235, 235) },
-            };
-
             this.InitializeComponent();
 
             Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Black, 10));
@@ -83,7 +84,12 @@ namespace RadialMenuDemo
             Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Green, 10));
             Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Yellow, 10));
                   
-            MyRadialMenu.ButtonDefaultColors = buttonColors;
+            MyRadialMenu.ButtonDefaultColors = _buttonColors;
+        }
+
+        private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)
+        {
+            Debug.WriteLine("Hi!");
         }
     }
 }

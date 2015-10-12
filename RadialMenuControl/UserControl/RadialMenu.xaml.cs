@@ -201,7 +201,7 @@ namespace RadialMenuControl.UserControl
             {
                 var radialMenu = (RadialMenu) menu;
                 ChangePie(s, radialMenu.Pie, true);
-                ChangeCenterButton(s, Helpers.ButtonToShim(radialMenu.CenterButton), true);
+                ChangeCenterButton(s, Helpers.ButtonToShim(radialMenu.CenterButton, radialMenu.CenterButtonTappedEvent), true);
             }
             else
             {
@@ -298,8 +298,8 @@ namespace RadialMenuControl.UserControl
                     Content = CenterButtonIcon,
                     FontSize = CenterButtonFontSize,
                     Top = CenterButtonTop,
-                    Left = CenterButtonLeft
-
+                    Left = CenterButtonLeft,
+                    CenterButtonTappedHandler = CenterButtonTappedEvent
                 };
 
                 PreviousButtons.Push(backupButton);
@@ -311,6 +311,7 @@ namespace RadialMenuControl.UserControl
             CenterButtonBackgroundFill = newButton?.Background ?? CenterButtonBackgroundFill;
             CenterButtonIcon = (string) newButton?.Content ?? CenterButtonIcon;
             CenterButtonFontSize = newButton?.FontSize ?? CenterButtonFontSize;
+            CenterButtonTappedEvent = newButton?.CenterButtonTappedHandler ?? null;
 
             if (newButton != null && !double.IsNaN(newButton.Top ?? 0) && !double.IsNaN(newButton.Left ?? 0))
             {

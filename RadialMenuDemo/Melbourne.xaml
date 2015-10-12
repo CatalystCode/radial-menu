@@ -63,7 +63,7 @@
                                                                     <userControl:MeterSubMenu x:Name="Pen1StrokeMenu" CenterButtonBorder="Black" MeterEndValue="72" MeterStartValue="5" MeterRadius="80" StartAngle="-90" MeterPointerLength="80" RoundSelectValue="True" OuterEdgeBrush="#383739" />
                                                                 </component:RadialMenuButton.CustomMenu>
                                                             </component:RadialMenuButton>
-                                                            <component:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom\nStroke" />
+                                                            <component:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom Stroke" />
                                                         </userControl:RadialMenu.Buttons>
                                                     </userControl:RadialMenu>
                                                 </component:RadialMenuButton.Submenu>

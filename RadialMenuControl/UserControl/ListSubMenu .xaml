@@ -1,0 +1,41 @@
+﻿<my:MenuBase
+    x:Class="RadialMenuControl.UserControl.ListSubMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:my="using:RadialMenuControl.UserControl"
+    xmlns:components="using:RadialMenuControl.Components"
+    xmlns:theme="using:RadialMenuControl.Themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:userControl="using:RadialMenuControl.UserControl"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="200"
+    d:DesignWidth="200">
+
+    <my:MenuBase.Resources>
+        <ResourceDictionary Source="../Themes/Styles.xaml"/>
+    </my:MenuBase.Resources>
+    <Canvas x:Name="LayoutRoot">
+        <components:CenterButton x:Name="SubMenuCenterButton"
+                Content="{Binding CenterButtonIcon}"
+                Canvas.ZIndex="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Segoe Ui Symbol"
+                Style="{StaticResource RoundedCenterButton}"
+                FontSize="{Binding CenterButtonFontSize}" 
+                Background="{Binding CenterButtonBackgroundFill}"
+                Height="{Binding CenterButtonSize}"
+                BorderBrush="{Binding CenterButtonBorder}"
+                Opacity="1"
+                Visibility="Collapsed"/>
+        <ListView x:Name="SubMenuListView" 
+                  Canvas.Top="130"
+                  Canvas.Left="200"
+                  SelectionMode="Single"
+                  Background="{Binding BackgroundFillBrush}"
+                  />
+
+
+    </Canvas>
+</my:MenuBase>

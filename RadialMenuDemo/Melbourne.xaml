@@ -35,8 +35,7 @@
                                         Diameter="300"
                                         StartAngle="-22.5"
                                         CenterButtonBorder="Black"
-                                        CenterButtonIcon="&#x1f369;"
-                                        Opacity="1">
+                                        CenterButtonIcon="&#x1f369;">
                                         <userControl:RadialMenu.Buttons>
                                             <component:RadialMenuButton x:Name="Eraser" Label="Eraser" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" />
                                             <component:RadialMenuButton x:Name="Pan" Label="Pan" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio">
@@ -54,8 +53,16 @@
                                                 <component:RadialMenuButton.Submenu>
                                                     <userControl:RadialMenu x:Name="Pen1Submenu"  CenterButtonBorder="Black">
                                                         <userControl:RadialMenu.Buttons>
-                                                            <component:RadialMenuButton x:Name="Pen1OpacityButton" IconImage="Icons/opacity.png" Label="Opacity" />
-                                                            <component:RadialMenuButton x:Name="Pen1StrokeButton" IconImage="Icons/stroke.png" Label="Stroke" />
+                                                            <component:RadialMenuButton x:Name="Pen1OpacityButton" IconImage="Icons/opacity.png" Label="Opacity">
+                                                                <component:RadialMenuButton.CustomMenu>
+                                                                    <userControl:MeterSubMenu x:Name="Pen1OpacityMenu" CenterButtonBorder="Black" MeterEndValue="100" MeterStartValue="0" MeterRadius="80" StartAngle="-90" MeterPointerLength="80" RoundSelectValue="True" OuterEdgeBrush="#383739" />
+                                                                </component:RadialMenuButton.CustomMenu>
+                                                            </component:RadialMenuButton>
+                                                                <component:RadialMenuButton x:Name="Pen1StrokeButton" IconImage="Icons/stroke.png" Label="Stroke">
+                                                                <component:RadialMenuButton.CustomMenu>
+                                                                    <userControl:MeterSubMenu x:Name="Pen1StrokeMenu" CenterButtonBorder="Black" MeterEndValue="72" MeterStartValue="5" MeterRadius="80" StartAngle="-90" MeterPointerLength="80" RoundSelectValue="True" OuterEdgeBrush="#383739" />
+                                                                </component:RadialMenuButton.CustomMenu>
+                                                            </component:RadialMenuButton>
                                                             <component:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom\nStroke" />
                                                         </userControl:RadialMenu.Buttons>
                                                     </userControl:RadialMenu>
@@ -65,8 +72,16 @@
                                                 <component:RadialMenuButton.Submenu>
                                                     <userControl:RadialMenu x:Name="Pen2Submenu" CenterButtonBorder="Black">
                                                         <userControl:RadialMenu.Buttons>
-                                                            <component:RadialMenuButton x:Name="Pen2OpacityButton" IconImage="Icons/opacity.png" Label="Opacity" />
-                                                            <component:RadialMenuButton x:Name="Pen2StrokeButton" IconImage="Icons/stroke.png" Label="Stroke" />
+                                                            <component:RadialMenuButton x:Name="Pen2OpacityButton" IconImage="Icons/opacity.png" Label="Opacity">
+                                                                <component:RadialMenuButton.CustomMenu>
+                                                                    <userControl:MeterSubMenu x:Name="Pen2OpacityMenu" CenterButtonBorder="Black" MeterEndValue="100" MeterStartValue="0" MeterRadius="80" StartAngle="-90" MeterPointerLength="80" RoundSelectValue="True" OuterEdgeBrush="#383739" />
+                                                                </component:RadialMenuButton.CustomMenu>
+                                                            </component:RadialMenuButton>
+                                                            <component:RadialMenuButton x:Name="Pen2StrokeButton" IconImage="Icons/stroke.png" Label="Stroke">
+                                                                <component:RadialMenuButton.CustomMenu>
+                                                                    <userControl:MeterSubMenu x:Name="Pen2StrokeMenu" CenterButtonBorder="Black" MeterEndValue="72" MeterStartValue="5" MeterRadius="80" StartAngle="-90" MeterPointerLength="80" RoundSelectValue="True" OuterEdgeBrush="#383739" />
+                                                                </component:RadialMenuButton.CustomMenu>
+                                                            </component:RadialMenuButton>
                                                             <component:RadialMenuButton x:Name="Pen2CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom\nStroke" />
                                                         </userControl:RadialMenu.Buttons>
                                                     </userControl:RadialMenu>

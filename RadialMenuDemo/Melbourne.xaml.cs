@@ -40,6 +40,78 @@ namespace RadialMenuDemo
             {"InnerReleasedColor", Color.FromArgb(255, 227, 235, 235)},
         };
 
+        private List<MeterRangeInterval> opacityMeterIntervals = new List<MeterRangeInterval>()
+        {
+            new MeterRangeInterval
+            {
+                StartValue = 0,
+                EndValue = 50,
+                TickInterval = 5,
+                StartDegree = 0,
+                EndDegree = 180
+            },
+            new MeterRangeInterval
+            {
+                StartValue = 50,
+                EndValue = 100,
+                TickInterval = 5,
+                StartDegree = 180,
+                EndDegree = 355
+            },
+        };
+
+        private List<MeterRangeInterval> scaledMeterIntervals = new List<MeterRangeInterval>()
+        {
+            new MeterRangeInterval
+            {
+               StartValue = 5,
+               EndValue = 11,
+               TickInterval = 1,
+               StartDegree = 0,
+               EndDegree = 90
+            },
+            new MeterRangeInterval
+            {
+                StartValue = 11,
+                EndValue = 12,
+                TickInterval = 1,
+                StartDegree = 90,
+                EndDegree = 110
+            },
+            new MeterRangeInterval
+            {
+                StartValue = 12,
+                EndValue = 28,
+                TickInterval = 2,
+                StartDegree = 110,
+                EndDegree = 250
+            },
+            new MeterRangeInterval
+            {
+                StartValue = 28,
+                EndValue = 36,
+                TickInterval = 8,
+                StartDegree = 250,
+                EndDegree = 280
+            },
+            new MeterRangeInterval
+            {
+                StartValue = 36,
+                EndValue = 48,
+                TickInterval = 12,
+                StartDegree = 280,
+                EndDegree = 300
+            },
+            new MeterRangeInterval
+            {
+                StartValue = 48,
+                EndValue = 72,
+                TickInterval = 24,
+                StartDegree = 300,
+                EndDegree = 320
+            }
+        };
+
         private RadialMenuButton CreateColorRadialMenuButton(Color sourceColor)
         {
             return new RadialMenuButton
@@ -85,6 +157,10 @@ namespace RadialMenuDemo
             Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Yellow, 10));
                   
             MyRadialMenu.ButtonDefaultColors = _buttonColors;
+            Pen1StrokeMenu.Intervals = scaledMeterIntervals;
+            Pen1OpacityMenu.Intervals = opacityMeterIntervals;
+            Pen2StrokeMenu.Intervals = scaledMeterIntervals;
+            Pen2OpacityMenu.Intervals = opacityMeterIntervals;
         }
 
         private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)

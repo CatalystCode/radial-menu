@@ -22,20 +22,34 @@ namespace RadialMenuControl.UserControl
     {
         public ObservableCollection<MenuBase> DisplayMenus = new ObservableCollection<MenuBase>();
 
+        // Events
+        public delegate void CenterButtonTappedHandler(object sender, TappedRoutedEventArgs e);
+        public event CenterButtonTappedHandler CenterButtonTappedEvent;
+
+        private bool _isMenuChangeAnimated = true;
+        /// <summary>
+        /// Is the transition between submenus animated?
+        /// </summary>
+        public bool IsMenuChangeAnimated
+        {
+            get { return _isMenuChangeAnimated; }
+            set { SetField(ref _isMenuChangeAnimated, value); }
+        }
+
+        /// <summary>
+        /// A public reference to the Pie used but the RadialMenu. The Pie abstracts away all the Math that has to happen
+        /// for the RadialMenu to be fast, pretty, and flexible.
+        /// </summary>
         public Pie Pie
         {
             get { return DesignPie; }
             private set { DesignPie = value; }
         }
 
-        // Events
-        public delegate void CenterButtonTappedHandler(object sender, TappedRoutedEventArgs e);
-        public event CenterButtonTappedHandler CenterButtonTappedEvent;
-
+        private double _startAngle = 22.5;
         /// <summary>
         /// Start Angle
         /// </summary>
-        private double _startAngle = 22.5;
         public double StartAngle
         {
             get { return _startAngle; }
@@ -57,6 +71,10 @@ namespace RadialMenuControl.UserControl
             { "InnerTappedColor", DefaultColors.InnerTappedColor },
             { "InnerReleasedColor", DefaultColors.InnerReleasedColor },
         };
+        /// <summary>
+        /// A dictionary containing the default colors - useful if you want to declare the default colors for the whole RadialMenu
+        /// (instead of declaring colors on each RadialMenuButton)
+        /// </summary>
         public Dictionary<string, Color> ButtonDefaultColors
         {
             get { return _buttonDefaultColors; }
@@ -70,6 +88,9 @@ namespace RadialMenuControl.UserControl
         }
 
         private TimeSpan _pieAnimationTimeSpan = TimeSpan.FromSeconds(0.3);
+        /// <summary>
+        /// Timespan for animations
+        /// </summary>
         public TimeSpan PieAnimationTimeSpan
         {
             get { return _pieAnimationTimeSpan; }
@@ -81,9 +102,9 @@ namespace RadialMenuControl.UserControl
         }
 
         private IList<Pie> _previousPies = new List<Pie>();
-
+    
         /// <summary>
-        ///     Storage for previous pies (for back navigation)
+        ///  Previous pies (for back navigation)
         /// </summary>
         public IList<Pie> PreviousPies
         {
@@ -92,7 +113,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        ///     Storage for previous center buttons (for back navigation)
+        /// Previous center buttons (for back navigation)
         /// </summary>
         public Stack<CenterButtonShim> PreviousButtons
         {
@@ -101,7 +122,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        ///     Find a parent element by type!
+        ///  Find a parent element by type!
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="child"></param>
@@ -119,7 +140,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        ///     Show or hide the outer wheel
+        /// Show or hide the outer wheel
         /// </summary>
         public async void TogglePie()
         {
@@ -197,7 +218,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        ///     Change the whole radial menu, using a new menu object
+        /// Change the whole radial menu, using a new menu object
         /// </summary>
         /// <param name="s">Sending object</param>
         /// <param name="menu">Menu to change to</param>
@@ -217,9 +238,9 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Clears the current pie
+        /// Clears the current pie, removing all currently displayed slices
         /// </summary>
-        /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
+        /// <param name="storePrevious">Should we store the pie (for back navigation)?</param>
         private void _clearPie(bool storePrevious)
         {
             // Store the current pie
@@ -264,10 +285,11 @@ namespace RadialMenuControl.UserControl
         /// <param name="s">Sending object</param>
         /// <param name="newPie">Pie object to take RadialMenuButtons from</param>
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
-        public void ChangePie(object s, Pie newPie, bool storePrevious)
+        public async void ChangePie(object s, Pie newPie, bool storePrevious)
         {
-            _clearPie(storePrevious);
+            await PieExitForChangeStoryboard.PlayAsync();
 
+            _clearPie(storePrevious);
             // Add the new ones
             foreach (var rmb in newPie.Slices)
             {
@@ -287,10 +309,12 @@ namespace RadialMenuControl.UserControl
             {
                 Pie.SelectedItem = null;
             }
+
+            await PieEnterForChangeStoryboard.PlayAsync();
         }
 
         /// <summary>
-        ///     Change the center button using a CenterButtonShim object
+        /// Change the center button using a CenterButtonShim object
         /// </summary>
         /// <param name="s">Sending object</param>
         /// <param name="newButton">CenterButtonShim object to take properties for the new button from</param>
@@ -335,13 +359,17 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         private void SetupStoryboards()
         {
+            PieOpenOpacityAnimation.Duration = PieAnimationTimeSpan;
             PieOpenRotateAnimation.Duration = PieAnimationTimeSpan;
             PieOpenScaleXAnimation.Duration = PieAnimationTimeSpan;
             PieOpenScaleYAnimation.Duration = PieAnimationTimeSpan;
+            PieCloseOpacityAnimation.Duration = PieAnimationTimeSpan;
             PieCloseRotateAnimation.Duration = PieAnimationTimeSpan;
             PieCloseScaleXAnimation.Duration = PieAnimationTimeSpan;
             PieCloseScaleYAnimation.Duration = PieAnimationTimeSpan;
 
+            Storyboard.SetTarget(PieOpenOpacityAnimation, DesignPie);
+            Storyboard.SetTargetProperty(PieOpenOpacityAnimation, "Opacity");
             Storyboard.SetTarget(PieOpenRotateAnimation, PieCompositeTransform);
             Storyboard.SetTargetProperty(PieOpenRotateAnimation, "Rotation");
             Storyboard.SetTarget(PieOpenScaleXAnimation, PieCompositeTransform);
@@ -349,6 +377,8 @@ namespace RadialMenuControl.UserControl
             Storyboard.SetTarget(PieOpenScaleYAnimation, PieCompositeTransform);
             Storyboard.SetTargetProperty(PieOpenScaleYAnimation, "ScaleY");
 
+            Storyboard.SetTarget(PieCloseOpacityAnimation, DesignPie);
+            Storyboard.SetTargetProperty(PieCloseOpacityAnimation, "Opacity");
             Storyboard.SetTarget(PieCloseRotateAnimation, PieCompositeTransform);
             Storyboard.SetTargetProperty(PieCloseRotateAnimation, "Rotation");
             Storyboard.SetTarget(PieCloseScaleXAnimation, PieCompositeTransform);

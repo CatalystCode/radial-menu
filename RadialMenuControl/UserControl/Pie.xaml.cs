@@ -151,6 +151,7 @@ namespace RadialMenuControl.UserControl
                     IconSize = slice.IconSize,
                     Icon = slice.Icon,
                     IconFontFamily = slice.IconFontFamily,
+                    IconForegroundBrush = slice.IconForegroundBrush,
                     IconImage = slice.IconImage,
                     IconImageSideLength = (Size / 2) * .25,
                     HideLabel = slice.HideLabel,

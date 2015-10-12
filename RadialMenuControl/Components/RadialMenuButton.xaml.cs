@@ -36,6 +36,9 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty IconFontFamilyProperty =
             DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(RadialMenuButton), new PropertyMetadata(new FontFamily("Segoe UI")));
 
+        public static readonly DependencyProperty IconForegroundBrushProperty =
+            DependencyProperty.Register("IconForegroundBrush", typeof(Brush), typeof(PieSlice), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int), typeof(RadialMenuButton), new PropertyMetadata(26));
 
@@ -86,16 +89,31 @@ namespace RadialMenuControl.Components
             set { SetValue(IconProperty, value); }
         }
 
+        public Brush IconForegroundBrush
+        {
+            get { return (Brush)GetValue(IconForegroundBrushProperty); }
+            set { SetValue(IconForegroundBrushProperty, value); }
+        }
+
+        public ImageSource IconImage
+        {
+            get { return (ImageSource)GetValue(IconImageProperty); }
+            set { SetValue(IconImageProperty, value); }
+        }
+
+        // Values & Button Type
         public bool MenuSelected
         {
             get { return (bool)GetValue(MenuSeletedProperty); }
             set { SetValue(MenuSeletedProperty, value); }
         }
 
-        public object Value {
+        public object Value
+        {
             get { return (object)GetValue(ValueProperty); }
-            set {
-                if(Type == ButtonType.Simple)
+            set
+            {
+                if (Type == ButtonType.Simple)
                 {
                     throw new Exception("A button of type SIMPLE should not have any value.");
                 }
@@ -106,19 +124,12 @@ namespace RadialMenuControl.Components
             }
         }
 
-
         public ButtonType Type
         {
             get { return (ButtonType)GetValue(ButtonTypeProperty); }
             set { SetValue(ButtonTypeProperty, value); }
         }
 
-        public ImageSource IconImage
-        {
-            get { return (ImageSource)GetValue(IconImageProperty); }
-            set { SetValue(IconImageProperty, value); }
-        }
-        
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
             DependencyProperty.Register("InnerNormalColor", typeof(Color?), typeof(RadialMenuButton), null);

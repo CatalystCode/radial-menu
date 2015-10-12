@@ -404,6 +404,7 @@ namespace RadialMenuControl.UserControl
             angle = theta;
             return new Point(x + Center.X, Center.Y - y);
         }
+
         public void Draw()
         {
             Path.Radius = Diameter / 2;
@@ -414,13 +415,15 @@ namespace RadialMenuControl.UserControl
             Path.StartAngle = StartAngle * (Math.PI / 180);
             Path.LabelOffset = 10;
             Path.Draw();
+
             // set the meter arc
+
             MeterStartPoint = Path.MeterTickPoints[0].Point;
             MeterEndPoint = Path.MeterTickPoints[Path.MeterTickPoints.Count - 1].Point;
-            foreach (var tick in Path.MeterTickPoints)
 
+            foreach (var tick in Path.MeterTickPoints)
             {
-                TextBlock tickLabel = new TextBlock
+                var tickLabel = new TextBlock
                 {
                     Text = tick.Value.ToString(CultureInfo.CurrentCulture),
                     FontSize = 8
@@ -435,6 +438,7 @@ namespace RadialMenuControl.UserControl
         }
         public delegate void ValueSelectedHandler(object sender, TappedRoutedEventArgs args);
         public event ValueSelectedHandler ValueSelected;
+  
         public MeterSubMenu()
         {
             InitializeComponent();
@@ -469,7 +473,7 @@ namespace RadialMenuControl.UserControl
 
             PropertyChanged += (sender, args) =>
             {
-                if(args.PropertyName == "Diameter")
+                if (args.PropertyName == "Diameter")
                 {
                     Center = new Point(Diameter / 2, Diameter / 2);
                     CenterButton.Top = Diameter / 2 - CenterButton.Width / 2;
@@ -477,6 +481,7 @@ namespace RadialMenuControl.UserControl
                 }
                 
             };
+ 
             Loaded += (sender, e) =>
             {
                 // point meter to left initially
@@ -484,9 +489,7 @@ namespace RadialMenuControl.UserControl
                 SelectedValue = Intervals.Count > 0 ? Intervals[0].StartValue : 0;
                 LockedValue = SelectedValue;
                 Draw();
-               
             };
-            
         }
     }
 }

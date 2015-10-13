@@ -16,7 +16,7 @@ namespace RadialMenuControl.UserControl
     /// </summary>
     public partial class Pie : UserControl, INotifyPropertyChanged
     {
-        private readonly ObservableCollection<PieSlice> _pieSlices = new ObservableCollection<PieSlice>();
+        public readonly ObservableCollection<PieSlice> PieSlices = new ObservableCollection<PieSlice>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static readonly DependencyProperty SourceRadialMenuProperty =
@@ -116,14 +116,14 @@ namespace RadialMenuControl.UserControl
             {
                 Draw();
 
-                if (_pieSlices.FirstOrDefault() != null)
+                if (PieSlices.FirstOrDefault() != null)
                 {
-                    Angle = 360 - _pieSlices.FirstOrDefault().Angle / 4;
+                    Angle = 360 - PieSlices.FirstOrDefault().Angle / 4;
                 }
             };
 
 
-            _pieSlices.CollectionChanged += (sender, args) =>
+            PieSlices.CollectionChanged += (sender, args) =>
             {
                 switch (args.Action)
                 {
@@ -154,7 +154,7 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public void Draw()
         {
-            _pieSlices.Clear();
+            PieSlices.Clear();
             var startAngle = StartAngle;
 
             // Draw PieSlices for each Slice Object
@@ -195,7 +195,7 @@ namespace RadialMenuControl.UserControl
                 pieSlice.ChangeMenuRequestEvent += SourceRadialMenu.ChangeMenu;
                 // Allow slice to call the change selected request to clear all other radio buttons
                 pieSlice.ChangeSelectedEvent += PieSlice_ChangeSelectedEvent;
-                _pieSlices.Add(pieSlice);
+                PieSlices.Add(pieSlice);
                 startAngle += sliceSize;
             }
 
@@ -208,7 +208,7 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public void FindSelectedPieSlice()
         {
-            foreach (var ps in _pieSlices)
+            foreach (var ps in PieSlices)
             {
                 var ormb = ps.OriginalRadialMenuButton;
                 if (ormb.Type == RadialMenuButton.ButtonType.Radio && ormb.MenuSelected)
@@ -223,7 +223,7 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public void UpdatePieSlicesVisualState()
         {
-            foreach (var ps in _pieSlices)
+            foreach (var ps in PieSlices)
             {
                 if (ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio) ps.UpdateSliceForRadio();
                 if (ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Toggle) ps.UpdateSliceForToggle();
@@ -242,7 +242,7 @@ namespace RadialMenuControl.UserControl
                 SelectedItem = slice.OriginalRadialMenuButton;
             }
 
-            foreach (var ps in _pieSlices.Where(ps => ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio 
+            foreach (var ps in PieSlices.Where(ps => ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio 
                                                     && ps.OriginalRadialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle))
             {
                 ps.OriginalRadialMenuButton.MenuSelected = false;

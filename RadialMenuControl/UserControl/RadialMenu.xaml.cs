@@ -84,20 +84,9 @@ namespace RadialMenuControl.UserControl
                 {
                     _buttonDefaultColors[colorPair.Key] = colorPair.Value;
                 }
-            }
-        }
-
-        private TimeSpan _pieAnimationTimeSpan = TimeSpan.FromSeconds(0.3);
-        /// <summary>
-        /// Timespan for animations
-        /// </summary>
-        public TimeSpan PieAnimationTimeSpan
-        {
-            get { return _pieAnimationTimeSpan; }
-            set
-            {
-                SetField(ref _pieAnimationTimeSpan, value);
-                SetupStoryboards();
+                // Todo: Make this not suck (aka: create dependencyproperties for all the colors
+                BackgroundEllipse.Fill = new SolidColorBrush(_buttonDefaultColors["InnerNormalColor"]);
+                BackgroundEllipse.Stroke = new SolidColorBrush(_buttonDefaultColors["OuterDisabledColor"]);
             }
         }
 
@@ -149,6 +138,8 @@ namespace RadialMenuControl.UserControl
 
             if (Pie.Visibility == Visibility.Visible)
             {
+                BackgroundEllipse.Visibility = Visibility.Collapsed;
+
                 await CloseStoryboard.PlayAsync();
 
                 Pie.Visibility = Visibility.Collapsed;
@@ -170,6 +161,8 @@ namespace RadialMenuControl.UserControl
                 Pie.Visibility = Visibility.Visible;
 
                 await OpenStoryboard.PlayAsync();
+
+                BackgroundEllipse.Visibility = Visibility.Visible;
             }
         }
 
@@ -287,6 +280,11 @@ namespace RadialMenuControl.UserControl
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
         public async void ChangePie(object s, Pie newPie, bool storePrevious)
         {
+            foreach (PieSlice ps in Pie.PieSlices)
+            {
+                ps.OuterArcElement.Visibility = Visibility.Collapsed;
+            }
+
             await PieExitForChangeStoryboard.PlayAsync();
 
             _clearPie(storePrevious);
@@ -353,39 +351,6 @@ namespace RadialMenuControl.UserControl
             }
             
         }
-
-        /// <summary>
-        /// Initializes our storyboard animations
-        /// </summary>
-        private void SetupStoryboards()
-        {
-            PieOpenOpacityAnimation.Duration = PieAnimationTimeSpan;
-            PieOpenRotateAnimation.Duration = PieAnimationTimeSpan;
-            PieOpenScaleXAnimation.Duration = PieAnimationTimeSpan;
-            PieOpenScaleYAnimation.Duration = PieAnimationTimeSpan;
-            PieCloseOpacityAnimation.Duration = PieAnimationTimeSpan;
-            PieCloseRotateAnimation.Duration = PieAnimationTimeSpan;
-            PieCloseScaleXAnimation.Duration = PieAnimationTimeSpan;
-            PieCloseScaleYAnimation.Duration = PieAnimationTimeSpan;
-
-            Storyboard.SetTarget(PieOpenOpacityAnimation, DesignPie);
-            Storyboard.SetTargetProperty(PieOpenOpacityAnimation, "Opacity");
-            Storyboard.SetTarget(PieOpenRotateAnimation, PieCompositeTransform);
-            Storyboard.SetTargetProperty(PieOpenRotateAnimation, "Rotation");
-            Storyboard.SetTarget(PieOpenScaleXAnimation, PieCompositeTransform);
-            Storyboard.SetTargetProperty(PieOpenScaleXAnimation, "ScaleX");
-            Storyboard.SetTarget(PieOpenScaleYAnimation, PieCompositeTransform);
-            Storyboard.SetTargetProperty(PieOpenScaleYAnimation, "ScaleY");
-
-            Storyboard.SetTarget(PieCloseOpacityAnimation, DesignPie);
-            Storyboard.SetTargetProperty(PieCloseOpacityAnimation, "Opacity");
-            Storyboard.SetTarget(PieCloseRotateAnimation, PieCompositeTransform);
-            Storyboard.SetTargetProperty(PieCloseRotateAnimation, "Rotation");
-            Storyboard.SetTarget(PieCloseScaleXAnimation, PieCompositeTransform);
-            Storyboard.SetTargetProperty(PieCloseScaleXAnimation, "ScaleX");
-            Storyboard.SetTarget(PieCloseScaleYAnimation, PieCompositeTransform);
-            Storyboard.SetTargetProperty(PieCloseScaleYAnimation, "ScaleY");
-        }
  
         /// <summary>
         /// Initializes the Center Button, since we want to share with other classes
@@ -413,8 +378,6 @@ namespace RadialMenuControl.UserControl
             Pie.SourceRadialMenu = this;
             LayoutRoot.DataContext = this;
             CenterButton.Tapped += OnCenterButtonTapped;
-
-            SetupStoryboards();
         }
     }
 }

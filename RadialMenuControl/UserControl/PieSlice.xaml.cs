@@ -9,6 +9,9 @@ namespace RadialMenuControl.UserControl
 {
     public sealed partial class PieSlice : Windows.UI.Xaml.Controls.UserControl
     {
+        // Arcs
+        public PieSlicePath OuterArcElement => OuterPieSlicePath;
+
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
             DependencyProperty.Register("InnerNormalColor", typeof(Color), typeof(PieSlice), null);

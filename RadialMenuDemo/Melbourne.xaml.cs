@@ -143,7 +143,6 @@ namespace RadialMenuDemo
             Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Green, 10));
             Pen2Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Yellow, 10));
                   
-            MyRadialMenu.ButtonDefaultColors = _buttonColors;
             Pen1StrokeMenu.Intervals = scaledMeterIntervals;
             Pen1OpacityMenu.Intervals = opacityMeterIntervals;
             Pen2StrokeMenu.Intervals = scaledMeterIntervals;

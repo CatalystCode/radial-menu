@@ -342,8 +342,8 @@ namespace RadialMenuControl.UserControl
                 OuterPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
                 // setup caret
                 CaretRotateTransform.Angle = (StartAngle + (Angle / 2));
-                CaretTranslate.X = Radius * Math.Sin(middleRadian);
-                CaretTranslate.Y = -Radius * Math.Cos(middleRadian);
+                CaretTranslate.X = (Radius-OuterArcThickness/2 + 3) * Math.Sin(middleRadian);
+                CaretTranslate.Y = -(Radius-OuterArcThickness/2 + 3) * Math.Cos(middleRadian);
             }
 
             // Setup inner arc

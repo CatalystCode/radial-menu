@@ -106,20 +106,16 @@
                 Margin="0, 25, 0, 0">
             </TextBlock>
         </Grid>
-        <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="White"
-                FontSize="12"
-                Text="▲"
-                IsHitTestVisible="False"
-                Margin="7, 12, 0, 0">
-            <TextBlock.RenderTransform>
+        <Viewbox Height="15" Width="15" RenderTransformOrigin="0.5, 0.5">
+            <Path Fill="White"
+                  Data="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
+            </Path>
+            <Viewbox.RenderTransform>
                 <TransformGroup>
                     <RotateTransform x:Name="CaretRotateTransform"/>
                     <TranslateTransform x:Name="CaretTranslate" />
                 </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
+            </Viewbox.RenderTransform>
+        </Viewbox>
     </Grid>
 </UserControl>

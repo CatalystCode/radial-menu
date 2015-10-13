@@ -27,7 +27,7 @@
                         <RowDefinition Height="821*"/>
                     </Grid.RowDefinitions>
                     <Canvas Grid.RowSpan="2">
-                        <userControl:Floating IsBoundByParent="True" x:Name="FloatingRadialMenu">
+                        <userControl:Floating IsBoundByScreen="False" x:Name="FloatingRadialMenu">
                             <Border BorderBrush="Transparent" BorderThickness="1">
                                 <Grid>
                                     <userControl:RadialMenu 

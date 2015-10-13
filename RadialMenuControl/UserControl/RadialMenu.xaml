@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:my="using:RadialMenuControl.UserControl"
     xmlns:components="using:RadialMenuControl.Components"
+    xmlns:theme="using:RadialMenuControl.Themes"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -14,26 +15,120 @@
     </my:MenuBase.Resources>
     <Canvas x:Name="LayoutRoot">
         <Canvas.Resources>
-            <Storyboard x:Name="OpenStoryboard">
-                <DoubleAnimation x:Name="PieOpenOpacityAnimation" From="0" To="1"></DoubleAnimation>
-                <DoubleAnimation x:Name="PieOpenRotateAnimation" From="-90" To="0"></DoubleAnimation>
-                <DoubleAnimation x:Name="PieOpenScaleXAnimation" From="0" To="1"></DoubleAnimation>
-                <DoubleAnimation x:Name="PieOpenScaleYAnimation" From="0" To="1"></DoubleAnimation>
+            <Storyboard x:Name="OpenStoryboard" SpeedRatio="1.5">
+                <DoubleAnimation Duration="0:0:0.4"
+                                 Storyboard.TargetProperty="Rotation"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CircleEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.4"
+                                 Storyboard.TargetProperty="ScaleX"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.4"
+                                 Storyboard.TargetProperty="ScaleY"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.2"
+                                 Storyboard.TargetProperty="(UIElement.Opacity)"
+                                 Storyboard.TargetName="DesignPie"
+                                 BeginTime="0:0:0.1" />
             </Storyboard>
-            <Storyboard x:Name="CloseStoryboard">
-                <DoubleAnimation x:Name="PieCloseOpacityAnimation" From="1" To="0"></DoubleAnimation>
-                <DoubleAnimation x:Name="PieCloseRotateAnimation" From="0" To="-90"></DoubleAnimation>
-                <DoubleAnimation x:Name="PieCloseScaleXAnimation" From="1" To="0"></DoubleAnimation>
-                <DoubleAnimation x:Name="PieCloseScaleYAnimation" From="1" To="0"></DoubleAnimation>
+            <Storyboard x:Name="CloseStoryboard" SpeedRatio="2">
+                <DoubleAnimation Duration="0:0:0.4"
+                                 Storyboard.TargetProperty="Rotation"
+                                 Storyboard.TargetName="PieCompositeTransform"
+                                 To="-180">
+                    <DoubleAnimation.EasingFunction>
+                        <CircleEase EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.4"
+                                 To="0"
+                                 Storyboard.TargetProperty="ScaleX"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.4"
+                                 To="0"
+                                 Storyboard.TargetProperty="ScaleY"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.233"
+                                 To="0"
+                                 Storyboard.TargetProperty="(UIElement.Opacity)"
+                                 Storyboard.TargetName="DesignPie"
+                                 BeginTime="0:0:0.1" />
             </Storyboard>
             <Storyboard x:Name="PieExitForChangeStoryboard">
-                <DoubleAnimation From="1" To="0" Duration="0:00:00.1" Storyboard.TargetName="DesignPie" Storyboard.TargetProperty="Opacity" />
+                <DoubleAnimation Duration="0:0:0.2"
+                                 From="1"
+                                 To="0"
+                                 Storyboard.TargetProperty="ScaleX"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.2"
+                                 From="1"
+                                 To="0"
+                                 Storyboard.TargetProperty="ScaleY"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.122"
+                                 From="1"
+                                 To="0"
+                                 Storyboard.TargetProperty="(UIElement.Opacity)"
+                                 Storyboard.TargetName="DesignPie" />
             </Storyboard>
             <Storyboard x:Name="PieEnterForChangeStoryboard">
-                <DoubleAnimation From="0" To="1" Duration="0:00:00.1" Storyboard.TargetName="DesignPie" Storyboard.TargetProperty="Opacity" />
+                <DoubleAnimation Duration="0:0:0.3"
+                                 From="0"
+                                 To="1"
+                                 Storyboard.TargetProperty="ScaleX"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.3"
+                                 From="0"
+                                 To="1"
+                                 Storyboard.TargetProperty="ScaleY"
+                                 Storyboard.TargetName="PieCompositeTransform">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.2"
+                                 From="0"
+                                 To="1"
+                                 Storyboard.TargetProperty="(UIElement.Opacity)"
+                                 Storyboard.TargetName="DesignPie"
+                                 BeginTime="0:0:0.1" />
             </Storyboard>
         </Canvas.Resources>
-
+        
+        <Ellipse x:Name="BackgroundEllipse" Width="{Binding Diameter}" Height="{Binding Diameter}" 
+                 StrokeThickness="20"/>
+        
         <components:CenterButton x:Name="CenterButton"
                 Content="{Binding CenterButtonIcon}"
                 Canvas.ZIndex="100"

@@ -74,12 +74,6 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty OuterDisabledColorProperty =
             DependencyProperty.Register("OuterDisabledColor", typeof(Color), typeof(PieSlice), null);
 
-        public static readonly DependencyProperty IconImageProperty =
-            DependencyProperty.Register("IconImage", typeof(ImageSource), typeof(PieSlice), null);
-
-        public static readonly DependencyProperty IconImageSideLengthProperty =
-            DependencyProperty.Register("IconImageSideLength", typeof(ImageSource), typeof(PieSlice), null);
-
         /// <summary>
         /// Hover color for the outer portion of the PieSlice
         /// </summary>
@@ -126,6 +120,9 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty RadiusProperty =
             DependencyProperty.Register("Radius", typeof(double), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty OuterArcThicknessProperty =
+            DependencyProperty.Register("OuterArcThickness", typeof(double), typeof(PieSlice), null);
+
         /// <summary>
         /// Starting angle of this PieSlice (with 0 being the "north top")
         /// </summary>
@@ -153,6 +150,15 @@ namespace RadialMenuControl.UserControl
             set { SetValue(RadiusProperty, value); }
         }
 
+        /// <summary>
+        /// Thickness of the outer arc
+        /// </summary>
+        public double OuterArcThickness
+        {
+            get { return (double)GetValue(OuterArcThicknessProperty); }
+            set { SetValue(OuterArcThicknessProperty, value); }
+        }
+
         // Label
         public static readonly DependencyProperty IsLabelHiddenProperty =
             DependencyProperty.Register("IsLabelHidden", typeof(bool), typeof(PieSlice), null);
@@ -174,6 +180,12 @@ namespace RadialMenuControl.UserControl
 
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty IconImageProperty =
+            DependencyProperty.Register("IconImage", typeof(ImageSource), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty IconImageSideLengthProperty =
+            DependencyProperty.Register("IconImageSideLength", typeof(ImageSource), typeof(PieSlice), null);
 
         /// <summary>
         /// Text label
@@ -335,7 +347,7 @@ namespace RadialMenuControl.UserControl
             }
 
             // Setup inner arc
-            InnerPieSlicePath.Radius = Radius - 20;
+            InnerPieSlicePath.Radius = Radius - OuterArcThickness;
             InnerPieSlicePath.StartAngle = StartAngle;
             InnerPieSlicePath.Angle = Angle;
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);

@@ -49,10 +49,10 @@ namespace RadialMenuControl.Components
             DependencyProperty.Register("MenuSelected", typeof(bool), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty ButtonTypeProperty =
-            DependencyProperty.Register("ButtonTypeProperty", typeof(ButtonType), typeof(RadialMenuButton), new PropertyMetadata(ButtonType.Simple));
+            DependencyProperty.Register("ButtonType", typeof(ButtonType), typeof(RadialMenuButton), new PropertyMetadata(ButtonType.Simple));
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("ValueProperty", typeof(object), typeof(RadialMenuButton), null);
+            DependencyProperty.Register("Value", typeof(object), typeof(RadialMenuButton), null);
 
         public string Label
         {
@@ -178,10 +178,9 @@ namespace RadialMenuControl.Components
 
         public static readonly DependencyProperty OuterTappedColorProperty =
             DependencyProperty.Register("OuterTappedColor", typeof(Color?), typeof(RadialMenuButton), null);
-        
-        // CustomMenu
-        public static readonly DependencyProperty CustomMenuProperty =
-            DependencyProperty.Register("Submenu", typeof(MenuBase), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty OuterArcThicknessProperty =
+            DependencyProperty.Register("OuterArcThickness", typeof(double?), typeof(RadialMenuButton), null);
             
         public Color? OuterHoverColor
         {
@@ -206,6 +205,16 @@ namespace RadialMenuControl.Components
             get { return (Color?)GetValue(OuterTappedColorProperty); }
             set { SetValue(OuterTappedColorProperty, value); }
         }
+
+        public double? OuterArcThickness
+        {
+            get { return (double?) GetValue(OuterArcThicknessProperty); }
+            set { SetValue(OuterArcThicknessProperty, value);}
+        }
+
+        // CustomMenu
+        public static readonly DependencyProperty CustomMenuProperty =
+            DependencyProperty.Register("Submenu", typeof(MenuBase), typeof(RadialMenuButton), null);
 
         public MenuBase CustomMenu
         {
@@ -244,7 +253,7 @@ namespace RadialMenuControl.Components
             }
             if (Type == ButtonType.Toggle)
             {
-                Value = (Value != null && (bool)Value) ? false : true;
+                Value = (Value == null || !(bool)Value);
             }
         }
 

@@ -60,6 +60,18 @@ namespace RadialMenuControl.UserControl
             }
         }
 
+        public static readonly DependencyProperty OuterArcThicknesssProperty =
+            DependencyProperty.Register("OuterArcThickness", typeof(double), typeof(RadialMenu), new PropertyMetadata((double)20));
+
+        /// <summary>
+        /// Default for the thickness of the outer arc, if not set on a RadialMenuButton
+        /// </summary>
+        public double OuterArcThickness
+        {
+            get { return (double)GetValue(OuterArcThicknesssProperty); }
+            set { SetValue(OuterArcThicknesssProperty, value); }
+        }
+
         private Dictionary<string, Color> _buttonDefaultColors = new Dictionary<string, Color>()
         {
             { "OuterNormalColor", DefaultColors.OuterNormalColor },

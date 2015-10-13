@@ -34,6 +34,7 @@
                                         x:Name="MyRadialMenu"
                                         Diameter="300"
                                         StartAngle="-22.5"
+                                        OuterArcThickness="30"
                                         CenterButtonBorder="Black"
                                         CenterButtonIcon="&#x1f369;">
                                         <userControl:RadialMenu.Buttons>

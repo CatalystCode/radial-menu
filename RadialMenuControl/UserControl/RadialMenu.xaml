@@ -127,7 +127,7 @@
         </Canvas.Resources>
         
         <Ellipse x:Name="BackgroundEllipse" Width="{Binding Diameter}" Height="{Binding Diameter}" 
-                 StrokeThickness="20"/>
+                 StrokeThickness="{Binding OuterArcThickness}"/>
         
         <components:CenterButton x:Name="CenterButton"
                 Content="{Binding CenterButtonIcon}"

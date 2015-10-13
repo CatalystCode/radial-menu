@@ -168,6 +168,7 @@ namespace RadialMenuControl.UserControl
                     Radius = Size / 2,
                     Height = Height,
                     Width = Width,
+                    OuterArcThickness =  slice.OuterArcThickness ?? SourceRadialMenu.OuterArcThickness,
                     // The defaults below use OneNote-like purple colors
                     InnerNormalColor = slice.InnerNormalColor ?? SourceRadialMenu.ButtonDefaultColors["InnerNormalColor"],
                     InnerHoverColor = slice.InnerHoverColor ?? SourceRadialMenu.ButtonDefaultColors["InnerHoverColor"],

@@ -125,9 +125,13 @@
                                  BeginTime="0:0:0.1" />
             </Storyboard>
         </Canvas.Resources>
-        
-        <Ellipse x:Name="BackgroundEllipse" Width="{Binding Diameter}" Height="{Binding Diameter}" 
-                 StrokeThickness="{Binding OuterArcThickness}"/>
+
+        <Ellipse x:Name="BackgroundEllipse" 
+                 Width="{Binding Diameter}" 
+                 Height="{Binding Diameter}"
+                 StrokeThickness="{Binding OuterArcThickness}"
+                 Fill="{Binding InnerNormalBrush}"
+                 Stroke="{Binding OuterDisabledBrush}" />
         
         <components:CenterButton x:Name="CenterButton"
                 Content="{Binding CenterButtonIcon}"

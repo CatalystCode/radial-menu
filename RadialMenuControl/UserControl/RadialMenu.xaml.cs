@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Windows.Storage.Pickers;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -72,35 +73,92 @@ namespace RadialMenuControl.UserControl
             set { SetValue(OuterArcThicknesssProperty, value); }
         }
 
-        private Dictionary<string, Color> _buttonDefaultColors = new Dictionary<string, Color>()
+        #region Colors
+
+        // Outer Arc Colors
+        public static readonly DependencyProperty OuterNormalColorProperty =
+            DependencyProperty.Register("OuterNormalColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.OuterNormalColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty OuterDisabledColorProperty =
+            DependencyProperty.Register("OuterDisabledColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.OuterDisabledColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty OuterHoverColorProperty =
+            DependencyProperty.Register("OuterHoverColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.OuterHoverColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty OuterTappedColorProperty =
+            DependencyProperty.Register("OuterTappedColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.OuterTappedColor, DependencyPropertyChanged));
+
+        public Color OuterHoverColor
         {
-            { "OuterNormalColor", DefaultColors.OuterNormalColor },
-            { "OuterHoverColor", DefaultColors.OuterHoverColor },
-            { "OuterDisabledColor", DefaultColors.OuterDisabledColor },
-            { "OuterTappedColor", DefaultColors.OuterTappedColor },
-            { "InnerNormalColor", DefaultColors.InnerNormalColor },
-            { "InnerHoverColor", DefaultColors.InnerHoverColor },
-            { "InnerTappedColor", DefaultColors.InnerTappedColor },
-            { "InnerReleasedColor", DefaultColors.InnerReleasedColor },
-        };
-        /// <summary>
-        /// A dictionary containing the default colors - useful if you want to declare the default colors for the whole RadialMenu
-        /// (instead of declaring colors on each RadialMenuButton)
-        /// </summary>
-        public Dictionary<string, Color> ButtonDefaultColors
+            get { return (Color)GetValue(OuterHoverColorProperty); }
+            set { SetValue(OuterHoverColorProperty, value); }
+        }
+
+        public Color OuterNormalColor
         {
-            get { return _buttonDefaultColors; }
+            get { return (Color)GetValue(OuterNormalColorProperty); }
+            set { SetValue(OuterNormalColorProperty, value); }
+        }
+
+        public Color OuterDisabledColor
+        {
+            get { return (Color)GetValue(OuterDisabledColorProperty); }
             set
             {
-                foreach (var colorPair in value.Where(colorPair => _buttonDefaultColors.ContainsKey(colorPair.Key)))
-                {
-                    _buttonDefaultColors[colorPair.Key] = colorPair.Value;
-                }
-                // Todo: Make this not suck (aka: create dependencyproperties for all the colors
-                BackgroundEllipse.Fill = new SolidColorBrush(_buttonDefaultColors["InnerNormalColor"]);
-                BackgroundEllipse.Stroke = new SolidColorBrush(_buttonDefaultColors["OuterDisabledColor"]);
+                SetValue(OuterDisabledColorProperty, value);
+                BackgroundEllipse.Stroke = new SolidColorBrush(value);
             }
         }
+
+        public SolidColorBrush OuterDisabledBrush { get; set; }
+
+        public Color OuterTappedColor
+        {
+            get { return (Color)GetValue(OuterTappedColorProperty); }
+            set { SetValue(OuterTappedColorProperty, value); }
+        }
+
+        // Inner Arc Colors
+        public static readonly DependencyProperty InnerNormalColorProperty =
+            DependencyProperty.Register("InnerNormalColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.InnerNormalColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty InnerHoverColorProperty =
+            DependencyProperty.Register("InnerHoverColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.InnerHoverColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty InnerTappedColorProperty =
+            DependencyProperty.Register("InnerTappedColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.InnerTappedColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty InnerReleasedColorProperty =
+            DependencyProperty.Register("InnerReleasedColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.InnerReleasedColor, DependencyPropertyChanged));
+
+        public Color InnerHoverColor
+        {
+            get { return (Color)GetValue(InnerHoverColorProperty); }
+            set { SetValue(InnerHoverColorProperty, value); }
+        }
+
+        public Color InnerNormalColor
+        {
+            get { return (Color)GetValue(InnerNormalColorProperty); }
+            set
+            {
+                SetValue(InnerNormalColorProperty, value);
+                BackgroundEllipse.Fill = new SolidColorBrush(value);
+            }
+        }
+
+        public Color InnerTappedColor
+        {
+            get { return (Color)GetValue(InnerTappedColorProperty); }
+            set { SetValue(InnerTappedColorProperty, value); }
+        }
+        public Color InnerReleasedColor
+        {
+            get { return (Color)GetValue(InnerReleasedColorProperty); }
+            set { SetValue(InnerReleasedColorProperty, value); }
+        }
+
+        #endregion
 
         private IList<Pie> _previousPies = new List<Pie>();
     
@@ -120,6 +178,17 @@ namespace RadialMenuControl.UserControl
         {
             get { return PreviousCenterButtons; }
             set { SetField(ref PreviousCenterButtons, value); }
+        }
+
+        /// <summary>
+        /// Event handler for dependency properties, asking the pie to redraw
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="args"></param>
+        private static void DependencyPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var instance = (RadialMenu) obj;
+            instance.Pie.Draw();
         }
 
         /// <summary>
@@ -370,7 +439,7 @@ namespace RadialMenuControl.UserControl
         public RadialMenu()
         {
             InitializeComponent();
-            
+
             PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == "Diameter")

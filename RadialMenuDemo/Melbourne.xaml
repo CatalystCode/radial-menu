@@ -34,9 +34,17 @@
                                         x:Name="MyRadialMenu"
                                         Diameter="300"
                                         StartAngle="-22.5"
-                                        OuterArcThickness="30"
+                                        OuterArcThickness="20"
                                         CenterButtonBorder="Black"
-                                        CenterButtonIcon="&#x1f369;">
+                                        CenterButtonIcon="&#x1f369;"
+                                        OuterNormalColor="#383739"
+                                        OuterDisabledColor="#608B8B"
+                                        OuterHoverColor="#466666"
+                                        OuterTappedColor="#466666"
+                                        InnerHoverColor="#E3EBEB"
+                                        InnerNormalColor="#FFFFFF"
+                                        InnerTappedColor="#E3EBEB"
+                                        InnerReleasedColor="#E3EBEB">
                                         <userControl:RadialMenu.Buttons>
                                             <component:RadialMenuButton x:Name="Eraser" Label="Eraser" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" />
                                             <component:RadialMenuButton x:Name="Pan" Label="Pan" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio">

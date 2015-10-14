@@ -159,10 +159,7 @@ namespace RadialMenuDemo
             switch (args.VirtualKey)
             {
                 case VirtualKey.Shift:
-                    foreach (PieSlice ps in MyRadialMenu.Pie.PieSlices)
-                    {
-                        ps.AreAccessKeyToolTipsVisible = false;
-                    }
+                    MyRadialMenu.HideAccessKeyTooltips();
                     break;
                 case VirtualKey.P:
                     MyRadialMenu.ClickInnerRadialMenuButton(Pan);
@@ -183,13 +180,7 @@ namespace RadialMenuDemo
 
         private void Melbourne_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            if (args.VirtualKey == VirtualKey.Shift)
-            {
-                foreach (PieSlice ps in MyRadialMenu.Pie.PieSlices)
-                {
-                    ps.AreAccessKeyToolTipsVisible = true;
-                }
-            }
+            if (args.VirtualKey == VirtualKey.Shift) MyRadialMenu.HideAccessKeyTooltips();
         }
 
         private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)

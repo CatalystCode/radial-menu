@@ -16,7 +16,8 @@ namespace RadialMenuControl.Components
         {
             Simple = 0,
             Radio,
-            Toggle
+            Toggle,
+            Custom
         };
         
         # region properties

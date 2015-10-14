@@ -194,6 +194,9 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty IconImageSideLengthProperty =
             DependencyProperty.Register("IconImageSideLength", typeof(ImageSource), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty CustomValueProperty =
+           DependencyProperty.Register("CustomValue", typeof(string), typeof(PieSlice), null);
+
         /// <summary>
         /// Outer slice path access key
         /// </summary>
@@ -298,6 +301,18 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
+        /// Value for custom button
+        /// </summary>
+        public string CustomValue
+        {
+            get { return (string)GetValue(CustomValueProperty); }
+            set {
+                SetValue(CustomValueProperty, value);
+                OriginalRadialMenuButton.Value = value;
+            }
+        }
+
+        /// <summary>
         /// Visibility of the text block - determined by checking whether or not an IconImage is set
         /// </summary>
         public Visibility TextBlockVisibility => IconImage == null ? Visibility.Visible : Visibility.Collapsed;
@@ -309,6 +324,11 @@ namespace RadialMenuControl.UserControl
         /// Reference to the original RadialMenuButton that was used to create this PieSLice
         /// </summary>
         public RadialMenuButton OriginalRadialMenuButton;
+
+        /// <summary>
+        /// Reference to the TextBox control for this PieSLice when the button type is custom
+        /// </summary>
+        private TextBox CustomTextBox;
 
         /// <summary>
         /// Delegate for a ChangeMenuRequest, asking the parent RadialMenu to change the menu to a submenu on a button
@@ -351,7 +371,7 @@ namespace RadialMenuControl.UserControl
         {
             InitializeComponent();
             DataContext = this;
-
+            
             Loaded += OnLoaded;
         }
 
@@ -392,6 +412,12 @@ namespace RadialMenuControl.UserControl
             InnerPieSlicePath.Angle = Angle;
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
+            // Setup custom textbox for custom button
+            if (this.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
+            {
+                this.CreateCustomTextBox();
+            }
+
             // Setup icon and text
             IconTranslate.X = ((Radius - OuterArcThickness) / 2 + 20) * Math.Sin(middleRadian);
             IconTranslate.Y = -((Radius - OuterArcThickness) / 2 + 20) * Math.Cos(middleRadian);
@@ -404,10 +430,47 @@ namespace RadialMenuControl.UserControl
             OuterAccessKeyPopupTranslate.X = (Radius - OuterArcThickness / 2 + 3) * Math.Sin(middleRadian);
             OuterAccessKeyPopupTranslate.Y = -(Radius - OuterArcThickness / 2 + 3) * Math.Cos(middleRadian);
 
+
             // Go to correct visual state
             UpdateSliceForToggle();
             UpdateSliceForRadio();
+
+          
+
         }
+        /// <summary>
+        /// Creates a custom textbox for custom buttons
+        /// </summary>
+        private void CreateCustomTextBox()
+        {
+            this.CustomTextBox = new TextBox();
+            CustomTextBox.Name = "CustomTextBox";
+            CustomTextBox.SetBinding(TextBox.TextProperty, new Windows.UI.Xaml.Data.Binding() { Source = this.CustomValue });
+            CustomTextBox.FontSize = LabelSize;
+            CustomTextBox.Margin = new Thickness(0, 57, 0, 0);
+            CustomTextBox.HorizontalAlignment = HorizontalAlignment.Center;
+            CustomTextBox.VerticalAlignment = VerticalAlignment.Center;
+            CustomTextBox.BorderThickness = new Thickness(0);
+            CustomTextBox.TextAlignment = TextAlignment.Center;
+            CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
+            CustomTextBox.GotFocus += CustomTextBox_GotFocus;
+            CustomTextBox.LostFocus += CustomTextBox_LostFocus;
+            CustomTextBox.AcceptsReturn = true;
+            CustomTextBox.Style = (Style)this.Resources["TransparentTextBox"];
+            TextLabelGrid.Children.Add(CustomTextBox);
+        }
+        
+
+        /// <summary>
+        /// Handles event when user is done entering custom value for custom textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CustomTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
+        }
+
 
         /// <summary>
         /// Programmatically "click" the inner arc in the PieSlice
@@ -529,8 +592,28 @@ namespace RadialMenuControl.UserControl
         /// <param name="e"></param>
         private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "InnerPressed", true);
-            OriginalRadialMenuButton.OnInnerArcPressed(e);
+            if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
+            {
+                CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
+                CustomTextBox.Focus(FocusState.Keyboard);
+                CustomTextBox.GotFocus += CustomTextBox_GotFocus;
+                CustomTextBox.SelectAll();
+                CustomTextBox.AcceptsReturn = true;
+                CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
+                e.Handled = true;
+
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "InnerPressed", true);
+                OriginalRadialMenuButton.OnInnerArcPressed(e);
+            }
+        }
+
+        private void CustomTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            LabelTextElement.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -540,20 +623,34 @@ namespace RadialMenuControl.UserControl
         /// <param name="e"></param>
         private void innerPieSlicePath_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            OriginalRadialMenuButton.OnInnerArcReleased(e);
-            switch (OriginalRadialMenuButton.Type)
+            if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
             {
-                case RadialMenuButton.ButtonType.Toggle:
-                    VisualStateManager.GoToState(this, (OriginalRadialMenuButton.Value != null && ((bool)OriginalRadialMenuButton.Value)) ? "InnerReleased" : "InnerNormal", true);
-                    break;
-                case RadialMenuButton.ButtonType.Radio:
-                    VisualStateManager.GoToState(this, "InnerReleased", true);
-                    // get all other menus to release now that this menu has been selected
-                    ChangeSelectedEvent?.Invoke(sender, this);
-                    break;
-                default:
-                    VisualStateManager.GoToState(this, "InnerNormal", true);
-                    break;
+                CustomTextBox.Visibility = Visibility.Visible;
+                //CustomTextBox.Focus(FocusState.Keyboard);
+               
+                //CustomTextBox.GotFocus += CustomTextBox_GotFocus;
+
+            }
+            else
+            {
+                OriginalRadialMenuButton.OnInnerArcReleased(e);
+                switch (OriginalRadialMenuButton.Type)
+                {
+                    case RadialMenuButton.ButtonType.Toggle:
+                        VisualStateManager.GoToState(this,
+                            (OriginalRadialMenuButton.Value != null && ((bool) OriginalRadialMenuButton.Value))
+                                ? "InnerReleased"
+                                : "InnerNormal", true);
+                        break;
+                    case RadialMenuButton.ButtonType.Radio:
+                        VisualStateManager.GoToState(this, "InnerReleased", true);
+                        // get all other menus to release now that this menu has been selected
+                        ChangeSelectedEvent?.Invoke(sender, this);
+                        break;
+                    default:
+                        VisualStateManager.GoToState(this, "InnerNormal", true);
+                        break;
+                }
             }
         }
 

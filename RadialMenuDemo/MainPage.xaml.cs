@@ -157,9 +157,10 @@ namespace RadialMenuDemo
 
             var button7 = new RadialMenuButton
             {
-                Label = "Toggle #2",
+                Label = "Custom",
                 Icon = "💸",
-                Type = RadialMenuButton.ButtonType.Toggle
+                Type = RadialMenuButton.ButtonType.Custom,
+                Value = "12"
             };
 
             var button8 = new RadialMenuButton
@@ -208,6 +209,7 @@ namespace RadialMenuDemo
             MyRadialMenu.AddButton(button4);
             MyRadialMenu.AddButton(button5);
             MyRadialMenu.AddButton(button6);
+            MyRadialMenu.AddButton(button7);
             MyRadialMenu.AddButton(button8);
 
             LayoutRoot.DataContext = this;

@@ -195,6 +195,11 @@ namespace RadialMenuControl.UserControl
                     InnerAccessKey = slice.InnerAccessKey
                 };
 
+                if (slice.Type == RadialMenuButton.ButtonType.Custom)
+                {
+                    pieSlice.CustomValue = (string)slice.Value;
+                }
+
                 // Allow slice to call the change request method on the radial menu
                 pieSlice.ChangeMenuRequestEvent += SourceRadialMenu.ChangeMenu;
                 // Allow slice to call the change selected request to clear all other radio buttons

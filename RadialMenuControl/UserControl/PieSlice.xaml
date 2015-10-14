@@ -8,6 +8,9 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Themes/Styles.xaml"/>
+    </UserControl.Resources>
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -67,7 +70,7 @@
             PointerExited="innerPieSlicePath_PointerExited"
             Thickness="105">
         </userControl:PieSlicePath>
-
+        
         <Popup x:Name="OuterAccessKeyPopup">
             <Popup.RenderTransform>
                 <TranslateTransform x:Name="OuterAccessKeyPopupTranslate"></TranslateTransform>
@@ -81,8 +84,9 @@
             </Border>
         </Popup>
 
-        <Grid>
-            <Grid.RenderTransform>
+        
+        <Grid x:Name="TextLabelGrid">
+                <Grid.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform x:Name="IconTranslate" />
                 </TransformGroup>
@@ -129,9 +133,12 @@
                 IsHitTestVisible="False"
                 Margin="0, 25, 0, 0">
             </TextBlock>
+
+           
         </Grid>
         <Viewbox Height="15" Width="15" RenderTransformOrigin="0.5, 0.5">
             <Path Fill="White"
+             VerticalAlignment="Center"         
                   Data="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
             </Path>
             <Viewbox.RenderTransform>

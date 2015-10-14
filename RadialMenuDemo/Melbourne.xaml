@@ -35,7 +35,7 @@
                                         x:Name="MyRadialMenu"
                                         Diameter="300"
                                         StartAngle="-22.5"
-                                        HasBackgroundEllipse="False"
+                                        HasBackgroundEllipse="True"
                                         BackgroundEllipseFill="White"
                                         OuterArcThickness="20"
                                         CenterButtonBorder="Black"
@@ -46,7 +46,7 @@
                                         OuterHoverColor="#466666"
                                         OuterTappedColor="#466666"
                                         InnerHoverColor="#E3EBEB"
-                                        InnerNormalColor="#FFFFFF"
+                                        InnerNormalColor="#02FFFFFF"
                                         InnerTappedColor="#E3EBEB"
                                         InnerReleasedColor="#E3EBEB">
                                         <userControl:RadialMenu.Buttons>

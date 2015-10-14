@@ -6,7 +6,7 @@
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
 
-    public class PieSlicePath : PathBase
+    public class InnerPieSlicePath : PathBase
     {
         public static readonly DependencyProperty AngleProperty =
             DependencyProperty.Register("Angle", typeof(double), typeof(PieSlice),
@@ -28,7 +28,7 @@
         {
             // Reference:
             // http://blog.jerrynixon.com/2012/06/windows-8-animated-pie-slice.html
-            
+
             Debug.Assert(GetValue(StartAngleProperty) != DependencyProperty.UnsetValue);
             Debug.Assert(GetValue(RadiusProperty) != DependencyProperty.UnsetValue);
             Debug.Assert(GetValue(AngleProperty) != DependencyProperty.UnsetValue);
@@ -45,6 +45,7 @@
             };
 
             //  start angle line
+
             var lineX = Radius + Math.Sin(StartAngle * Math.PI / 180) * Radius;
             var lineY = Radius - Math.Cos(StartAngle * Math.PI / 180) * Radius;
             var line = new LineSegment { Point = new Point(lineX, lineY) };
@@ -65,7 +66,6 @@
 
             Data = new PathGeometry { Figures = { figure } };
             InvalidateArrange();
-            
         }
     }
 }

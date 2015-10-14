@@ -149,7 +149,7 @@
                 Opacity="1" />
         <my:Pie x:Name="DesignPie">
             <my:Pie.RenderTransform>
-                <CompositeTransform x:Name="PieCompositeTransform" CenterX="150" CenterY="150" />
+                <CompositeTransform x:Name="PieCompositeTransform" />
             </my:Pie.RenderTransform>
         </my:Pie>
         <Canvas x:Name="CustomRadialControlRoot"/>

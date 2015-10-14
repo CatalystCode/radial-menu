@@ -152,10 +152,36 @@ namespace RadialMenuControl.UserControl
             get { return (Color)GetValue(InnerTappedColorProperty); }
             set { SetValue(InnerTappedColorProperty, value); }
         }
+
         public Color InnerReleasedColor
         {
             get { return (Color)GetValue(InnerReleasedColorProperty); }
             set { SetValue(InnerReleasedColorProperty, value); }
+        }
+
+        // Background Ellipse
+        public static readonly DependencyProperty HasBackgroundEllipseProperty =
+            DependencyProperty.Register("HasBackgroundEllipse", typeof(bool), typeof(RadialMenu), null);
+
+        public static readonly DependencyProperty BackgroundEllipseFillProperty =
+            DependencyProperty.Register("BackgroundEllipseFill", typeof(Color), typeof(RadialMenu), new PropertyMetadata(Colors.Transparent));
+
+        /// <summary>
+        /// Background Ellpise, drawn behind the whole menu. Ignored if set on a submenu.
+        /// </summary>
+        public bool HasBackgroundEllipse
+        {
+            get { return (bool)GetValue(HasBackgroundEllipseProperty); }
+            set { SetValue(HasBackgroundEllipseProperty, value); }
+        }
+
+        /// <summary>
+        /// Fill color for the background ellpise
+        /// </summary>
+        public Color BackgroundEllipseFill
+        {
+            get { return (Color)GetValue(BackgroundEllipseFillProperty); }
+            set { SetValue(BackgroundEllipseFillProperty, value); }
         }
 
         #endregion
@@ -375,6 +401,8 @@ namespace RadialMenuControl.UserControl
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
         public async void ChangePie(object s, Pie newPie, bool storePrevious)
         {
+            BackgroundEllipse.Visibility = Visibility.Visible;
+
             foreach (PieSlice ps in Pie.PieSlices)
             {
                 ps.OuterArcElement.Visibility = Visibility.Collapsed;
@@ -404,6 +432,7 @@ namespace RadialMenuControl.UserControl
             }
 
             await PieEnterForChangeStoryboard.PlayAsync();
+            BackgroundEllipse.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -513,6 +542,8 @@ namespace RadialMenuControl.UserControl
             {
                 CenterButtonTop = Diameter/2 - (CenterButton.ActualWidth/2);
                 CenterButtonLeft = Diameter/2 - (CenterButton.ActualHeight/2);
+                PieCompositeTransform.CenterX = Diameter/2;
+                PieCompositeTransform.CenterY = Diameter / 2;
             };
             CenterButton.Style = Resources["RoundedCenterButton"] as Style;
 

@@ -15,10 +15,6 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty RadiusProperty =
             DependencyProperty.Register("Radius", typeof(double), typeof(PieSlice),
             new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PathBase); }));
-
-        public static readonly DependencyProperty ThicknessProperty =
-            DependencyProperty.Register("Thickness", typeof(double), typeof(PieSlice),
-            new PropertyMetadata(DependencyProperty.UnsetValue, (s, e) => { Changed(s as PathBase); }));
         #endregion
 
         /// <summary>
@@ -37,15 +33,6 @@ namespace RadialMenuControl.UserControl
         {
             get { return (double)GetValue(RadiusProperty); }
             set { SetValue(RadiusProperty, value); }
-        }
-
-        /// <summary>
-        /// Thickness of this path object
-        /// </summary>
-        public double Thickness
-        {
-            get { return (double)GetValue(ThicknessProperty); }
-            set { SetValue(ThicknessProperty, value); }
         }
 
         /// <summary>

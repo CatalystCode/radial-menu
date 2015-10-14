@@ -180,7 +180,7 @@ namespace RadialMenuDemo
 
         private void Melbourne_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            if (args.VirtualKey == VirtualKey.Shift) MyRadialMenu.HideAccessKeyTooltips();
+            if (args.VirtualKey == VirtualKey.Shift) MyRadialMenu.ShowAccessKeyTooltips();
         }
 
         private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)

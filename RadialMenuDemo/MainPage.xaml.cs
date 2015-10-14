@@ -131,7 +131,10 @@ namespace RadialMenuDemo
                 }
             };
 
+            
+
             (button3.CustomMenu as MeterSubMenu).ValueSelected += MeterMenu_ValueSelected;
+            (button3.CustomMenu as MeterSubMenu).LockedValue = 60;
             button3.CustomMenu.CenterButtonIcon = "";
 
             var button4 = new RadialMenuButton

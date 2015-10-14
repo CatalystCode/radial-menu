@@ -37,6 +37,7 @@
                                         StartAngle="-22.5"
                                         OuterArcThickness="20"
                                         CenterButtonBorder="Black"
+                                        CenterButtonForeground="Black"
                                         CenterButtonIcon="&#x1f369;"
                                         OuterNormalColor="#383739"
                                         OuterDisabledColor="#608B8B"

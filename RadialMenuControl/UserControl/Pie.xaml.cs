@@ -189,7 +189,10 @@ namespace RadialMenuControl.UserControl
                     Label = slice.Label,
                     LabelSize = slice.LabelSize,
                     // Original Button
-                    OriginalRadialMenuButton = slice
+                    OriginalRadialMenuButton = slice,
+                    // Access Keys
+                    OuterAccessKey = slice.OuterAccessKey,
+                    InnerAccessKey = slice.InnerAccessKey
                 };
 
                 // Allow slice to call the change request method on the radial menu

@@ -432,7 +432,31 @@ namespace RadialMenuControl.UserControl
             }
             
         }
- 
+
+        /// <summary>
+        /// Programmatically "click" the inner arc in a RadialMenuButton
+        /// </summary>
+        /// <param name="rmb"></param>
+        public void ClickInnerRadialMenuButton(RadialMenuButton rmb)
+        {
+            foreach (var ps in Pie.PieSlices.Where(ps => ps.OriginalRadialMenuButton == rmb))
+            {
+                ps.ClickInner();
+            }
+        }
+
+        /// <summary>
+        /// Programmatically "click" the inner arc in a RadialMenuButton
+        /// </summary>
+        /// <param name="rmb"></param>
+        public void ClickOuterRadialMenuButton(RadialMenuButton rmb)
+        {
+            foreach (var ps in Pie.PieSlices.Where(ps => ps.OriginalRadialMenuButton == rmb))
+            {
+                ps.ClickOuter();
+            }
+        }
+
         /// <summary>
         /// Initializes the Center Button, since we want to share with other classes
         /// </summary>

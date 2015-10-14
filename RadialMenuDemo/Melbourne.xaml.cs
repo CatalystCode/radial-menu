@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -147,6 +149,47 @@ namespace RadialMenuDemo
             Pen1OpacityMenu.Intervals = opacityMeterIntervals;
             Pen2StrokeMenu.Intervals = scaledMeterIntervals;
             Pen2OpacityMenu.Intervals = opacityMeterIntervals;
+
+            CoreWindow.GetForCurrentThread().KeyDown += Melbourne_KeyDown;
+            CoreWindow.GetForCurrentThread().KeyUp += Melbourne_KeyUp; ;
+        }
+
+        private void Melbourne_KeyUp(CoreWindow sender, KeyEventArgs args)
+        {
+            switch (args.VirtualKey)
+            {
+                case VirtualKey.Shift:
+                    foreach (PieSlice ps in MyRadialMenu.Pie.PieSlices)
+                    {
+                        ps.AreAccessKeyToolTipsVisible = false;
+                    }
+                    break;
+                case VirtualKey.P:
+                    MyRadialMenu.ClickInnerRadialMenuButton(Pan);
+                    break;
+                case VirtualKey.O:
+                    MyRadialMenu.ClickOuterRadialMenuButton(Pan);
+                    break;
+                case VirtualKey.K:
+                    MyRadialMenu.ClickInnerRadialMenuButton(Pen1);
+                    break;
+                case VirtualKey.L:
+                    MyRadialMenu.ClickOuterRadialMenuButton(Pen1);
+                    break;
+            };
+        }
+
+        
+
+        private void Melbourne_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            if (args.VirtualKey == VirtualKey.Shift)
+            {
+                foreach (PieSlice ps in MyRadialMenu.Pie.PieSlices)
+                {
+                    ps.AreAccessKeyToolTipsVisible = true;
+                }
+            }
         }
 
         private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)

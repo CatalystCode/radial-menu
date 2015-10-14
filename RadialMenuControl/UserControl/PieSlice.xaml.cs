@@ -1,6 +1,7 @@
 using System;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using RadialMenuControl.Components;
@@ -163,6 +164,12 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty IsLabelHiddenProperty =
             DependencyProperty.Register("IsLabelHidden", typeof(bool), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty InnerAccessKeyProperty =
+            DependencyProperty.Register("InnerAccessKey", typeof(string), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty OuterAccessKeyProperty =
+            DependencyProperty.Register("OuterAccessKey", typeof(string), typeof(PieSlice), null);
+
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof(string), typeof(PieSlice), null);
 
@@ -186,6 +193,24 @@ namespace RadialMenuControl.UserControl
 
         public static readonly DependencyProperty IconImageSideLengthProperty =
             DependencyProperty.Register("IconImageSideLength", typeof(ImageSource), typeof(PieSlice), null);
+
+        /// <summary>
+        /// Outer slice path access key
+        /// </summary>
+        public string OuterAccessKey
+        {
+            get { return (string)GetValue(OuterAccessKeyProperty); }
+            set { SetValue(OuterAccessKeyProperty, value); }
+        }
+
+        /// <summary>
+        /// Inner slice path access key
+        /// </summary>
+        public string InnerAccessKey
+        {
+            get { return (string)GetValue(InnerAccessKeyProperty); }
+            set { SetValue(InnerAccessKeyProperty, value); }
+        }
 
         /// <summary>
         /// Text label
@@ -301,6 +326,21 @@ namespace RadialMenuControl.UserControl
         public delegate void ChangeSelectedHandler(object sender, PieSlice slice);
         public event ChangeSelectedHandler ChangeSelectedEvent;
 
+        // Tooltips
+        private bool _areAccessKeyToolTipsVisible = false;
+        /// <summary>
+        /// Are little popups showing the access keys for the inner and outer arc visible?
+        /// </summary>
+        public bool AreAccessKeyToolTipsVisible
+        {
+            get { return _areAccessKeyToolTipsVisible; }
+            set
+            {
+                _areAccessKeyToolTipsVisible = value;
+                OuterAccessKeyPopup.IsOpen = OriginalRadialMenuButton.HasOuterArcAction && (OuterAccessKey != null) && value;
+                InnerAccessKeyPopup.IsOpen = (InnerAccessKey != null) && value;
+            }
+        }
 
         private void OnChangeMenuRequest(object s, MenuBase sm)
         {
@@ -328,8 +368,7 @@ namespace RadialMenuControl.UserControl
             OuterPieSlicePath.Angle = Angle;
             var middleRadian = (Math.PI / 180) * (StartAngle + (Angle / 2));
 
-            if ((OriginalRadialMenuButton.Submenu == null && OriginalRadialMenuButton.CustomMenu == null)
-                && !OriginalRadialMenuButton.HasOuterArcEvents())
+            if (!OriginalRadialMenuButton.HasOuterArcAction)
             {
                 OuterPieSlicePath.Fill = new SolidColorBrush(OuterDisabledColor);
             }
@@ -340,7 +379,8 @@ namespace RadialMenuControl.UserControl
                 OuterPieSlicePath.PointerReleased += outerPieSlicePath_PointerReleased;
                 OuterPieSlicePath.PointerEntered += outerPieSlicePath_PointerEntered;
                 OuterPieSlicePath.PointerExited += outerPieSlicePath_PointerExited;
-                // setup caret
+
+                // Setup Caret
                 CaretRotateTransform.Angle = (StartAngle + (Angle / 2));
                 CaretTranslate.X = (Radius-OuterArcThickness/2 + 3) * Math.Sin(middleRadian);
                 CaretTranslate.Y = -(Radius-OuterArcThickness/2 + 3) * Math.Cos(middleRadian);
@@ -356,9 +396,35 @@ namespace RadialMenuControl.UserControl
             IconTranslate.X = 85 * Math.Sin(middleRadian);
             IconTranslate.Y = -85 * Math.Cos(middleRadian);
 
+            // Setup Access Key Popups
+            InnerAccessKeyPopup.HorizontalOffset = Radius;
+            InnerAccessKeyPopup.VerticalOffset = Radius;
+            OuterAccessKeyPopup.HorizontalOffset = Radius;
+            OuterAccessKeyPopup.VerticalOffset = Radius;
+            OuterAccessKeyPopupTranslate.X = (Radius - OuterArcThickness / 2 + 3) * Math.Sin(middleRadian);
+            OuterAccessKeyPopupTranslate.Y = -(Radius - OuterArcThickness / 2 + 3) * Math.Cos(middleRadian);
+
             // Go to correct visual state
             UpdateSliceForToggle();
             UpdateSliceForRadio();
+        }
+
+        /// <summary>
+        /// Programmatically "click" the inner arc in the PieSlice
+        /// </summary>
+        public void ClickInner()
+        {
+            innerPieSlicePath_PointerPressed(this, new RoutedEventArgs() as PointerRoutedEventArgs);
+            innerPieSlicePath_PointerReleased(this, new RoutedEventArgs() as PointerRoutedEventArgs);
+        }
+
+        /// <summary>
+        /// Programmatically "click" the outer arc in the PieSlice
+        /// </summary>
+        public void ClickOuter()
+        {
+            outerPieSlicePath_PointerPressed(this, new RoutedEventArgs() as PointerRoutedEventArgs);
+            outerPieSlicePath_PointerReleased(this, new RoutedEventArgs() as PointerRoutedEventArgs);
         }
 
         /// <summary>
@@ -490,7 +556,6 @@ namespace RadialMenuControl.UserControl
                     break;
             }
         }
-
 
         /// <summary>
         /// If the PieSlice has been generated by a "radio" RadialMenuButton, this method ensures the correct visual state

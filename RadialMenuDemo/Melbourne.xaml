@@ -26,6 +26,7 @@
                         <RowDefinition Height="171*"/>
                         <RowDefinition Height="821*"/>
                     </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" TextAlignment="Center">Press Shift for Access Keys</TextBlock>
                     <Canvas Grid.RowSpan="2">
                         <userControl:Floating IsBoundByScreen="False" x:Name="FloatingRadialMenu">
                             <Border BorderBrush="Transparent" BorderThickness="1">
@@ -47,7 +48,7 @@
                                         InnerReleasedColor="#E3EBEB">
                                         <userControl:RadialMenu.Buttons>
                                             <component:RadialMenuButton x:Name="Eraser" Label="Eraser" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" />
-                                            <component:RadialMenuButton x:Name="Pan" Label="Pan" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio">
+                                            <component:RadialMenuButton x:Name="Pan" Label="Pan" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" InnerAccessKey="P" OuterAccessKey="O">
                                                 <component:RadialMenuButton.Submenu>
                                                     <userControl:RadialMenu x:Name="PanSubMenu" CenterButtonBorder="Black">
                                                         <userControl:RadialMenu.Buttons>
@@ -58,7 +59,7 @@
                                                     </userControl:RadialMenu>
                                                 </component:RadialMenuButton.Submenu>
                                             </component:RadialMenuButton>
-                                            <component:RadialMenuButton x:Name="Pen1" Label="Pen" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" >
+                                            <component:RadialMenuButton x:Name="Pen1" Label="Pen" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" InnerAccessKey="K" OuterAccessKey="L">
                                                 <component:RadialMenuButton.Submenu>
                                                     <userControl:RadialMenu x:Name="Pen1Submenu"  CenterButtonBorder="Black">
                                                         <userControl:RadialMenu.Buttons>

@@ -216,11 +216,11 @@ namespace RadialMenuDemo
 
         private void ListSubMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
         {
-            Debug.WriteLine("User selected value: " + (sender as ListSubMenu).SelectedValue);
+            Debug.WriteLine("User selected value: " + (sender as ListSubMenu)?.SelectedValue);
         }
-        private void MeterMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
+        private void MeterMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
-            Debug.WriteLine("User selected value: " + (sender as MeterSubMenu).SelectedValue);
+            Debug.WriteLine("User selected value: " + (sender as MeterSubMenu)?.SelectedValue);
         }
 
         private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

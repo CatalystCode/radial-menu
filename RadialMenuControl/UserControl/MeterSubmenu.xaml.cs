@@ -29,6 +29,7 @@ namespace RadialMenuControl.UserControl
     {
 
         #region properties
+        private bool _isPressed = false;
         private double _meterStartValue;
         /// <summary>
         /// Starting value of the meter. If set to 5, the first selectable value will be 5.
@@ -281,7 +282,7 @@ namespace RadialMenuControl.UserControl
         #endregion
 
         /// <summary>
-        /// Sets the projecction end point for the meter lines
+        /// Sets the projection end point for the meter lines
         /// </summary>
         /// <param name="point"></param>
         /// <param name="setSelectedLine"></param>
@@ -392,31 +393,51 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        public delegate void ValueSelectedHandler(object sender, TappedRoutedEventArgs args);
+        public delegate void ValueSelectedHandler(object sender, PointerRoutedEventArgs args);
         public event ValueSelectedHandler ValueSelected;
   
         public MeterSubMenu()
         {
             InitializeComponent();
             DataContext = this;
- 
-            PointerMoved += (sender, args) =>
+            IsDraggable = false;
+            PointerPressed += (sender, args) =>
             {
-                var point = args.GetCurrentPoint(sender as UIElement);
-                SetMeterPoint(point.Position, true, false);
-            };
-
-            PointerExited += (sender, args) =>
-            {
-                MeterLinePath.Visibility = Visibility.Collapsed;
-                SelectedValue = LockedValue;
-                SelectedValueTextBrush = SelectedValueBrush;
-            };
-
-            PointerEntered += (sender, args) =>
-            {
+                _isPressed = true;
                 MeterLinePath.Visibility = Visibility.Visible;
                 SelectedValueTextBrush = MeterLineBrush;
+                args.Handled = true;
+            };
+
+            PointerReleased += (sender, args) =>
+            {
+                if (!_isPressed)
+                {
+                    return;
+                }
+
+                _isPressed = false;
+                // hide the selection meter line
+                MeterLinePath.Visibility = Visibility.Collapsed;
+                // set the locked selection meter line
+                var point = args.GetCurrentPoint(sender as UIElement);
+                SetMeterPoint(point.Position, true, true);
+                // set the locked on value
+                LockedValue = SelectedValue;
+                // modify the display text color
+                SelectedValueTextBrush = SelectedValueBrush;
+                ValueSelected?.Invoke(this, args);
+                args.Handled = true;
+            };
+            PointerMoved += (sender, args) =>
+            {
+                if (_isPressed)
+                {
+                    var point = args.GetCurrentPoint(sender as UIElement);
+                    SetMeterPoint(point.Position, true, false);
+                    // indicate event handled
+                    args.Handled = true;
+                }
             };
 
             Tapped += (sender, args) =>
@@ -424,7 +445,6 @@ namespace RadialMenuControl.UserControl
                 var point = args.GetPosition((sender as UIElement));
                 SetMeterPoint(point, true, true);
                 LockedValue = SelectedValue;
-                ValueSelected?.Invoke(this, args);
             };
 
             PropertyChanged += (sender, args) =>

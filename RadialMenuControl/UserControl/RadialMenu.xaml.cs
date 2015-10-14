@@ -448,6 +448,28 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
+        /// Hide all tooltips displaying set access keys for a RadialMenuButton
+        /// </summary>
+        public void HideAccessKeyTooltips()
+        {
+            foreach (var ps in Pie.PieSlices)
+            {
+                ps.AreAccessKeyToolTipsVisible = false;
+            }
+        }
+
+        /// <summary>
+        /// Show all tooltips displaying set access keys for a RadialMenuButton
+        /// </summary>
+        public void ShowAccessKeyTooltips()
+        {
+            foreach (var ps in Pie.PieSlices)
+            {
+                ps.AreAccessKeyToolTipsVisible = true;
+            }
+        }
+
+        /// <summary>
         /// Programmatically "click" the inner arc in a RadialMenuButton
         /// </summary>
         /// <param name="rmb"></param>

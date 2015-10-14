@@ -39,9 +39,6 @@
         /// </summary>
         protected override void Redraw()
         {
-            // Reference:
-            // http://blog.jerrynixon.com/2012/06/windows-8-animated-pie-slice.html
-
             Debug.Assert(GetValue(StartAngleProperty) != DependencyProperty.UnsetValue);
             Debug.Assert(GetValue(RadiusProperty) != DependencyProperty.UnsetValue);
             Debug.Assert(GetValue(AngleProperty) != DependencyProperty.UnsetValue);

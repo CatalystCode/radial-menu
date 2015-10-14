@@ -198,7 +198,7 @@ private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventA
 }
 ```
 
-Well done! Now you have successfully created a third arc inside your button :metal:!
+Well done! Now you have successfully created a third arc inside your button :metal:! You will probably notice that the icons and labels on the inner arc may now be behind your more inner arc - obviously, you can configure those to your liking, too.
 
 ## License
 Copyright (C) 2015 Microsoft, licensed MIT. Please check `LICENSE` for details.

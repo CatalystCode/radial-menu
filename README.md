@@ -21,6 +21,29 @@ You can instantiate the control either using XAML or in code-behind. In both cas
 </Page>
 ```
 
+## Scenarios & Use cases
+Below are write-ups of how to achieve various scenarios - the control is pretty powerful and flexible, so cramming all variations and options into one demo wouldn't have been less useful.
+
+#### Seamless Background
+If you give RadialMenuButtons the same background color, you may have noticed that Windows will render a 1px thick seam between the individual buttons. Those seams show up when shapes fight for the same pixel.
+
+To get around this issue, you can set the option `HasBackgroundEllipse` on the `RadialMenu` to `true`. In that mode, the menu will render a full ellipse behind your whole control. Since the ellipse is one shape, no seams will be visible. Obviously, for the ellipse to function as background, you will need to set the `InnerNormalColor` of your menu and your buttons to a near invisible color (we recommend `#02FFFFFF`).
+
+```C
+<userControl:RadialMenu
+    x:Name="MyRadialMenu"
+    Diameter="300"
+    StartAngle="-22.5"
+    HasBackgroundEllipse="True"
+    BackgroundEllipseFill="White"
+    OuterArcThickness="20"
+    CenterButtonBorder="Black"
+    CenterButtonForeground="Black"
+    CenterButtonIcon="&#x1f369;"
+    InnerHoverColor="#E3EBEB"
+    InnerNormalColor="#02FFFFFF" />
+```
+
 #### Access Keys
 The control comes with a number of helper properties to enable access key behaviour. To ensure that the control doesn't mess with your application, it does not access any global properties, meaning that you will have capture `KeyDown` events yourself. The good news: Helper methods on the control make enabling access keys really easy.
 

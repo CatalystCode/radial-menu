@@ -8,6 +8,10 @@
     d:DesignHeight="200"
     d:DesignWidth="200">
 
-    <Canvas x:Name="LayoutContent">
-    </Canvas>
+    <Grid>
+        <Ellipse x:Name="BackgroundEllipse" />
+        <Canvas x:Name="LayoutContent">
+            
+        </Canvas>
+    </Grid>
 </UserControl>

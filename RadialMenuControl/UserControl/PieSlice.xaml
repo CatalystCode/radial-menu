@@ -55,19 +55,15 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <userControl:PieSlicePath x:Name="OuterPieSlicePath"
-            StrokeThickness="0"
-            Opacity="1">
-        </userControl:PieSlicePath>
+        <userControl:OuterPieSlicePath x:Name="OuterPieSlicePath" />
 
-        <userControl:PieSlicePath x:Name="InnerPieSlicePath"
-            Opacity="1"
+        <userControl:InnerPieSlicePath x:Name="InnerPieSlicePath"            
             PointerPressed="innerPieSlicePath_PointerPressed"
             PointerReleased="innerPieSlicePath_PointerReleased"
             PointerEntered="innerPieSlicePath_PointerEntered"
             PointerExited="innerPieSlicePath_PointerExited">
-        </userControl:PieSlicePath>
-        
+        </userControl:InnerPieSlicePath>
+
         <Popup x:Name="OuterAccessKeyPopup">
             <Popup.RenderTransform>
                 <TranslateTransform x:Name="OuterAccessKeyPopupTranslate"></TranslateTransform>

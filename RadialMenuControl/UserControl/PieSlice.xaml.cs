@@ -11,7 +11,7 @@ namespace RadialMenuControl.UserControl
     public sealed partial class PieSlice : Windows.UI.Xaml.Controls.UserControl
     {
         // Arcs
-        public PieSlicePath OuterArcElement => OuterPieSlicePath;
+        public OuterPieSlicePath OuterArcElement => OuterPieSlicePath;
 
         // Inner Arc Colors
         public static readonly DependencyProperty InnerNormalColorProperty =
@@ -411,6 +411,8 @@ namespace RadialMenuControl.UserControl
             OuterPieSlicePath.Radius = Radius;
             OuterPieSlicePath.StartAngle = StartAngle;
             OuterPieSlicePath.Angle = Angle;
+            OuterPieSlicePath.Thickness = OuterArcThickness;
+
             var middleRadian = (Math.PI / 180) * (StartAngle + (Angle / 2));
 
             if (!OriginalRadialMenuButton.HasOuterArcAction)

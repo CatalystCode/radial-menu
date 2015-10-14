@@ -35,6 +35,8 @@
                                         x:Name="MyRadialMenu"
                                         Diameter="300"
                                         StartAngle="-22.5"
+                                        HasBackgroundEllipse="False"
+                                        BackgroundEllipseFill="White"
                                         OuterArcThickness="20"
                                         CenterButtonBorder="Black"
                                         CenterButtonForeground="Black"

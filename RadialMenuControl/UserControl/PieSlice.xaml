@@ -56,19 +56,16 @@
         </VisualStateManager.VisualStateGroups>
 
         <userControl:PieSlicePath x:Name="OuterPieSlicePath"
-            StrokeThickness="10"
-            Opacity="1"
-            Thickness="18">
+            StrokeThickness="0"
+            Opacity="1">
         </userControl:PieSlicePath>
 
         <userControl:PieSlicePath x:Name="InnerPieSlicePath"
-            StrokeThickness="10"
             Opacity="1"
             PointerPressed="innerPieSlicePath_PointerPressed"
             PointerReleased="innerPieSlicePath_PointerReleased"
             PointerEntered="innerPieSlicePath_PointerEntered"
-            PointerExited="innerPieSlicePath_PointerExited"
-            Thickness="105">
+            PointerExited="innerPieSlicePath_PointerExited">
         </userControl:PieSlicePath>
         
         <Popup x:Name="OuterAccessKeyPopup">

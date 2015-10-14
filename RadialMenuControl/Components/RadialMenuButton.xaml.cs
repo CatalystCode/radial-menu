@@ -55,47 +55,72 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(object), typeof(RadialMenuButton), null);
 
+        /// <summary>
+        /// Label, displayed in the inner portion of the button
+        /// </summary>
         public string Label
         {
             get { return (string)GetValue(LabelProperty) ?? ""; }
             set { SetValue(LabelProperty, value); }
         }
+
+        /// <summary>
+        /// Font Size for the label
+        /// </summary>
         public int LabelSize
         {
             get { return (int)GetValue(LabelSizeProperty); }
             set { SetValue(LabelProperty, value); }
         }
 
+        /// <summary>
+        /// Should the label be hidden?
+        /// </summary>
         public bool HideLabel
         {
             get { return (bool)GetValue(HideLabelProperty); }
             set { SetValue(HideLabelProperty, value); }
         }
 
+        /// <summary>
+        /// Text-based icon, displayed in a TextBox (usually used with icon fonts)
+        /// </summary>
         public string Icon
         {
             get { return (string)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
         }
 
+        /// <summary>
+        /// Font for the text-based icon
+        /// </summary>
         public FontFamily IconFontFamily
         {
             get { return (FontFamily)GetValue(IconFontFamilyProperty); }
             set { SetValue(IconFontFamilyProperty, value); }
         }
 
+        /// <summary>
+        /// Font size for the text-based icon
+        /// </summary>
         public int IconSize
         {
             get { return (int)GetValue(IconSizeProperty); }
             set { SetValue(IconProperty, value); }
         }
 
+        /// <summary>
+        /// ForegroundBrush for the text-based icon
+        /// </summary>
         public Brush IconForegroundBrush
         {
             get { return (Brush)GetValue(IconForegroundBrushProperty); }
             set { SetValue(IconForegroundBrushProperty, value); }
         }
 
+        /// <summary>
+        /// A ImageSource for the icon. If set, the text-based icon will be hidden.
+        /// </summary>
         public ImageSource IconImage
         {
             get { return (ImageSource)GetValue(IconImageProperty); }
@@ -103,12 +128,18 @@ namespace RadialMenuControl.Components
         }
 
         // Values & Button Type
+        /// <summary>
+        /// If the button is a radio button and selected on behalf of the whole RadialMenu, this value will be true (false otherwise)
+        /// </summary>
         public bool MenuSelected
         {
             get { return (bool)GetValue(MenuSeletedProperty); }
             set { SetValue(MenuSeletedProperty, value); }
         }
 
+        /// <summary>
+        /// Value of this button
+        /// </summary>
         public object Value
         {
             get { return GetValue(ValueProperty); }
@@ -125,6 +156,9 @@ namespace RadialMenuControl.Components
             }
         }
 
+        /// <summary>
+        /// Button type, indicating the way users can interact with this button
+        /// </summary>
         public ButtonType Type
         {
             get { return (ButtonType)GetValue(ButtonTypeProperty); }
@@ -144,23 +178,36 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty InnerReleasedColorProperty =
             DependencyProperty.Register("InnerReleasedColor", typeof(Color?), typeof(RadialMenuButton), null);
 
+        /// <summary>
+        /// Hover color for the inner portion of the button
+        /// </summary>
         public Color? InnerHoverColor
         {
             get { return (Color?)GetValue(InnerHoverColorProperty); }
             set { SetValue(InnerHoverColorProperty, value); }
         }
 
+        /// <summary>
+        /// Normal color for the inner portion of the button
+        /// </summary>
         public Color? InnerNormalColor
         {
             get { return (Color?)GetValue(InnerNormalColorProperty); }
             set { SetValue(InnerNormalColorProperty, value); }
         }
 
+        /// <summary>
+        /// Tapped color for the inner portion of the button
+        /// </summary>
         public Color? InnerTappedColor
         {
             get { return (Color?)GetValue(InnerTappedColorProperty); }
             set { SetValue(InnerTappedColorProperty, value); }
         }
+
+        /// <summary>
+        /// Released color for the inner portion of the button
+        /// </summary>
         public Color? InnerReleasedColor
         {
             get { return (Color?)GetValue(InnerReleasedColorProperty); }
@@ -182,31 +229,71 @@ namespace RadialMenuControl.Components
 
         public static readonly DependencyProperty OuterArcThicknessProperty =
             DependencyProperty.Register("OuterArcThickness", typeof(double?), typeof(RadialMenuButton), null);
-            
+
+        public static readonly DependencyProperty StrokeColorProperty =
+            DependencyProperty.Register("StrokeColor", typeof(Color?), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty StrokeThicknessProperty =
+            DependencyProperty.Register("StrokeThickness", typeof(double?), typeof(PieSlice), null);
+
+        /// <summary>
+        /// Hover color for the outer portion of the button
+        /// </summary>
         public Color? OuterHoverColor
         {
             get { return (Color?)GetValue(OuterHoverColorProperty); }
             set { SetValue(OuterHoverColorProperty, value); }
         }
 
+        /// <summary>
+        /// Normal color for the outer portion of the button
+        /// </summary>
         public Color? OuterNormalColor
         {
             get { return (Color?)GetValue(OuterNormalColorProperty); }
             set { SetValue(OuterNormalColorProperty, value); }
         }
 
+        /// <summary>
+        /// Disabled color for the outer portion of the button
+        /// </summary>
         public Color? OuterDisabledColor
         {
             get { return (Color?)GetValue(OuterDisabledColorProperty); }
             set { SetValue(OuterDisabledColorProperty, value); }
         }
 
+        /// <summary>
+        /// Tapped color for the outer portion of the button
+        /// </summary>
         public Color? OuterTappedColor
         {
             get { return (Color?)GetValue(OuterTappedColorProperty); }
             set { SetValue(OuterTappedColorProperty, value); }
         }
 
+        // Stroke
+        /// <summary>
+        /// Color of the stroke around the PieSLice
+        /// </summary>
+        public Color? StrokeColor
+        {
+            get { return (Color?)GetValue(StrokeColorProperty); }
+            set { SetValue(StrokeColorProperty, value); }
+        }
+
+        /// <summary>
+        /// Thickness of the stroke around the PieSlice
+        /// </summary>
+        public double? StrokeThickness
+        {
+            get { return (double?)GetValue(StrokeThicknessProperty); }
+            set { SetValue(StrokeThicknessProperty, value); }
+        }
+
+        /// <summary>
+        /// Thickness of the outer arc, on the outer side of the button
+        /// </summary>
         public double? OuterArcThickness
         {
             get { return (double?) GetValue(OuterArcThicknessProperty); }
@@ -217,6 +304,9 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty CustomMenuProperty =
             DependencyProperty.Register("Submenu", typeof(MenuBase), typeof(RadialMenuButton), null);
 
+        /// <summary>
+        /// CustomMenu behind the button
+        /// </summary>
         public MenuBase CustomMenu
         {
             get { return (MenuBase)GetValue(CustomMenuProperty); }
@@ -262,6 +352,9 @@ namespace RadialMenuControl.Components
         public bool HasOuterArcAction => (Submenu != null || CustomMenu != null || HasOuterArcEvents);
 
         public delegate void InnerArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        /// <summary>
+        /// Invoked when the inner arc of the button has been pressed (mouse, touch, stylus)
+        /// </summary>
         public event InnerArcPressedEventHandler InnerArcPressedEvent;
 
         public void OnInnerArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -270,6 +363,9 @@ namespace RadialMenuControl.Components
         }
 
         public delegate void OuterArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        /// <summary>
+        /// Invoked when the outer arc of the button has been pressed (mouse, touch, stylus)
+        /// </summary>
         public event OuterArcPressedEventHandler OuterArcPressedEvent;
 
         public void OnOuterArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -278,6 +374,9 @@ namespace RadialMenuControl.Components
         }
 
         public delegate void InnerArcReleasedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        /// <summary>
+        /// Invoked when the inner arc of the button has been released (mouse, touch, stylus)
+        /// </summary>
         public event InnerArcReleasedEventHandler InnerArcReleasedEvent;
 
         public void OnInnerArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -295,6 +394,9 @@ namespace RadialMenuControl.Components
         }
 
         public delegate void OuterArcReleasedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
+        /// <summary>
+        /// Invoked when the outer arc of the button has been pressed (mouse, touch, stylus)
+        /// </summary>
         public event OuterArcReleasedEventHandler OuterArcReleasedEvent;
 
         public void OnOuterArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -323,6 +425,9 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty SubmenuProperty =
             DependencyProperty.Register("Submenu", typeof(RadialMenu), typeof(RadialMenuButton), null);
 
+        /// <summary>
+        /// A RadialMenu that is opened when the user presses the button
+        /// </summary>
         public RadialMenu Submenu
         {
             get { return (RadialMenu)GetValue(SubmenuProperty); }

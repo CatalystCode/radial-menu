@@ -375,6 +375,8 @@ namespace RadialMenuControl.UserControl
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
         public async void ChangePie(object s, Pie newPie, bool storePrevious)
         {
+            BackgroundEllipse.Visibility = Visibility.Visible;
+
             foreach (PieSlice ps in Pie.PieSlices)
             {
                 ps.OuterArcElement.Visibility = Visibility.Collapsed;
@@ -404,6 +406,7 @@ namespace RadialMenuControl.UserControl
             }
 
             await PieEnterForChangeStoryboard.PlayAsync();
+            BackgroundEllipse.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -513,6 +516,8 @@ namespace RadialMenuControl.UserControl
             {
                 CenterButtonTop = Diameter/2 - (CenterButton.ActualWidth/2);
                 CenterButtonLeft = Diameter/2 - (CenterButton.ActualHeight/2);
+                PieCompositeTransform.CenterX = Diameter/2;
+                PieCompositeTransform.CenterY = Diameter / 2;
             };
             CenterButton.Style = Resources["RoundedCenterButton"] as Style;
 

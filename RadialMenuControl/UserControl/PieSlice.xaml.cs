@@ -75,6 +75,12 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty OuterDisabledColorProperty =
             DependencyProperty.Register("OuterDisabledColor", typeof(Color), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty StrokeColorProperty =
+            DependencyProperty.Register("StrokeColor", typeof(Color), typeof(PieSlice), null);
+
+        public static readonly DependencyProperty StrokeThicknessProperty =
+            DependencyProperty.Register("StrokeThickness", typeof(double), typeof(PieSlice), null);
+
         /// <summary>
         /// Hover color for the outer portion of the PieSlice
         /// </summary>
@@ -109,6 +115,25 @@ namespace RadialMenuControl.UserControl
         {
             get { return (Color)GetValue(OuterTappedColorProperty); }
             set { SetValue(OuterTappedColorProperty, value); }
+        }
+
+        // Stroke
+        /// <summary>
+        /// Color of the stroke around the PieSLice
+        /// </summary>
+        public Color StrokeColor
+        {
+            get { return (Color)GetValue(StrokeColorProperty); }
+            set { SetValue(StrokeColorProperty, value); }
+        }
+
+        /// <summary>
+        /// Thickness of the stroke around the PieSlice
+        /// </summary>
+        public double StrokeThickness
+        {
+            get { return (double)GetValue(StrokeThicknessProperty); }
+            set { SetValue(StrokeThicknessProperty, value); }
         }
 
         // Angles & Radius
@@ -412,11 +437,18 @@ namespace RadialMenuControl.UserControl
             InnerPieSlicePath.Angle = Angle;
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
+
             // Setup custom textbox for custom button
             if (this.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
             {
                 this.CreateCustomTextBox();
             }
+
+            // Stroke
+            OuterPieSlicePath.StrokeThickness = StrokeThickness;
+            OuterPieSlicePath.Stroke = new SolidColorBrush(StrokeColor);
+            InnerPieSlicePath.StrokeThickness = StrokeThickness;
+            InnerPieSlicePath.Stroke = new SolidColorBrush(StrokeColor);
 
             // Setup icon and text
             IconTranslate.X = ((Radius - OuterArcThickness) / 2 + 20) * Math.Sin(middleRadian);
@@ -434,10 +466,8 @@ namespace RadialMenuControl.UserControl
             // Go to correct visual state
             UpdateSliceForToggle();
             UpdateSliceForRadio();
-
-          
-
         }
+
         /// <summary>
         /// Creates a custom textbox for custom buttons
         /// </summary>

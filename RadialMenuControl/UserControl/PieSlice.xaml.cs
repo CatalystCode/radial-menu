@@ -393,8 +393,8 @@ namespace RadialMenuControl.UserControl
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
             // Setup icon and text
-            IconTranslate.X = 85 * Math.Sin(middleRadian);
-            IconTranslate.Y = -85 * Math.Cos(middleRadian);
+            IconTranslate.X = ((Radius - OuterArcThickness) / 2 + 20) * Math.Sin(middleRadian);
+            IconTranslate.Y = -((Radius - OuterArcThickness) / 2 + 20) * Math.Cos(middleRadian);
 
             // Setup Access Key Popups
             InnerAccessKeyPopup.HorizontalOffset = Radius;

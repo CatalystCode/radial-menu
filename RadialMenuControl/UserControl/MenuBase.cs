@@ -16,6 +16,16 @@
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private Brush _centerButtonForeground = new SolidColorBrush(Colors.Black);
+        /// <summary>
+        /// Background Fill for the Center Button
+        /// </summary>
+        public Brush CenterButtonForeground
+        {
+            get { return _centerButtonForeground; }
+            set { SetField(ref _centerButtonForeground, value); }
+        }
+
         private Brush _centerButtonBackgroundFill = new SolidColorBrush(Colors.WhiteSmoke);
         /// <summary>
         /// Background Fill for the Center Button

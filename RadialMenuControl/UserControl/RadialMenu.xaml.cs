@@ -281,6 +281,13 @@ namespace RadialMenuControl.UserControl
             }
 
             if (PreviousPies.Count <= 0 || !IsCenterButtonNavigationEnabled) return;
+            
+            // a custom menu may have changed dragability. Ensure we are draggable, of using Floating
+            var floatingParent = FindParent<Floating>(this);
+            if (floatingParent != null)
+            {
+                floatingParent.ShouldManipulateChild = true;
+            }
             // If we have a previous pie, we're going back to it
             ChangePie(this, PreviousPies[PreviousPies.Count - 1], false);
             PreviousPies.RemoveAt(PreviousPies.Count - 1);
@@ -309,6 +316,13 @@ namespace RadialMenuControl.UserControl
                 ChangeToCustomMenu(s, menu, true);
                 ChangeCenterButton(s, Helpers.ButtonToShim(menu.CenterButton), true);
             }
+
+            var floatingParent = FindParent<Floating>(this);
+            if (floatingParent != null)
+            {
+                floatingParent.ShouldManipulateChild = menu.IsDraggable;
+            }
+            
         }
 
         /// <summary>

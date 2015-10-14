@@ -36,6 +36,16 @@
             set { SetField(ref _centerButtonBorder, value); }
         }
 
+        private bool _isDraggable = true;
+        /// <summary>
+        /// Indicates if this Menu should be draggable
+        /// </summary>
+        public bool IsDraggable
+        {
+            get { return _isDraggable; }
+            set { SetField(ref _isDraggable, value); }
+        }
+
         private double _centerButtonBorderThickness = 2;
         /// <summary>
         /// Border Brush for the Center Button

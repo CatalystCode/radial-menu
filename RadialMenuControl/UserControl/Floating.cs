@@ -20,14 +20,22 @@
         public static readonly DependencyProperty IsBoundByScreenProperty =
             DependencyProperty.Register("IsBoundByScreen", typeof(bool), typeof(Floating), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty ShouldManiuplateChildProperty =
+            DependencyProperty.Register("ShouldManipulateChild", typeof(bool), typeof(Floating), new PropertyMetadata(false));
         private Border _border;
 
+        public bool ShouldManipulateChild
+        {
+            get { return (bool)GetValue(ShouldManiuplateChildProperty); }
+            set { SetValue(ShouldManiuplateChildProperty, value); }
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Floating"/> class.
         /// </summary>
         public Floating()
         {
             DefaultStyleKey = typeof(Floating);
+            ShouldManipulateChild = true;
         }
 
         /// <summary>
@@ -103,7 +111,10 @@
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            ManipulateControlPosition(e.Delta.Translation.X, e.Delta.Translation.Y);
+            if (ShouldManipulateChild)
+            {
+                ManipulateControlPosition(e.Delta.Translation.X, e.Delta.Translation.Y);
+            }
         }
 
         /// <summary>

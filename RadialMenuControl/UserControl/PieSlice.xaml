@@ -68,12 +68,36 @@
             Thickness="105">
         </userControl:PieSlicePath>
 
+        <Popup x:Name="OuterAccessKeyPopup">
+            <Popup.RenderTransform>
+                <TranslateTransform x:Name="OuterAccessKeyPopupTranslate"></TranslateTransform>
+            </Popup.RenderTransform>
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="2" Width="30" Height="30" Margin="-30, -30">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding OuterAccessKey}" FontSize="12" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Border>
+        </Popup>
+
         <Grid>
             <Grid.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform x:Name="IconTranslate" />
                 </TransformGroup>
             </Grid.RenderTransform>
+
+            <Popup x:Name="InnerAccessKeyPopup">
+                <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="2" Width="30" Height="30" Margin="-30, -30">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding InnerAccessKey}" FontSize="12" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Popup>
+
             <TextBlock
                 x:Name="IconTextElement"
                 HorizontalAlignment="Center"

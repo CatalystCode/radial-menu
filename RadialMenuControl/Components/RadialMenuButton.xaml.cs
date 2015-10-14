@@ -37,7 +37,7 @@ namespace RadialMenuControl.Components
             DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(RadialMenuButton), new PropertyMetadata(new FontFamily("Segoe UI")));
 
         public static readonly DependencyProperty IconForegroundBrushProperty =
-            DependencyProperty.Register("IconForegroundBrush", typeof(Brush), typeof(PieSlice), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register("IconForegroundBrush", typeof(Brush), typeof(RadialMenuButton), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(int), typeof(RadialMenuButton), new PropertyMetadata(26));
@@ -224,6 +224,42 @@ namespace RadialMenuControl.Components
         #endregion properties
 
         #region events
+        public static readonly DependencyProperty InnerAccessKeyProperty =
+            DependencyProperty.Register("InnerAccessKey", typeof(string), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty OuterAccessKeyProperty =
+            DependencyProperty.Register("OuterAccessKey", typeof(string), typeof(RadialMenuButton), null);
+
+        /// <summary>
+        /// Outer slice path access key
+        /// </summary>
+        public string OuterAccessKey
+        {
+            get { return (string)GetValue(OuterAccessKeyProperty); }
+            set { SetValue(OuterAccessKeyProperty, value); }
+        }
+
+        /// <summary>
+        /// Inner slice path access key
+        /// </summary>
+        public string InnerAccessKey
+        {
+            get { return (string)GetValue(InnerAccessKeyProperty); }
+            set { SetValue(InnerAccessKeyProperty, value); }
+        }
+
+        /// <summary>
+        /// Does this radial menu button have events on the outer arc?
+        /// </summary>
+        /// <returns></returns>
+        public bool HasOuterArcEvents => (OuterArcPressedEvent != null || OuterArcReleasedEvent != null);
+
+        /// <summary>
+        /// Does this radial menu button have events on the outer arc?
+        /// </summary>
+        /// <returns></returns>
+        public bool HasOuterArcAction => (Submenu != null || CustomMenu != null || HasOuterArcEvents);
+
         public delegate void InnerArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
         public event InnerArcPressedEventHandler InnerArcPressedEvent;
 
@@ -265,15 +301,6 @@ namespace RadialMenuControl.Components
             OuterArcReleasedEvent?.Invoke(this, e);
         }
         #endregion
-
-        /// <summary>
-        /// Does this radial menu button have events on the outer arc?
-        /// </summary>
-        /// <returns></returns>
-        public bool HasOuterArcEvents()
-        {
-            return (OuterArcPressedEvent != null || OuterArcReleasedEvent != null);
-        }
 
         /// <summary>
         /// Allows the use of key/value pairs to set the colors

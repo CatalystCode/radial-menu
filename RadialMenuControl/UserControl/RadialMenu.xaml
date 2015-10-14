@@ -140,6 +140,7 @@
                 Style="{StaticResource RoundedCenterButton}"
                 FontSize="{Binding CenterButtonFontSize}" 
                 Background="{Binding CenterButtonBackgroundFill}"
+                Foreground="{Binding CenterButtonForeground}"
                 Height="{Binding CenterButtonSize}"
                 BorderBrush="{Binding CenterButtonBorder}"
                 Canvas.Top="{Binding CenterButtonTop}"

@@ -455,7 +455,7 @@ namespace RadialMenuControl.UserControl
             CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
             CustomTextBox.GotFocus += CustomTextBox_GotFocus;
             CustomTextBox.LostFocus += CustomTextBox_LostFocus;
-            CustomTextBox.AcceptsReturn = true;
+            CustomTextBox.AcceptsReturn = false;
             CustomTextBox.Style = (Style)this.Resources["TransparentTextBox"];
             TextLabelGrid.Children.Add(CustomTextBox);
         }
@@ -469,6 +469,7 @@ namespace RadialMenuControl.UserControl
         private void CustomTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
+            LabelTextElement.Visibility = Visibility.Visible;
         }
 
 
@@ -598,7 +599,6 @@ namespace RadialMenuControl.UserControl
                 CustomTextBox.Focus(FocusState.Keyboard);
                 CustomTextBox.GotFocus += CustomTextBox_GotFocus;
                 CustomTextBox.SelectAll();
-                CustomTextBox.AcceptsReturn = true;
                 CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
                 e.Handled = true;
 
@@ -626,9 +626,6 @@ namespace RadialMenuControl.UserControl
             if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
             {
                 CustomTextBox.Visibility = Visibility.Visible;
-                //CustomTextBox.Focus(FocusState.Keyboard);
-               
-                //CustomTextBox.GotFocus += CustomTextBox_GotFocus;
 
             }
             else

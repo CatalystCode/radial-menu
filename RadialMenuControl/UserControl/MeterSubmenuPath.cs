@@ -5,6 +5,9 @@ using Windows.UI.Xaml.Media;
 
 namespace RadialMenuControl.UserControl
 {
+    /// <summary>
+    /// A helper class for describing a tick point on the meter
+    /// </summary>
     public class TickPoint
     {
         public Point Point { get; set; }
@@ -12,15 +15,19 @@ namespace RadialMenuControl.UserControl
         public double Value { get; set; }
     }
 
+    /// <summary>
+    /// The Arc which represents the meter
+    /// </summary>
     class MeterSubmenuPath : PathBase
     {
-        
-        #region properties
+        /// <summary>
+        /// Draws the Meter arc
+        /// </summary>
         public void Draw()
         {
             Redraw();
         }
-
+        #region properties
         /// <summary>
         /// Starting value for the meter. If set to 5, the first selectable value will be 5.
         /// </summary>
@@ -99,7 +106,13 @@ namespace RadialMenuControl.UserControl
             
 
         }
-
+        /// <summary>
+        /// Draws an interval for the meter
+        /// </summary>
+        /// <param name="interval">The MeterRangeInteraval which represents this range of the meter</param>
+        /// <param name="tickLength">The length of the ticks for this range</param>
+        /// <param name="group">The geometry group to add this to add this to</param>
+        /// <param name="startAngle"></param>
         private void DrawInterval(MeterRangeInterval interval, double tickLength, GeometryGroup group, double startAngle = 0.0)
         {
             double startRad = interval.StartDegree*(Math.PI/180), endRad = interval.EndDegree*(Math.PI/180);

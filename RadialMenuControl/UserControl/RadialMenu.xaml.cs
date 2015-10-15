@@ -385,11 +385,26 @@ namespace RadialMenuControl.UserControl
         public void ChangeToCustomMenu(object s, MenuBase newSubMenu, bool storePrevious)
         {
             _clearPie(storePrevious);
+
             // Redraw
             Pie.Draw();
             Pie.UpdateLayout();
+
             newSubMenu.Diameter = Diameter;
             CustomRadialControlRoot.Children.Add(newSubMenu);
+
+            // Check if we're in a MeterSubMenu
+            if (newSubMenu is MeterSubMenu)
+            {
+                var newMeterSubMenu = newSubMenu as MeterSubMenu;
+                var defaultBackground = (HasBackgroundEllipse)
+                    ? new SolidColorBrush(BackgroundEllipseFill)
+                    : new SolidColorBrush(InnerNormalColor);
+                newMeterSubMenu.SetDefault(MeterSubMenu.BackgroundFillBrushProperty, defaultBackground);
+                newMeterSubMenu.SetDefault(MeterSubMenu.OuterEdgeBrushProperty, new SolidColorBrush(OuterDisabledColor));
+                newMeterSubMenu.SetDefault(MeterSubMenu.OuterEdgeThicknessProperty, OuterArcThickness);
+            }
+
             newSubMenu.UpdateLayout();
         }
 

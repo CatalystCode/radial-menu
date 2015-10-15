@@ -16,7 +16,7 @@
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </my:MenuBase.Resources>
     <Canvas x:Name="LayoutRoot">
-        <Path x:Name="OuterCircle" Stroke="{Binding OuterEdgeBrush}" StrokeThickness="20" Canvas.ZIndex="100">
+        <Path x:Name="OuterCircle" Stroke="{Binding OuterEdgeBrush}" StrokeThickness="{Binding OuterEdgeThickness}" Canvas.ZIndex="100">
             <Path.Data>
                 <EllipseGeometry RadiusX="{Binding OuterCircleRadius}" RadiusY="{Binding OuterCircleRadius}" Center="{Binding Center}"/>
             </Path.Data> 

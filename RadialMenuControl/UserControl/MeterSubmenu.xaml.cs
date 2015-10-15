@@ -49,7 +49,9 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty MeterTextYProperty =
             DependencyProperty.Register("MeterTextY", typeof(double), typeof(MeterSubMenu), new PropertyMetadata(30, DependencyPropertyChanged));
         public static readonly DependencyProperty OuterEdgeBrushProperty =
-            DependencyProperty.Register("OuterEdgeBrushBrush", typeof(Brush), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.HighlightColor), DependencyPropertyChanged));
+            DependencyProperty.Register("OuterEdgeBrush", typeof(Brush), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.HighlightColor), DependencyPropertyChanged));
+        public static readonly DependencyProperty OuterEdgeThicknessProperty =
+            DependencyProperty.Register("OuterEdgeThickness", typeof(Double), typeof(MeterSubMenu), new PropertyMetadata((double)20, DependencyPropertyChanged));
         public static readonly DependencyProperty BackgroundFillBrushProperty =
             DependencyProperty.Register("BackgroundFillBrush", typeof(Brush), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.InnerNormalColor), DependencyPropertyChanged));
         public static readonly DependencyProperty HoverValueBrushProperty =
@@ -59,7 +61,7 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty SelectedValueTextBrushProperty =
             DependencyProperty.Register("SelectedValueTextBrush", typeof(Brush), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.HighlightColor), DependencyPropertyChanged));
         public static readonly DependencyProperty LockedValueProperty =
-                    DependencyProperty.Register("LockedValue", typeof(double), typeof(MeterSubMenu), new PropertyMetadata(0, DependencyPropertyChanged));
+                    DependencyProperty.Register("LockedValue", typeof(double), typeof(MeterSubMenu), new PropertyMetadata((double)0, DependencyPropertyChanged));
         public static readonly DependencyProperty MeterLineBrushProperty =
             DependencyProperty.Register("MeterLineBrush", typeof(Brush), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.MeterLineColor), DependencyPropertyChanged));
         public static readonly DependencyProperty StartAngleProperty =
@@ -69,6 +71,7 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty RoundSelectValueProperty =
             DependencyProperty.Register("RoundSelectValue", typeof(bool), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.OuterTappedColor), DependencyPropertyChanged));
         #endregion
+ 
         private static void DependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var meterMenu = d as MeterSubMenu;
@@ -192,7 +195,6 @@ namespace RadialMenuControl.UserControl
             set { SetValue(LockedValueProperty, value); }
             get { return (double)GetValue(LockedValueProperty); }
         }
-
         
         /// <summary>
         /// Color for the outer edge of the meter (analog to the outer arc on a RadialMenuButton)
@@ -202,7 +204,16 @@ namespace RadialMenuControl.UserControl
             set { SetValue(OuterEdgeBrushProperty, value); }
             get { return (Brush)GetValue(OuterEdgeBrushProperty); }
         }
-        
+
+        /// <summary>
+        /// Thickness of the outer edge
+        /// </summary>
+        public Double OuterEdgeThickness
+        {
+            set { SetValue(OuterEdgeThicknessProperty, value); }
+            get { return (Double)GetValue(OuterEdgeThicknessProperty); }
+        }
+
         /// <summary>
         /// Color for the background of the meter
         /// </summary>
@@ -478,6 +489,27 @@ namespace RadialMenuControl.UserControl
                 Canvas.SetTop(tickLabel, tick.LabelPoint.Y - (tickLabel.ActualHeight / 2));
                 Canvas.SetLeft(tickLabel, tick.LabelPoint.X - (tickLabel.ActualWidth / 2));
                 Canvas.SetZIndex(tickLabel, 100);
+            }
+        }
+
+        /// <summary>
+        /// Set default properties on this instance, if a setting has otherwise not been set
+        /// </summary>
+        /// <param name="prop">Property to set</param>
+        /// <param name="defaultSetting">Default setting to apply</param>
+        public void SetDefault(DependencyProperty prop, object defaultSetting)
+        {
+            if (ReadLocalValue(prop) == DependencyProperty.UnsetValue)
+            {
+                if (defaultSetting is Brush)
+                {
+                    var defaultBrush = defaultSetting as Brush;
+                    SetValue(prop, defaultBrush);
+                } else if (defaultSetting is double)
+                {
+                    var defaultDouble = (double)defaultSetting;
+                    SetValue(prop, defaultDouble);
+                }
             }
         }
 

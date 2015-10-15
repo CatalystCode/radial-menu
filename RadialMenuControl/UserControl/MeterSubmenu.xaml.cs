@@ -542,10 +542,6 @@ namespace RadialMenuControl.UserControl
 
             PointerReleased += (sender, args) =>
             {
-                if (!_isPressed)
-                {
-                    return;
-                }
                 _isPressed = false;
                 // hide the selection meter line
                 MeterLinePath.Visibility = Visibility.Collapsed;
@@ -554,6 +550,8 @@ namespace RadialMenuControl.UserControl
                 LockedValue = SelectedValue;
                 // modify the display text color
                 SelectedValueTextColor = SelectedValueColor;
+                var point = args.GetCurrentPoint(sender as UIElement);
+                SetMeterPoint(point.Position, true, true);
                 ValueSelected?.Invoke(this, args);
                 
             };

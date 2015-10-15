@@ -439,12 +439,8 @@ namespace RadialMenuControl.UserControl
             InnerPieSlicePath.Angle = Angle;
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
-
             // Setup custom textbox for custom button
-            if (this.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
-            {
-                this.CreateCustomTextBox();
-            }
+            if (this.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom) this.CreateCustomTextBox();
 
             // Stroke
             OuterPieSlicePath.StrokeThickness = StrokeThickness;
@@ -463,7 +459,6 @@ namespace RadialMenuControl.UserControl
             OuterAccessKeyPopup.VerticalOffset = Radius;
             OuterAccessKeyPopupTranslate.X = (Radius - OuterArcThickness / 2 + 3) * Math.Sin(middleRadian);
             OuterAccessKeyPopupTranslate.Y = -(Radius - OuterArcThickness / 2 + 3) * Math.Cos(middleRadian);
-
 
             // Go to correct visual state
             UpdateSliceForToggle();

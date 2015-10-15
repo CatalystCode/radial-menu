@@ -37,7 +37,7 @@
                                         StartAngle="-22.5"
                                         HasBackgroundEllipse="True"
                                         BackgroundEllipseFill="White"
-                                        OuterArcThickness="20"
+                                        OuterArcThickness="30"
                                         CenterButtonBorder="Black"
                                         CenterButtonForeground="Black"
                                         CenterButtonIcon="&#x1f369;"

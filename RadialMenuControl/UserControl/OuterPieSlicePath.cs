@@ -47,7 +47,7 @@
 
             Width = Height = 2 * (Radius);
             var endAngle = StartAngle + Angle;
-            var smallRadius = Radius - 20;
+            var smallRadius = Radius - Thickness;
            
             var startX = Radius + Math.Sin(StartAngle * Math.PI / 180) * Radius;
             var startY = Radius - Math.Cos(StartAngle * Math.PI / 180) * Radius;
@@ -75,7 +75,7 @@
             // start angle line
             var lineX = smallRadius + Math.Sin(endAngle * Math.PI / 180) * smallRadius;
             var lineY = smallRadius - Math.Cos(endAngle * Math.PI / 180) * smallRadius;
-            var line = new LineSegment { Point = new Point(lineX + 20, lineY + 20) };
+            var line = new LineSegment { Point = new Point(lineX + Thickness, lineY + Thickness) };
             figure.Segments.Add(line);
 
             // inner arc
@@ -84,7 +84,7 @@
             var innerArc = new ArcSegment
             {
                 IsLargeArc = Angle >= 180.0,
-                Point = new Point(innerArcX + 20, innerArcY + 20),
+                Point = new Point(innerArcX + Thickness, innerArcY + Thickness),
                 Size = new Size(smallRadius, smallRadius),
                 SweepDirection = SweepDirection.Counterclockwise,
             };

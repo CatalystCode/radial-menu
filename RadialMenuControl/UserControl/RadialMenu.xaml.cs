@@ -310,10 +310,8 @@ namespace RadialMenuControl.UserControl
             
             // a custom menu may have changed dragability. Ensure we are draggable, of using Floating
             var floatingParent = FindParent<Floating>(this);
-            if (floatingParent != null)
-            {
-                floatingParent.ShouldManipulateChild = true;
-            }
+            if (floatingParent != null) floatingParent.ShouldManipulateChild = true;
+
             // If we have a previous pie, we're going back to it
             ChangePie(this, PreviousPies[PreviousPies.Count - 1], false);
             PreviousPies.RemoveAt(PreviousPies.Count - 1);
@@ -382,8 +380,11 @@ namespace RadialMenuControl.UserControl
         /// <param name="s">Sending object</param>
         /// <param name="newSubMenu">The new submenu which will be placed in customRadialControlRoot Canvas</param>
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
-        public void ChangeToCustomMenu(object s, MenuBase newSubMenu, bool storePrevious)
+        public async void ChangeToCustomMenu(object s, MenuBase newSubMenu, bool storePrevious)
         {
+            BackgroundEllipse.Visibility = Visibility.Visible;
+            await PieExitForChangeStoryboard.PlayAsync();
+
             _clearPie(storePrevious);
 
             // Redraw
@@ -406,6 +407,9 @@ namespace RadialMenuControl.UserControl
             }
 
             newSubMenu.UpdateLayout();
+
+            await CustomPieEnterForChangeStoryboard.PlayAsync();
+            BackgroundEllipse.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -422,8 +426,16 @@ namespace RadialMenuControl.UserControl
             {
                 ps.OuterArcElement.Visibility = Visibility.Collapsed;
             }
-
-            await PieExitForChangeStoryboard.PlayAsync();
+        
+            // Play animations, depending on what's in the control
+            if (CustomRadialControlRoot.Children.Count > 0)
+            {
+                await CustomPieExitForChangeStoryboard.PlayAsync();
+            }
+            else
+            {
+                await PieExitForChangeStoryboard.PlayAsync();
+            }
 
             _clearPie(storePrevious);
             // Add the new ones
@@ -437,14 +449,7 @@ namespace RadialMenuControl.UserControl
             Pie.UpdateLayout();
 
             // Ensure that we remember what the last selected item was
-            if (newPie.SelectedItem != null)
-            {
-                Pie.SelectedItem = newPie.SelectedItem;
-            }
-            else
-            {
-                Pie.SelectedItem = null;
-            }
+            Pie.SelectedItem = newPie.SelectedItem ?? null;
 
             await PieEnterForChangeStoryboard.PlayAsync();
             BackgroundEllipse.Visibility = Visibility.Collapsed;
@@ -557,8 +562,10 @@ namespace RadialMenuControl.UserControl
             {
                 CenterButtonTop = Diameter/2 - (CenterButton.ActualWidth/2);
                 CenterButtonLeft = Diameter/2 - (CenterButton.ActualHeight/2);
-                PieCompositeTransform.CenterX = Diameter/2;
+                PieCompositeTransform.CenterX = Diameter / 2;
                 PieCompositeTransform.CenterY = Diameter / 2;
+                CustomPieCompositeTransform.CenterX = Diameter / 2;
+                CustomPieCompositeTransform.CenterY = Diameter / 2;
             };
             CenterButton.Style = Resources["RoundedCenterButton"] as Style;
 

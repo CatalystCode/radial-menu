@@ -67,7 +67,7 @@
             _border = GetTemplateChild(BorderPartName) as Border;
             if (_border != null)
             {
-                // this.border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.TranslateInertia;
+                //this.border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.TranslateInertia;
                 _border.ManipulationDelta += Border_ManipulationDelta;
 
                 // Move Canvas properties from control to border.

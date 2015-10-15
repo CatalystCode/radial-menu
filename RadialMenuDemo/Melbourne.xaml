@@ -28,7 +28,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" TextAlignment="Center">Press Shift for Access Keys</TextBlock>
                     <Canvas Grid.RowSpan="2">
-                        <userControl:Floating IsBoundByScreen="False" x:Name="FloatingRadialMenu">
+                        <userControl:Floating IsBoundByScreen="True" x:Name="FloatingRadialMenu">
                             <Border BorderBrush="Transparent" BorderThickness="1">
                                 <Grid>
                                     <userControl:RadialMenu 
@@ -37,7 +37,7 @@
                                         StartAngle="-22.5"
                                         HasBackgroundEllipse="True"
                                         BackgroundEllipseFill="White"
-                                        OuterArcThickness="30"
+                                        OuterArcThickness="22"
                                         CenterButtonBorder="Black"
                                         CenterButtonForeground="Black"
                                         CenterButtonIcon="&#x1f369;"

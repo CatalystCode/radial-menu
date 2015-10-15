@@ -570,7 +570,7 @@ namespace RadialMenuControl.UserControl
             CenterButton.Style = Resources["RoundedCenterButton"] as Style;
 
             Pie.SourceRadialMenu = this;
-            LayoutRoot.DataContext = this;
+            CenterButton.DataContext = this;
             CenterButton.Tapped += OnCenterButtonTapped;
         }
     }

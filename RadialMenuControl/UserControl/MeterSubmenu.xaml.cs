@@ -521,15 +521,11 @@ namespace RadialMenuControl.UserControl
         public delegate void ValueSelectedHandler(object sender, PointerRoutedEventArgs args);
         public event ValueSelectedHandler ValueSelected;
 
-        private void _setLockedValue ()
-        {
-            
-            //args.Handled = true;
-        }
         public MeterSubMenu()
         {
             InitializeComponent();
-            DataContext = this;
+            LayoutRoot.DataContext = this;
+
             IsDraggable = false;
             PointerPressed += (sender, args) =>
             {

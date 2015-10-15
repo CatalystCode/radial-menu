@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Media;
 using RadialMenuControl.Components;
 using RadialMenuControl.Extensions;
 using RadialMenuControl.UserControl;
+using Windows.UI.Xaml;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -18,6 +19,15 @@ namespace RadialMenuDemo
     /// </summary>
     public sealed partial class Melbourne : Page
     {
+        public static readonly DependencyProperty MyLockedValueProperty =
+                    DependencyProperty.Register("MyLockedValue", typeof(double), typeof(Melbourne), new PropertyMetadata((double)0));
+
+        public double MyLockedValue
+        {
+            set { SetValue(MyLockedValueProperty, value); }
+            get { return (double)GetValue(MyLockedValueProperty); }
+        }
+
         private readonly Dictionary<string, Color> _buttonColors = new Dictionary<string, Color>()
         {
             {"OuterNormalColor", Color.FromArgb(255, 56, 55, 57)},
@@ -131,7 +141,10 @@ namespace RadialMenuDemo
 
         public Melbourne()
         {
+            DataContext = this;
             this.InitializeComponent();
+
+            MyLockedValue = 20;
 
             Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Black, 10));
             Pen1Submenu.AddButton(CreateColorRadialMenuButtonWithSubMenu(Colors.Red, 10));
@@ -176,7 +189,6 @@ namespace RadialMenuDemo
             };
         }
 
-        
         private void Melbourne_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             if (args.VirtualKey == VirtualKey.Shift) MyRadialMenu.ShowAccessKeyTooltips();

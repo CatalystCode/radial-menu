@@ -19,6 +19,32 @@ namespace RadialMenuControl.UserControl
     using Windows.UI.Xaml.Input;
     using System.Collections.ObjectModel;
 
+    /// <summary>
+    /// The base class for the Radial Menu Control - and also the user control. A RadialMenu contains
+    /// multiple RadialMenuButtons, which in turn can have sub-menues.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var myRadialMenu = new RadialMenu
+    ///     {
+    ///         CenterButtonIcon = "F",
+    ///         Diameter = 300,
+    ///         Buttons =
+    ///         {
+    ///             new RadialMenuButton
+    ///             {
+    ///                 Label = "I'm a button!"
+    ///             },
+    ///             new RadialMenuButton
+    ///             {
+    ///                 Label = "Me too!"
+    ///             }
+    ///         }
+    ///     }
+    /// </code>
+    /// <remarks>See RadialMenuDemo for complex tutorials - the menu is quite flexible and powerful,
+    /// meaning that it can be used in a number of ways.</remarks>
+    /// </example>
     public partial class RadialMenu : MenuBase
     {
         public ObservableCollection<MenuBase> DisplayMenus = new ObservableCollection<MenuBase>();
@@ -270,8 +296,12 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Show or hide the outer wheel
+        /// Show or hide the outer wheel. This change is animated.
         /// </summary>
+        /// <remarks>
+        /// If you want to change the animation, you can do so using the storyboards
+        /// OpenStoryboard and CloseStoryboard as defined in RadialMenu.xaml.
+        /// </remarks>
         public async void TogglePie()
         {
             var floatingParent = FindParent<Floating>(this);
@@ -308,7 +338,8 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// RadialMenuButtons on this menu
+        /// RadialMenuButtons on this menu. You can add buttons either in XAML or in code-behind.
+        /// If you change the list, the menu will be redrawn.
         /// </summary>
         public IList<RadialMenuButton> Buttons
         {
@@ -320,6 +351,7 @@ namespace RadialMenuControl.UserControl
         ///  Add a RadialMenuButton to the current pie
         /// </summary>
         /// <param name="button">RadialMenuButton to add to the current pie</param>
+        /// <remarks>If you add a button to the currently visible Radial Menu, the menu will be redrawn.</remarks>
         public void AddButton(RadialMenuButton button)
         {
             Pie.Slices.Add(button);
@@ -357,8 +389,9 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Change the whole radial menu, using a new menu object
+        /// Change the whole radial menu, using a new menu object.
         /// </summary>
+        /// <remarks>This method is used to facilitate the transition between a parent and a submenu.</remarks>
         /// <param name="s">Sending object</param>
         /// <param name="menu">Menu to change to</param>
         public void ChangeMenu(object s, MenuBase menu)
@@ -384,7 +417,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Clears the current pie, removing all currently displayed slices
+        /// Clears the current pie, removing all currently displayed slices.
         /// </summary>
         /// <param name="storePrevious">Should we store the pie (for back navigation)?</param>
         private void _clearPie(bool storePrevious)
@@ -447,8 +480,10 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Change the current pie - aka update the current radial menu buttons
+        /// Change the current pie by replacing its PieSlices with new ones. If storePrevious is set to true,
+        /// the current pie will be stored away and restored during back navigation.
         /// </summary>
+        /// <remarks>This method is used to facilitate the transition between RadialMenus.</remarks>
         /// <param name="s">Sending object</param>
         /// <param name="newPie">Pie object to take RadialMenuButtons from</param>
         /// <param name="storePrevious">Should we store the previous pie (for back navigation)?</param>
@@ -490,8 +525,9 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Change the center button using a CenterButtonShim object
+        /// Change the center button using a CenterButtonShim object, which is used to store the current state of a CenterButton in a leightweight way.
         /// </summary>
+        /// <remarks>This method is used to facilitate transitions between submenus.</remarks>
         /// <param name="s">Sending object</param>
         /// <param name="newButton">CenterButtonShim object to take properties for the new button from</param>
         /// <param name="storePrevious">Should we store the previous center button (for back navigation?)</param>
@@ -531,8 +567,12 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Hide all tooltips displaying set access keys for a RadialMenuButton
+        /// Hide all tooltips displaying set access keys for the currently visible RadialMenuButtons.
         /// </summary>
+        /// <remarks>
+        /// RadialMenuButtons do not automatically generate AccessKeys - if you whish to enable keyboard navigation,
+        /// please consult the RadialMenuButton documentation and the "Access Keys" scenario documentation.
+        /// </remarks>
         public void HideAccessKeyTooltips()
         {
             foreach (var ps in Pie.PieSlices)
@@ -542,8 +582,12 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Show all tooltips displaying set access keys for a RadialMenuButton
+        /// Show all tooltips displaying set access keys for the currently visible RadialMenuButtons.
         /// </summary>
+        /// <remarks>
+        /// RadialMenuButtons do not automatically generate AccessKeys - if you whish to enable keyboard navigation,
+        /// please consult the RadialMenuButton documentation and the "Access Keys" scenario documentation.
+        /// </remarks>
         public void ShowAccessKeyTooltips()
         {
             foreach (var ps in Pie.PieSlices)
@@ -553,9 +597,14 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Programmatically "click" the inner arc in a RadialMenuButton
+        /// Programmatically "click" the inner arc in a RadialMenuButton.
         /// </summary>
-        /// <param name="rmb"></param>
+        /// <remarks>
+        /// This method is useful when implementing keyboard navigation.
+        /// RadialMenuButtons do not automatically generate AccessKeys - if you whish to enable keyboard navigation,
+        /// please consult the RadialMenuButton documentation and the "Access Keys" scenario documentation.
+        /// </remarks>
+        /// <param name="rmb">The RadialMenuButton to programmatically click.</param>
         public void ClickInnerRadialMenuButton(RadialMenuButton rmb)
         {
             foreach (var ps in Pie.PieSlices.Where(ps => ps.OriginalRadialMenuButton == rmb))
@@ -565,9 +614,14 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Programmatically "click" the inner arc in a RadialMenuButton
+        /// Programmatically "click" the outer arc in a RadialMenuButton
         /// </summary>
-        /// <param name="rmb"></param>
+        /// <remarks>
+        /// This method is useful when implementing keyboard navigation.
+        /// RadialMenuButtons do not automatically generate AccessKeys - if you whish to enable keyboard navigation,
+        /// please consult the RadialMenuButton documentation and the "Access Keys" scenario documentation.
+        /// </remarks>
+        /// <param name="rmb">The RadialMenuButton to programmatically click.</param>
         public void ClickOuterRadialMenuButton(RadialMenuButton rmb)
         {
             foreach (var ps in Pie.PieSlices.Where(ps => ps.OriginalRadialMenuButton == rmb))
@@ -577,7 +631,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Initializes the Center Button, since we want to share with other classes
+        /// Initializes the RadialMenu. The constructrer doesn't accept any parameters.
         /// </summary>
         public RadialMenu()
         {

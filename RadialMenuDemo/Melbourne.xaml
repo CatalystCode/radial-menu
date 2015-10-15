@@ -27,6 +27,7 @@
                         <RowDefinition Height="821*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" TextAlignment="Center">Press Shift for Access Keys</TextBlock>
+                    <TextBlock Grid.Row="0" TextAlignment="Center" Margin="0, 50" Text="{Binding MyLockedValue}" />
                     <Canvas Grid.RowSpan="2">
                         <userControl:Floating IsBoundByScreen="True" x:Name="FloatingRadialMenu">
                             <Border BorderBrush="Transparent" BorderThickness="1">
@@ -74,7 +75,8 @@
                                                                                               MeterStartValue="0" 
                                                                                               MeterRadius="80" 
                                                                                               StartAngle="-90" 
-                                                                                              MeterPointerLength="80" 
+                                                                                              MeterPointerLength="80"
+                                                                                              LockedValue="{Binding MyLockedValue, Mode=TwoWay}"
                                                                                               RoundSelectValue="True" 
                                                                                               OuterEdgeBrush="#383739"
                                                                                               />

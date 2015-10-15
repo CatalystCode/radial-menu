@@ -15,6 +15,7 @@ namespace RadialMenuDemo
     {
         public MainPage()
         {
+
             var button1 = new RadialMenuButton
             {
                 Label = "Melbourne",

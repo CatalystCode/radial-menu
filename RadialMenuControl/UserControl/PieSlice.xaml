@@ -77,9 +77,8 @@
             </Border>
         </Popup>
 
-        
         <Grid x:Name="TextLabelGrid">
-                <Grid.RenderTransform>
+            <Grid.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform x:Name="IconTranslate" />
                 </TransformGroup>

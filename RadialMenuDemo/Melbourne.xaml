@@ -94,7 +94,7 @@
                                                                                               />
                                                                 </component:RadialMenuButton.CustomMenu>
                                                             </component:RadialMenuButton>
-                                                            <component:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom Stroke" />
+                                                            <component:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom Stroke" Type="Custom" Value="5" />
                                                         </userControl:RadialMenu.Buttons>
                                                     </userControl:RadialMenu>
                                                 </component:RadialMenuButton.Submenu>
@@ -131,7 +131,7 @@
                                                                                               />
                                                                 </component:RadialMenuButton.CustomMenu>
                                                             </component:RadialMenuButton>
-                                                            <component:RadialMenuButton x:Name="Pen2CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom\nStroke" />
+                                                            <component:RadialMenuButton x:Name="Pen2CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom Stroke" Type="Custom" Value="5" />
                                                         </userControl:RadialMenu.Buttons>
                                                     </userControl:RadialMenu>
                                                 </component:RadialMenuButton.Submenu>

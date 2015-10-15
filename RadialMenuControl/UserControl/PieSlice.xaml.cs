@@ -5,6 +5,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using RadialMenuControl.Components;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace RadialMenuControl.UserControl
 {
@@ -62,6 +64,70 @@ namespace RadialMenuControl.UserControl
             set { SetValue(InnerReleasedColorProperty, value); }
         }
 
+        // Indication Arc
+        public static readonly DependencyProperty IndicationArcStartPointProperty =
+        DependencyProperty.Register("InidicationArcStartPoint", typeof(Point), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcEndPointProperty =
+        DependencyProperty.Register("InidicationArcEndPoint", typeof(Point), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcSizeProperty =
+        DependencyProperty.Register("InidicationArcSize", typeof(Size), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcIsLargeArcProperty =
+        DependencyProperty.Register("IndicationArcIsLargeArc", typeof(bool), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcColorProperty =
+        DependencyProperty.Register("IndicationArcColor", typeof(Color), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcSweepAngleProperty =
+        DependencyProperty.Register("IndicationArcSweepAngle", typeof(double), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcStrokeThicknessProperty =
+        DependencyProperty.Register("IndicationArcStrokeThickness", typeof(double), typeof(PieSlice), null);
+        public static readonly DependencyProperty IndicationArcDistanceFromEdgeProperty =
+        DependencyProperty.Register("IndicationArcDistanceFromEdge", typeof(double), typeof(PieSlice), null);
+        public static readonly DependencyProperty UseIndicationArcsProperty =
+            DependencyProperty.Register("UseIndicationArc", typeof(bool), typeof(PieSlice), null);
+        public Point IndicationArcStartPoint
+        {
+            get { return (Point)GetValue(IndicationArcStartPointProperty); }
+            set { SetValue(IndicationArcStartPointProperty, value); }
+        }
+        public Point IndicationArcEndPoint
+        {
+            get { return (Point)GetValue(IndicationArcEndPointProperty); }
+            set { SetValue(IndicationArcEndPointProperty, value); }
+        }
+        public Size IndicationArcSize
+        {
+            get { return (Size)GetValue(IndicationArcSizeProperty); }
+            set { SetValue(IndicationArcSizeProperty, value); }
+        }
+        public Color IndicationArcColor
+        {
+            get { return (Color)GetValue(IndicationArcColorProperty); }
+            set { SetValue(IndicationArcColorProperty, value); }
+        }
+        public double IndicationArcSweepAngle
+        {
+            get { return (double)GetValue(IndicationArcSweepAngleProperty); }
+            set { SetValue(IndicationArcSweepAngleProperty, value); }
+        }
+        public double IndicationArcStrokeThickness
+        {
+            get { return (double)GetValue(IndicationArcStrokeThicknessProperty); }
+            set { SetValue(IndicationArcStrokeThicknessProperty, value); }
+        }
+        public bool IndicationArcIsLargeArc
+        {
+            get { return (bool)GetValue(IndicationArcIsLargeArcProperty); }
+            set { SetValue(IndicationArcIsLargeArcProperty, value); }
+        }
+        public double IndicationArcDistanceFromEdge
+        {
+            get { return (double)GetValue(IndicationArcDistanceFromEdgeProperty); }
+            set { SetValue(IndicationArcDistanceFromEdgeProperty, value); }
+        }
+        public bool UseIndicationArc
+        {
+            get { return (bool)GetValue(UseIndicationArcsProperty); }
+            set { SetValue(UseIndicationArcsProperty, value); }
+        }
         // Outer Arc Colors
         public static readonly DependencyProperty OuterNormalColorProperty =
             DependencyProperty.Register("OuterNormalColor", typeof(Color), typeof(PieSlice), null);
@@ -400,6 +466,34 @@ namespace RadialMenuControl.UserControl
             Loaded += OnLoaded;
         }
 
+        private void SetupIndicationArc()
+        {
+            var indicationArcRadius = Radius - OuterArcThickness - IndicationArcDistanceFromEdge;
+            IndicationArc.Size = new Size(indicationArcRadius, indicationArcRadius);
+            double startAngle = (StartAngle + .10 * Angle) * (Math.PI / 180),
+                    endAngle = (StartAngle + .90 * Angle) * (Math.PI / 180);
+            double startX = Radius + indicationArcRadius * Math.Sin(startAngle),
+                   startY = Radius - indicationArcRadius * Math.Cos(startAngle),
+                   endX = Radius + indicationArcRadius * Math.Sin(endAngle),
+                   endY = Radius - indicationArcRadius * Math.Cos(endAngle);
+            IndicationArcPathFigure.StartPoint = new Point(startX, startY);
+            IndicationArc.Point = new Point(endX, endY);
+            IndicationArcPath.StrokeThickness = IndicationArcStrokeThickness;
+            IndicationArcPath.Stroke = new SolidColorBrush(IndicationArcColor);
+            // make all arcs initiall invisibile
+            IndicationArcPath.Opacity = 0.0;
+            
+            var appearAnimation = new DoubleAnimation()
+            {
+                From = 0.0,
+                To = 1.0,
+            };
+            appearAnimation.SetValue(Storyboard.TargetNameProperty, "IndicationArcPath");
+            appearAnimation.SetValue(Storyboard.TargetPropertyProperty, "Opacity");
+            InnerReleasedStoryBoard.Stop();
+            InnerReleasedStoryBoard.Children.Add(appearAnimation);
+
+        }
         /// <summary>
         /// Math and drawing operations for the path elements is handled in this OnLoaded event handler
         /// </summary>
@@ -407,12 +501,17 @@ namespace RadialMenuControl.UserControl
         /// <param name="routedEventArgs"></param>
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            if (UseIndicationArc)
+            {
+                SetupIndicationArc();
+            }
+            
             // Setup outer arc
             OuterPieSlicePath.Radius = Radius;
             OuterPieSlicePath.StartAngle = StartAngle;
             OuterPieSlicePath.Angle = Angle;
             OuterPieSlicePath.Thickness = OuterArcThickness;
-
+    
             var middleRadian = (Math.PI / 180) * (StartAngle + (Angle / 2));
 
             if (!OriginalRadialMenuButton.HasOuterArcAction)

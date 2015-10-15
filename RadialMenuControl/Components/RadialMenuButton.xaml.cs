@@ -231,10 +231,44 @@ namespace RadialMenuControl.Components
             DependencyProperty.Register("OuterArcThickness", typeof(double?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty StrokeColorProperty =
-            DependencyProperty.Register("StrokeColor", typeof(Color?), typeof(PieSlice), null);
+            DependencyProperty.Register("StrokeColor", typeof(Color?), typeof(RadialMenuButton), null);
 
         public static readonly DependencyProperty StrokeThicknessProperty =
-            DependencyProperty.Register("StrokeThickness", typeof(double?), typeof(PieSlice), null);
+            DependencyProperty.Register("StrokeThickness", typeof(double?), typeof(RadialMenuButton), null);
+
+        // Indication Arc
+        public static readonly DependencyProperty UseIndicationArcProperty =
+            DependencyProperty.Register("UseIndicationArcProperty", typeof(bool?), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty IndicationArcColorProperty =
+        DependencyProperty.Register("IndicationArcColor", typeof(Color?), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty IndicationArcStrokeThicknessProperty =
+        DependencyProperty.Register("IndicationArcStrokeThickness", typeof(double?), typeof(RadialMenuButton), null);
+
+        public static readonly DependencyProperty IndicationArcDistanceFromEdgeProperty =
+        DependencyProperty.Register("IndicationArcDistanceFromEdge", typeof(double?), typeof(RadialMenuButton), null);
+
+        public double? IndicationArcDistanceFromEdge
+        {
+            get { return (double?)GetValue(IndicationArcDistanceFromEdgeProperty); }
+            set { SetValue(IndicationArcDistanceFromEdgeProperty, value); }
+        }
+        public bool? UseIndicationArc
+        {
+            get { return (bool?)GetValue(UseIndicationArcProperty); }
+            set { SetValue(UseIndicationArcProperty, value); }
+        }
+        public Color? IndicationArcColor
+        {
+            get { return (Color?)GetValue(IndicationArcColorProperty); }
+            set { SetValue(IndicationArcColorProperty, value); }
+        }
+        public double? IndicationArcStrokeThickness
+        {
+            get { return (double?)GetValue(IndicationArcStrokeThicknessProperty); }
+            set { SetValue(IndicationArcStrokeThicknessProperty, value); }
+        }
 
         /// <summary>
         /// Hover color for the outer portion of the button

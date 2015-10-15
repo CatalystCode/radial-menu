@@ -9,6 +9,7 @@ namespace RadialMenuControl.UserControl
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 
@@ -185,7 +186,7 @@ namespace RadialMenuControl.UserControl
                     // Arc & Stroke
                     StrokeColor = slice.StrokeColor ?? SourceRadialMenu.InnerNormalColor,
                     StrokeThickness = slice.StrokeThickness ?? 0,
-                    OuterArcThickness =  slice.OuterArcThickness ?? SourceRadialMenu.OuterArcThickness,
+                    OuterArcThickness = slice.OuterArcThickness ?? SourceRadialMenu.OuterArcThickness,
                     // The defaults below use OneNote-like purple colors
                     InnerNormalColor = slice.InnerNormalColor ?? SourceRadialMenu.InnerNormalColor,
                     InnerHoverColor = slice.InnerHoverColor ?? SourceRadialMenu.InnerHoverColor,
@@ -195,6 +196,10 @@ namespace RadialMenuControl.UserControl
                     OuterDisabledColor = slice.OuterDisabledColor ?? SourceRadialMenu.OuterDisabledColor,
                     OuterHoverColor = slice.OuterHoverColor ?? SourceRadialMenu.OuterHoverColor,
                     OuterTappedColor = slice.OuterTappedColor ?? SourceRadialMenu.OuterTappedColor,
+                    IndicationArcStrokeThickness = slice.IndicationArcStrokeThickness ?? SourceRadialMenu.IndicationArcStrokeThickness,
+                    IndicationArcColor = slice.IndicationArcColor ?? SourceRadialMenu.IndicationArcColor,
+                    IndicationArcDistanceFromEdge = slice.IndicationArcDistanceFromEdge ?? SourceRadialMenu.IndicationArcDistanceFromEdge,
+                    UseIndicationArc = slice.UseIndicationArc ?? SourceRadialMenu.UseIndicationArcs,
                     // Label
                     IconSize = slice.IconSize,
                     Icon = slice.Icon,

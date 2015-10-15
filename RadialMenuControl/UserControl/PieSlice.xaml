@@ -14,9 +14,9 @@
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="InnerStates">
+            <VisualStateGroup>
                 <VisualState x:Name="InnerNormal">
-                    <Storyboard SpeedRatio="2">
+                    <Storyboard SpeedRatio="2" x:Name="InnerNormalStoryBoard">
                         <ColorAnimation To="{Binding Path=InnerNormalColor}" Duration="0:00:00.2" Storyboard.TargetName="InnerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
@@ -31,7 +31,7 @@
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="InnerReleased">
-                    <Storyboard SpeedRatio="2">
+                    <Storyboard SpeedRatio="2" x:Name="InnerReleasedStoryBoard">
                         <ColorAnimation To="{Binding Path=InnerReleasedColor}" Duration="0:00:00.2" Storyboard.TargetName="InnerPieSlicePath" Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </VisualState>
@@ -63,7 +63,23 @@
             PointerEntered="innerPieSlicePath_PointerEntered"
             PointerExited="innerPieSlicePath_PointerExited">
         </userControl:InnerPieSlicePath>
-
+        <Path x:Name="IndicationArcPath"  Canvas.ZIndex="100" Canvas.Top="0" Canvas.Left="0">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure x:Name="IndicationArcPathFigure">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment x:Name="IndicationArc" SweepDirection="Clockwise" ></ArcSegment>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
         <Popup x:Name="OuterAccessKeyPopup">
             <Popup.RenderTransform>
                 <TranslateTransform x:Name="OuterAccessKeyPopupTranslate"></TranslateTransform>

@@ -6,6 +6,12 @@
     {
         private const float DefaultCorrectionFactor = 0.1f;
 
+        /// <summary>
+        /// Lightens a given color
+        /// </summary>
+        /// <param name="source">The source Color</param>
+        /// <param name="correctionFactor">The correction factor to use when ligtening</param>
+        /// <returns></returns>
         public static Color Lighten(this Color source, float correctionFactor = DefaultCorrectionFactor)
         {
             var red = (255 - source.R) * correctionFactor + source.R;

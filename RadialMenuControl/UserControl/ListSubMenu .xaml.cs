@@ -14,6 +14,10 @@ namespace RadialMenuControl.UserControl
 
         #region properties
         private object _selectedValue;
+        
+        /// <summary>
+        /// The currently selected element on this list
+        /// </summary>
         public object SelectedValue
         {
             set
@@ -26,6 +30,9 @@ namespace RadialMenuControl.UserControl
             }
         }
         private Brush _backgroundFillBrush = new SolidColorBrush(Colors.WhiteSmoke);
+        /// <summary>
+        /// The selected value for the 
+        /// </summary>
         public Brush BackgroundFillBrush
         {
             set
@@ -39,6 +46,9 @@ namespace RadialMenuControl.UserControl
         }
 
         private Brush _selectedValueBrush = new SolidColorBrush(DefaultColors.HighlightColor);
+        /// <summary>
+        /// The brush to use for the selected element on the list
+        /// </summary>
         public Brush SelectedValueBrush
         {
             set
@@ -65,6 +75,10 @@ namespace RadialMenuControl.UserControl
         }
 
         private Brush _hoverValueBrush = new SolidColorBrush(DefaultColors.MeterSelectorColor);
+
+        /// <summary>
+        /// The brush to use when the pointer hovers over an element
+        /// </summary>
         public Brush HoverValueBrush
         {
             set
@@ -76,8 +90,10 @@ namespace RadialMenuControl.UserControl
                 return _hoverValueBrush;
             }
         }
-       
         
+        /// <summary>
+        /// The CenterButton of this control for back navigation
+        /// </summary>
         public override CenterButton CenterButton
         {
             get { return SubMenuCenterButton; }
@@ -86,7 +102,9 @@ namespace RadialMenuControl.UserControl
 
         #endregion
 
-        
+        /// <summary>
+        /// Draws the list menu
+        /// </summary>
         public void Draw()
         {
 
@@ -110,6 +128,11 @@ namespace RadialMenuControl.UserControl
             //SubMenuListView.SelectionChanged += SubMenuListView_SelectionChanged;
         }
 
+        /// <summary>
+        /// Event Handler for selection changed event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SubMenuListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string selectedItem = (sender as ListView).SelectedValue as string;
@@ -127,6 +150,9 @@ namespace RadialMenuControl.UserControl
 
         public delegate void ValueSelectedHandler(object sender, TappedRoutedEventArgs args);
         public event ValueSelectedHandler ValueSelected;
+        /// <summary>
+        /// Creates a ListSubMenu instance
+        /// </summary>
         public ListSubMenu()
         {
 

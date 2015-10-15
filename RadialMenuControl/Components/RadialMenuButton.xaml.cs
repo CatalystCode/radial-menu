@@ -249,11 +249,18 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty IndicationArcDistanceFromEdgeProperty =
         DependencyProperty.Register("IndicationArcDistanceFromEdge", typeof(double?), typeof(RadialMenuButton), null);
 
+        /// <summary>
+        /// Distance from the inner part of the outer band to the indication arc
+        /// </summary>
         public double? IndicationArcDistanceFromEdge
         {
             get { return (double?)GetValue(IndicationArcDistanceFromEdgeProperty); }
             set { SetValue(IndicationArcDistanceFromEdgeProperty, value); }
         }
+
+        /// <summary>
+        /// When set to true, an indication arc will be placed on this button
+        /// </summary>
         public bool? UseIndicationArc
         {
             get { return (bool?)GetValue(UseIndicationArcProperty); }
@@ -264,6 +271,9 @@ namespace RadialMenuControl.Components
             get { return (Color?)GetValue(IndicationArcColorProperty); }
             set { SetValue(IndicationArcColorProperty, value); }
         }
+        /// <summary>
+        /// The Stroke thickness of the indication arc
+        /// </summary>
         public double? IndicationArcStrokeThickness
         {
             get { return (double?)GetValue(IndicationArcStrokeThicknessProperty); }

@@ -6,6 +6,11 @@ namespace RadialMenuControl.Extensions
 {
     public static class StoryboardExtension
     {
+        /// <summary>
+        /// Plays the storyboard and returns an awaitable Task
+        /// </summary>
+        /// <param name="storyboard"></param>
+        /// <returns></returns>
         public static Task PlayAsync(this Storyboard storyboard)
         {
             var tcs = new TaskCompletionSource<bool>();

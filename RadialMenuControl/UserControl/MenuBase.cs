@@ -14,6 +14,9 @@
     /// </summary>
     public class MenuBase : UserControl, INotifyPropertyChanged
     {
+        /// <summary>
+        /// The property changed event for this menu
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Brush _centerButtonForeground = new SolidColorBrush(Colors.Black);

@@ -71,7 +71,12 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty RoundSelectValueProperty =
             DependencyProperty.Register("RoundSelectValue", typeof(bool), typeof(MeterSubMenu), new PropertyMetadata(new SolidColorBrush(DefaultColors.OuterTappedColor), DependencyPropertyChanged));
         #endregion
- 
+        
+        /// <summary>
+        /// Handler for changed dependency values
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
         private static void DependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var meterMenu = d as MeterSubMenu;

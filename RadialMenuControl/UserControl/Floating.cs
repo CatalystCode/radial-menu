@@ -24,6 +24,9 @@
             DependencyProperty.Register("ShouldManipulateChild", typeof(bool), typeof(Floating), new PropertyMetadata(false));
         private Border _border;
 
+        /// <summary>
+        /// Prevents the Floating control from manipulating it's content
+        /// </summary>
         public bool ShouldManipulateChild
         {
             get { return (bool)GetValue(ShouldManiuplateChildProperty); }
@@ -89,6 +92,11 @@
             Loaded += Floating_Loaded;
         }
 
+        /// <summary>
+        /// Loaded handler which registers for the SizeChanged event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Floating_Loaded(object sender, RoutedEventArgs e)
         {
             FrameworkElement el = GetClosestParentWithSize(this);
@@ -100,6 +108,11 @@
             el.SizeChanged += Floating_SizeChanged;
         }
 
+        /// <summary>
+        /// Size Changed Handler for Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Floating_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var left = Canvas.GetLeft(_border);
@@ -109,6 +122,11 @@
             AdjustCanvasPosition(rect);
         }
 
+        /// <summary>
+        /// Handler for ManuplationDelta event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (ShouldManipulateChild)

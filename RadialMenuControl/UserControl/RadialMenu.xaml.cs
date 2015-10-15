@@ -159,6 +159,40 @@ namespace RadialMenuControl.UserControl
             set { SetValue(InnerReleasedColorProperty, value); }
         }
 
+        // Indication Arcs
+        public static readonly DependencyProperty UseIndicationArcsProperty =
+            DependencyProperty.Register("UseIndicationArcsProperty", typeof(bool), typeof(RadialMenu), new PropertyMetadata(true, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty IndicationArcColorProperty =
+        DependencyProperty.Register("IndicationArcColor", typeof(Color), typeof(RadialMenu), new PropertyMetadata(DefaultColors.OuterTappedColor, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty IndicationArcStrokeThicknessProperty =
+        DependencyProperty.Register("IndicationArcStrokeThickness", typeof(double), typeof(RadialMenu), new PropertyMetadata(3.0, DependencyPropertyChanged));
+
+        public static readonly DependencyProperty IndicationArcDistanceFromEdgeProperty =
+        DependencyProperty.Register("IndicationArcDistanceFromEdge", typeof(double), typeof(RadialMenu), new PropertyMetadata(10.0, DependencyPropertyChanged));
+
+        public double IndicationArcDistanceFromEdge
+        {
+            get { return (double)GetValue(IndicationArcDistanceFromEdgeProperty); }
+            set { SetValue(IndicationArcDistanceFromEdgeProperty, value); }
+        }
+        public bool UseIndicationArcs
+        {
+            get { return (bool)GetValue(UseIndicationArcsProperty); }
+            set { SetValue(UseIndicationArcsProperty, value); }
+        }
+        public Color IndicationArcColor
+        {
+            get { return (Color)GetValue(IndicationArcColorProperty); }
+            set { SetValue(IndicationArcColorProperty, value); }
+        }
+        public double IndicationArcStrokeThickness
+        {
+            get { return (double)GetValue(IndicationArcStrokeThicknessProperty); }
+            set { SetValue(IndicationArcStrokeThicknessProperty, value); }
+        }
+
         // Background Ellipse
         public static readonly DependencyProperty HasBackgroundEllipseProperty =
             DependencyProperty.Register("HasBackgroundEllipse", typeof(bool), typeof(RadialMenu), null);

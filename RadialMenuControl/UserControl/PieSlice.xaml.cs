@@ -440,7 +440,7 @@ namespace RadialMenuControl.UserControl
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
             // Setup custom textbox for custom button
-            if (this.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom) this.CreateCustomTextBox();
+            if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom) CreateCustomTextBox();
 
             // Stroke
             OuterPieSlicePath.StrokeThickness = StrokeThickness;
@@ -470,35 +470,32 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         private void CreateCustomTextBox()
         {
-            this.CustomTextBox = new TextBox();
-            CustomTextBox.Name = "CustomTextBox";
+            CustomTextBox = new TextBox
+            {
+                Name = "CustomTextBox",
+                FontSize = LabelSize,
+                Margin = new Thickness(0, 67, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                BorderThickness = new Thickness(0),
+                TextAlignment = TextAlignment.Center,
+                Background = new SolidColorBrush(Colors.Transparent),
+                AcceptsReturn = false,
+                Style = (Style)this.Resources["TransparentTextBox"]
+            };
+
+            CustomTextBox.Padding = new Thickness(0);
+
+            CustomTextBox.GotFocus += (sender, args) => LabelTextElement.Opacity = 0;
+            CustomTextBox.LostFocus += (sender, args) =>
+            {
+                OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
+                LabelTextElement.Opacity = 1;
+            };
             CustomTextBox.SetBinding(TextBox.TextProperty, new Windows.UI.Xaml.Data.Binding() { Source = this.CustomValue });
-            CustomTextBox.FontSize = LabelSize;
-            CustomTextBox.Margin = new Thickness(0, 57, 0, 0);
-            CustomTextBox.HorizontalAlignment = HorizontalAlignment.Center;
-            CustomTextBox.VerticalAlignment = VerticalAlignment.Center;
-            CustomTextBox.BorderThickness = new Thickness(0);
-            CustomTextBox.TextAlignment = TextAlignment.Center;
-            CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
-            CustomTextBox.GotFocus += CustomTextBox_GotFocus;
-            CustomTextBox.LostFocus += CustomTextBox_LostFocus;
-            CustomTextBox.AcceptsReturn = false;
-            CustomTextBox.Style = (Style)this.Resources["TransparentTextBox"];
+
             TextLabelGrid.Children.Add(CustomTextBox);
         }
-        
-
-        /// <summary>
-        /// Handles event when user is done entering custom value for custom textbox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CustomTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
-            LabelTextElement.Visibility = Visibility.Visible;
-        }
-
 
         /// <summary>
         /// Programmatically "click" the inner arc in the PieSlice
@@ -624,7 +621,6 @@ namespace RadialMenuControl.UserControl
             {
                 CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
                 CustomTextBox.Focus(FocusState.Keyboard);
-                CustomTextBox.GotFocus += CustomTextBox_GotFocus;
                 CustomTextBox.SelectAll();
                 CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
                 e.Handled = true;
@@ -637,12 +633,6 @@ namespace RadialMenuControl.UserControl
             }
         }
 
-        private void CustomTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-            LabelTextElement.Visibility = Visibility.Collapsed;
-        }
-
         /// <summary>
         ///  Event handler for a pointer release (mouse, touch, stylus) on the inner arc of the PieSlice
         /// </summary>
@@ -653,8 +643,8 @@ namespace RadialMenuControl.UserControl
             if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
             {
                 CustomTextBox.Visibility = Visibility.Visible;
-
             }
+
             else
             {
                 OriginalRadialMenuButton.OnInnerArcReleased(e);

@@ -200,5 +200,145 @@ private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventA
 
 Well done! Now you have successfully created a third arc inside your button :metal:! You will probably notice that the icons and labels on the inner arc may now be behind your more inner arc - obviously, you can configure those to your liking, too.
 
+### Adding custom input to Buttons 
+So you need to have a button that allows users to input custom values. Let's add this functionality by modifying three classes: `RadialMenuButton`, which is the control you use from your application, `PieSlice`, which is the class we instantiate using a given button, and `Pie`, which is the class we instantiate to create all the slices in a pie. 
+
+##### Add a custom input button type to the RadialMenuButton
+In `RadialMenuButton.xaml.cs`, find the `ButtonType` enum. By adding `Custom` as one of the `ButtonType` enum values, we are able to specify the button type of the `RadialMenuButton` control from our application to instantiate a custom input TextBox in `PieSlice`. 
+
+```c#
+public enum ButtonType
+{
+    Simple = 0,
+    Radio,
+    Toggle,
+    Custom
+};
+```
+##### Add a custom input TextBox to the PieSlice
+In `PieSlice.xaml.cs`, from `OnLoad`, add the following code to check if the application requests for a custom type `RadialMenuButton`. If so, then programmatically add a TextBox that allows users to input custom values.
+```c#
+// Setup textbox for custom type RadialMenuButton
+if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom) CreateCustomTextBox();
+```
+Now let's add the `CreateCustomTextBox` function, where we programmatically create and configure the TextBox before adding it to the `TextLabelGrid` in `PieSlice.xaml`. Note, we have taken the default TextBox style and customized it to ensure it is transparent on top of our pie slice. We are hidding the Label element in the pie slice when the TextBox is focused. Then making the Label element visible again when the TextBox is out of focus. 
+
+```c#
+private void CreateCustomTextBox()
+{
+    CustomTextBox = new TextBox
+    {
+        Name = "CustomTextBox",
+        FontSize = LabelSize,
+        Margin = new Thickness(0, 67, 0, 0),
+        HorizontalAlignment = HorizontalAlignment.Center,
+        VerticalAlignment = VerticalAlignment.Center,
+        BorderThickness = new Thickness(0),
+        TextAlignment = TextAlignment.Center,
+        Background = new SolidColorBrush(Colors.Transparent),
+        AcceptsReturn = false,
+        Style = (Style)this.Resources["TransparentTextBox"]
+    };
+
+    CustomTextBox.Padding = new Thickness(0);
+
+    CustomTextBox.GotFocus += (sender, args) => LabelTextElement.Opacity = 0;
+    CustomTextBox.LostFocus += (sender, args) =>
+    {
+        OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
+        LabelTextElement.Opacity = 1;
+    };
+
+    // ...
+
+    TextLabelGrid.Children.Add(CustomTextBox);
+}
+```
+##### Focus on input TextBox when pie slice is pressed
+Now that we have the TextBox input control on our pie slice, we need to make sure the TextBox control has focus when the inner pie slice is pressed. In `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerPressed` event handler. The following ensures the `CustomTextBox` now has focus and the entire text field is now selected.
+
+```c#
+private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventArgs e)
+{
+    if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
+    {
+        CustomTextBox.Focus(FocusState.Keyboard);
+        CustomTextBox.SelectAll();
+        e.Handled = true;
+    }
+
+    // ...
+}
+```
+##### Pass value to set text for the custom input TextBox
+For this custom value input control, what if I want to set a default value? Sure you can. First we need to create a dependency property for the value of this TextBox in `PieSlice.xaml.cs`.
+
+```c#
+public static readonly DependencyProperty CustomValueProperty =
+    DependencyProperty.Register("CustomValue", typeof(string), typeof(PieSlice), null);
+```
+Then in `CreateCustomTextBox`, we need to programmatically bind the `CustomValue` Dependency property to the TextBox `Text` property.
+
+```c#
+CustomTextBox.SetBinding(TextBox.TextProperty, new Windows.UI.Xaml.Data.Binding() { Source = this.CustomValue });
+```
+To set a value for the dependency property 'CustomValueProperty', in 'Pie.xaml.cs', from the `Draw` function, if the slice RadialMenuButton is of type `Custom`, we set the `CustomValue` property of this pie slice to the value specified from your application.
+
+```c#
+if (slice.Type == RadialMenuButton.ButtonType.Custom)
+{
+    pieSlice.CustomValue = (string)slice.Value;
+}
+
+```
+##### Register for ValueChanged event and event handler for custom type RadialMenuButton
+Now that we have the Custom Input TextBox in place, we just need to add some event handlers to catch when the value of the control has been modified. In `RadialMenuButton.xaml.cs`, register the following delegate, event, and event handler.
+
+```c#
+/// <summary>
+/// Delegate for the ValueChangedEvent, fired whenever the value of this button is changed
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="args"></param>
+public delegate void ValueChangedHandler(object sender, RoutedEventArgs args);
+public event ValueChangedHandler ValueChanged;
+public void OnValueChanged(RoutedEventArgs e)
+{
+    ValueChanged?.Invoke(this, e);
+}
+```
+Next we need to bind the `ValueChanged` event with the TextBox `LostFocus` event in the `CreateCustomTextBox` function from `PieSlice.xaml.cs` so that when user is done with modifying the value of the TextBox control, this event will be triggered. First, we set the value of the `RadialMenuButton` to the current text of the TextBox. Then we trigger the `ValueChanged` event on the `RadialMenuButton` so that any event handler for this event can be called. 
+
+```c#
+// ...
+CustomTextBox.LostFocus += (sender, args) =>
+{
+    OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
+    OriginalRadialMenuButton.OnValueChanged(args);
+
+};
+// ...
+```
+From your application, you can create your own event handler for the `ValueChanged` event. In our demo, we created a sample Custom RadialMenuButton with its own ValueChanged event handler.
+
+```c#
+RadialMenuButton button7 = new RadialMenuButton
+{
+    Label = "Custom",
+    Icon = "💸",
+    Type = RadialMenuButton.ButtonType.Custom,
+    Value = "12"
+};
+button7.ValueChanged += Button7_ValueChanged;
+
+// ...
+
+private void Button7_ValueChanged(object sender, RoutedEventArgs args)
+{
+    Debug.WriteLine("User updated value to: " + (sender as RadialMenuButton)?.Value);
+}  
+```
+
+
 ## License
 Copyright (C) 2015 Microsoft, licensed MIT. Please check `LICENSE` for details.

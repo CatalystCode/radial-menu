@@ -9,6 +9,7 @@ namespace RadialMenuControl.Components
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
     using System.Reflection;
+    using Windows.UI.Xaml.Input;
 
     public partial class RadialMenuButton : Button
     {
@@ -359,6 +360,18 @@ namespace RadialMenuControl.Components
         #endregion properties
 
         #region events
+        /// <summary>
+        /// Delegate for the ValueChangedEvent, fired whenever the value of this button is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public delegate void ValueChangedHandler(object sender, RoutedEventArgs args);
+        public event ValueChangedHandler ValueChanged;
+        public void OnValueChanged(RoutedEventArgs e)
+        {
+            ValueChanged?.Invoke(this, e);
+        }
+
         public static readonly DependencyProperty InnerAccessKeyProperty =
             DependencyProperty.Register("InnerAccessKey", typeof(string), typeof(RadialMenuButton), null);
 

@@ -729,6 +729,23 @@ namespace RadialMenuControl.UserControl
             {
                 VisualStateManager.GoToState(this, "InnerPressed", true);
                 OriginalRadialMenuButton.OnInnerArcPressed(e);
+                switch (OriginalRadialMenuButton.Type)
+                {
+                    case RadialMenuButton.ButtonType.Toggle:
+                        VisualStateManager.GoToState(this,
+                            (OriginalRadialMenuButton.Value != null && ((bool)OriginalRadialMenuButton.Value))
+                                ? "InnerReleased"
+                                : "InnerNormal", true);
+                        break;
+                    case RadialMenuButton.ButtonType.Radio:
+                        VisualStateManager.GoToState(this, "InnerReleased", true);
+                        // get all other menus to release now that this menu has been selected
+                        ChangeSelectedEvent?.Invoke(sender, this);
+                        break;
+                    default:
+                        VisualStateManager.GoToState(this, "InnerNormal", true);
+                        break;
+                }
             }
         }
 
@@ -740,6 +757,7 @@ namespace RadialMenuControl.UserControl
         private void innerPieSlicePath_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             OriginalRadialMenuButton.OnInnerArcReleased(e);
+
             switch (OriginalRadialMenuButton.Type)
             {
                 case RadialMenuButton.ButtonType.Toggle:

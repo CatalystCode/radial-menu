@@ -92,6 +92,6 @@
                 BorderBrush="{Binding CenterButtonBorder}"
                 Opacity="1"
                 Visibility="Collapsed"/>
-        <TextBlock x:Name="SelectedValueBlock" TextAlignment="Center" Foreground="{Binding SelectedValueTextBrush}" Canvas.ZIndex="1" Text="{Binding SelectedValue}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Canvas.Left="{Binding MeterTextX}" Canvas.Top="{Binding MeterTextY}"/>
+        <TextBlock x:Name="SelectedValueBlock" TextAlignment="Center" Foreground="{Binding SelectedValueTextColor}" Canvas.ZIndex="1" Text="{Binding SelectedValue}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Canvas.Left="{Binding MeterTextX}" Canvas.Top="{Binding MeterTextY}"/>
     </Canvas>
 </my:MenuBase>

@@ -546,12 +546,12 @@ namespace RadialMenuControl.UserControl
                 // hide the selection meter line
                 MeterLinePath.Visibility = Visibility.Collapsed;
                 // set the locked selection meter line
+                var point = args.GetCurrentPoint(sender as UIElement);
+                SetMeterPoint(point.Position, true, true);
                 // set the locked on value
                 LockedValue = SelectedValue;
                 // modify the display text color
-                SelectedValueTextColor = SelectedValueColor;
-                var point = args.GetCurrentPoint(sender as UIElement);
-                SetMeterPoint(point.Position, true, true);
+                SelectedValueTextColor = SelectedValueTextColor;
                 ValueSelected?.Invoke(this, args);
                 
             };

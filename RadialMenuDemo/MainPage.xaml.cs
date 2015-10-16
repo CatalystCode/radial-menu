@@ -4,10 +4,11 @@ using RadialMenuControl.Components;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
-﻿using System.Collections.Generic;
-﻿using Windows.UI;
-﻿using Windows.UI.Xaml.Input;
-﻿using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
+using Windows.UI;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml;
 
 namespace RadialMenuDemo
 {
@@ -159,14 +160,15 @@ namespace RadialMenuDemo
                 Type = RadialMenuButton.ButtonType.Toggle
             };
 
-            var button7 = new RadialMenuButton
+            RadialMenuButton button7 = new RadialMenuButton
             {
                 Label = "Custom",
                 Icon = "💸",
                 Type = RadialMenuButton.ButtonType.Custom,
                 Value = "12"
             };
-
+            button7.ValueChanged += Button7_ValueChanged;     
+                   
             var button8 = new RadialMenuButton
             {
                 Label = "List",
@@ -218,6 +220,11 @@ namespace RadialMenuDemo
 
             LayoutRoot.DataContext = this;
             MyRadialMenu.PropertyChanged += RadialMenu_PropertyChanged;
+        }
+
+        private void Button7_ValueChanged(object sender, RoutedEventArgs args)
+        {
+            Debug.WriteLine("User updated value to: " + (sender as RadialMenuButton)?.Value);
         }
 
         private void ListSubMenu_ValueSelected(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs args)

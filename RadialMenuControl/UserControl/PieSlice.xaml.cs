@@ -538,7 +538,7 @@ namespace RadialMenuControl.UserControl
             InnerPieSlicePath.Angle = Angle;
             InnerPieSlicePath.Fill = new SolidColorBrush(InnerNormalColor);
 
-            // Setup custom textbox for custom button
+            // Setup textbox for custom type RadialMenuButton
             if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom) CreateCustomTextBox();
 
             // Stroke
@@ -565,7 +565,7 @@ namespace RadialMenuControl.UserControl
         }
 
         /// <summary>
-        /// Creates a custom textbox for custom buttons
+        /// Creates a textbox to allow input of custom values for custom type RadialMenuButtons
         /// </summary>
         private void CreateCustomTextBox()
         {
@@ -590,6 +590,8 @@ namespace RadialMenuControl.UserControl
             {
                 OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
                 LabelTextElement.Opacity = 1;
+                OriginalRadialMenuButton.OnValueChanged(args);
+
             };
             CustomTextBox.SetBinding(TextBox.TextProperty, new Windows.UI.Xaml.Data.Binding() { Source = this.CustomValue });
 
@@ -718,10 +720,8 @@ namespace RadialMenuControl.UserControl
         {
             if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
             {
-                CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
                 CustomTextBox.Focus(FocusState.Keyboard);
                 CustomTextBox.SelectAll();
-                CustomTextBox.Background = new SolidColorBrush(Colors.Transparent);
                 e.Handled = true;
 
             }
@@ -739,31 +739,23 @@ namespace RadialMenuControl.UserControl
         /// <param name="e"></param>
         private void innerPieSlicePath_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
+            OriginalRadialMenuButton.OnInnerArcReleased(e);
+            switch (OriginalRadialMenuButton.Type)
             {
-                CustomTextBox.Visibility = Visibility.Visible;
-            }
-
-            else
-            {
-                OriginalRadialMenuButton.OnInnerArcReleased(e);
-                switch (OriginalRadialMenuButton.Type)
-                {
-                    case RadialMenuButton.ButtonType.Toggle:
-                        VisualStateManager.GoToState(this,
-                            (OriginalRadialMenuButton.Value != null && ((bool) OriginalRadialMenuButton.Value))
-                                ? "InnerReleased"
-                                : "InnerNormal", true);
-                        break;
-                    case RadialMenuButton.ButtonType.Radio:
-                        VisualStateManager.GoToState(this, "InnerReleased", true);
-                        // get all other menus to release now that this menu has been selected
-                        ChangeSelectedEvent?.Invoke(sender, this);
-                        break;
-                    default:
-                        VisualStateManager.GoToState(this, "InnerNormal", true);
-                        break;
-                }
+                case RadialMenuButton.ButtonType.Toggle:
+                    VisualStateManager.GoToState(this,
+                        (OriginalRadialMenuButton.Value != null && ((bool) OriginalRadialMenuButton.Value))
+                            ? "InnerReleased"
+                            : "InnerNormal", true);
+                    break;
+                case RadialMenuButton.ButtonType.Radio:
+                    VisualStateManager.GoToState(this, "InnerReleased", true);
+                    // get all other menus to release now that this menu has been selected
+                    ChangeSelectedEvent?.Invoke(sender, this);
+                    break;
+                default:
+                    VisualStateManager.GoToState(this, "InnerNormal", true);
+                    break;
             }
         }
 

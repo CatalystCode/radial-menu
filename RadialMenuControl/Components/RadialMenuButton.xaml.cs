@@ -404,6 +404,15 @@ namespace RadialMenuControl.Components
         public void OnInnerArcPressed(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             InnerArcPressedEvent?.Invoke(this, e);
+
+            if (Type != ButtonType.Simple)
+            {
+                MenuSelected = true;
+            }
+            if (Type == ButtonType.Toggle)
+            {
+                Value = (Value == null || !(bool)Value);
+            }
         }
 
         public delegate void OuterArcPressedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);
@@ -426,15 +435,6 @@ namespace RadialMenuControl.Components
         public void OnInnerArcReleased(Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             InnerArcReleasedEvent?.Invoke(this, e);
-
-            if (Type != ButtonType.Simple)
-            {
-                MenuSelected = true;
-            }
-            if (Type == ButtonType.Toggle)
-            {
-                Value = (Value == null || !(bool)Value);
-            }
         }
 
         public delegate void OuterArcReleasedEventHandler(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e);

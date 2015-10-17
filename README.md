@@ -6,8 +6,19 @@ A Radial Menu for Windows UWP Applications, as made popular by the first version
 ## Usage
 At the core, this control comes with three user controls: The first one is a "floating" control, enabling a child control to float on top of all other elements, which allows the user to move the control around on the screen. The second one is the RadialMenuControl itself, which is able to house a number of RadialMenuButtons. Should a button contain a submenu, the button then houses a RadialMenuControl - and so on. You can have a virtually unlimited number of submenus.
 
-#### Adding the Control
-You can instantiate the control either using XAML or in code-behind. In both cases, buttons are added by adding instances of `RadialMenuButton` to the `Buttons` property of your radial menu.
+### Adding the Control
+You can instantiate the control either using XAML or in code-behind. 
+
+```c#
+<Page xmlns:rm="using:RadialMenuControl.UserControl" xmlns:rmb="using:RadialMenuControl.Components">
+    <rm:RadialMenu x:Name="MyRadialMenu" Diameter="300" StartAngle="-22.5" OuterArcThickness="20" CenterButtonBorder="Black" CenterButtonIcon="&#x1f369;">
+    // ...
+    </RadialMenu>
+</Page>
+```
+
+### Adding Buttons
+Now that you have a control like the one above, buttons are added by adding instances of `RadialMenuButton` to the `Buttons` property of your radial menu.
 
 ```c#
 <Page xmlns:rm="using:RadialMenuControl.UserControl" xmlns:rmb="using:RadialMenuControl.Components">
@@ -19,6 +30,124 @@ You can instantiate the control either using XAML or in code-behind. In both cas
         </RadialMenu.Buttons>
     </RadialMenu>
 </Page>
+```
+
+#### Button Types
+Now that you have created a control, let's get more familiar with all the different types of buttons you get out of the box.
+
+##### Simple
+A `Simple` type button is one that triggers an event, but it does not contain any value. To add a `Simple` type button, set `Type` to `"Simple"`.
+
+```c#
+<rmb:RadialMenuButton x:Name="Party" Label="Party" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Simple" />
+```
+
+##### Toggle
+A `Toggle` type button contains a boolean value of either true or false. To add a `Toggle` type button, set `Type` to `"Toggle"`.
+
+```c#
+<rmb:RadialMenuButton x:Name="Bold" Label="Bold" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Toggle" />
+```
+When the button is clicked, its value is set to the opposite of the current value. By default the visual state of the button is bind to the current boolean value of the button. For example, if a toggle button is selected and its value is `true`, then the pie slice is set to the `InnerReleased` visual state to indicate it has been selected. If the button's value is `false`, then the pie slice is set to the `InnerNormal` visual state to indicate it is currently not selected. To modify this behavior, go to `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerReleased` event handler, then modify the following.
+```c#
+case RadialMenuButton.ButtonType.Toggle:
+    VisualStateManager.GoToState(this,
+        (OriginalRadialMenuButton.Value != null && ((bool) OriginalRadialMenuButton.Value))
+            ? "InnerReleased"
+            : "InnerNormal", true);
+    // ...
+```
+
+##### Radio
+A `Radio` type button can contain any value of any type that the application provides. To add a `Radio` type button, set `Type` to `"Radio"` and provide a value for the button.
+
+```c#
+<rmb:RadialMenuButton x:Name="RedColor" Label="Red" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" Value="#..."/>
+<rmb:RadialMenuButton x:Name="BlueColor" Label="Blue" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" Value="#..."/>
+<rmb:RadialMenuButton x:Name="YellowColor" Label="Yellow" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" Value="#..."/>
+```
+In a given pie, all `Radio` buttons added to the pie belong to a `Radio` button set such that when one `Radio` button is selected, all other `Radio` buttons in the pie become deselected. In the example above, if the `Red` button is clicked, then the `RedColor` `RadialMenuButton`'s `MenuSelected` field is set to `true` and all other `Radio` buttons in the pie are deselected such that their `MenuSelected` fields are set to `false`. In turn, the `SelectedItem` field for the Pie is now set to the current selected `Radio` button. To change this behavior, in `Pie.xaml.cs`, in the `PieSlice_ChangeSelectedEvent` event handler, modify the following. 
+
+```c#
+if (slice != null && slice.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio)
+{
+    SelectedItem = slice.OriginalRadialMenuButton;
+}
+
+foreach (var ps in PieSlices.Where(ps => ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio && ps.OriginalRadialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle))
+{
+    ps.OriginalRadialMenuButton.MenuSelected = false;
+    ps.UpdateSliceForRadio();
+}
+```
+
+##### Custom
+A `Custom` type button allows users to input custom values. To add a `Custom` type button, set `Type` to `"Custom"` and provide a default value for the input control.
+
+```c#
+<rmb:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom Stroke" Type="Custom" Value="5" />
+```
+When the pie slice is clicked, by default all the text in the TextBox is selected and the TextBox is focused to allow user to enter a value. To modify this behavior, in `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerPressed` event handler. 
+
+```c#
+private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventArgs e)
+{
+    if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
+    {
+        CustomTextBox.Focus(FocusState.Keyboard);
+        CustomTextBox.SelectAll();
+        e.Handled = true;
+    }
+
+    // ...
+}
+```
+To get the custom value the user entered, you can catch the event in your application. Take the example from above, create an event handler for the `ValueChanged` event. 
+```c#
+Pen1CustomStrokeButton.ValueChanged += Pen1CustomStrokeButton_ValueChanged;
+
+// ...
+
+private void Pen1CustomStrokeButton_ValueChanged(object sender, RoutedEventArgs args)
+{
+    Debug.WriteLine("User updated value to: " + (sender as RadialMenuButton)?.Value);
+}  
+```
+
+### Adding Radial Submenus
+To add a `RadialMenu` submenu to a `RadialMenuButton`, you can add a `RadialMenuButton.Submenu` element to your button top level button. Then add a new `RadialMenu` with its own `CenterButton` properties, `StartAngle`, and its own `RadialMenuButton` elements to the submenu element. 
+
+```c#
+<rmb:RadialMenuButton x:Name="Pan" Label="Pan" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" InnerAccessKey="P" OuterAccessKey="O">
+    <rmb:RadialMenuButton.Submenu>
+        <rm:RadialMenu x:Name="PanSubMenu" Diameter="300" StartAngle="-90" OuterArcThickness="20" CenterButtonBorder="Black" CenterButtonIcon="&#x1f369;"
+            <rm:RadialMenu.Buttons>
+                <rmb:RadialMenuButton Label="Line" Type="Radio" IconImage="Icons/Polygon-50.png" />
+                <rmb:RadialMenuButton Label="Select" Type="Radio" IconImage="Icons/Cursor-50.png" />
+                <rmb:RadialMenuButton Label="Text" Type="Radio" IconImage="Icons/Text Cursor-50.png" />
+            </rm:RadialMenu.Buttons>
+        </rm:RadialMenu>
+    </rmb:RadialMenuButton.Submenu>
+</rmb:RadialMenuButton>
+```
+### Adding Custom Submenus
+In addition to adding a `RadialMenu` submenu, you can also add a custom submenu that is not a `RadialMenu` and is derived from the `MenuBase` class. For example, we have created `MeterSubMenu` and `ListSubMenu` based on the `MenuBase` class. In the example below, to add a `MeterSubMenu` to a `RadialMenuButton`, add the `RadialMenuButton.CustomMenu` element first, then add a `MeterSubMenu` with its properties. 
+
+```c#
+<rmb:RadialMenuButton x:Name="Pen1StrokeButton" IconImage="Icons/stroke.png" Label="Stroke">
+    <rmb:RadialMenuButton.CustomMenu>
+        <rm:MeterSubMenu x:Name="Pen1StrokeMenu" 
+                          CenterButtonBorder="Black"
+                          MeterEndValue="72" 
+                          MeterStartValue="5" 
+                          MeterRadius="80" 
+                          StartAngle="-90" 
+                          MeterPointerLength="80" 
+                          RoundSelectValue="True" 
+                          OuterEdgeBrush="#383739"
+                          />
+    </rmb:RadialMenuButton.CustomMenu>
+</rmb:RadialMenuButton>
 ```
 
 ## Scenarios & Use cases
@@ -200,11 +329,11 @@ private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventA
 
 Well done! Now you have successfully created a third arc inside your button :metal:! You will probably notice that the icons and labels on the inner arc may now be behind your more inner arc - obviously, you can configure those to your liking, too.
 
-### Adding custom input to Buttons 
-So you need to have a button that allows users to input custom values. Let's add this functionality by modifying three classes: `RadialMenuButton`, which is the control you use from your application, `PieSlice`, which is the class we instantiate using a given button, and `Pie`, which is the class we instantiate to create all the slices in a pie. 
+### Creating Custom Buttons 
+Let's say you need to create custom buttons that are not yet available in the RadialMenu control for your application. You can follow the steps below and use the custom TextBox input button we have created as a guide. In order to add a new custom button, you will need to modify three classes: `RadialMenuButton`, which is the control you use from your application, `PieSlice`, which is the class we instantiate using a given button, and `Pie`, which is the class we instantiate to create all the slices in a pie. 
 
-##### Add a custom input button type to the RadialMenuButton
-In `RadialMenuButton.xaml.cs`, find the `ButtonType` enum. By adding `Custom` as one of the `ButtonType` enum values, we are able to specify the button type of the `RadialMenuButton` control from our application to instantiate a custom input TextBox in `PieSlice`. 
+##### Add a New Button Type for Custom RadialMenuButton
+In `RadialMenuButton.xaml.cs`, find the `ButtonType` enum. By adding `MyType` as one of the `ButtonType` enum values, we are able to specify the button type of the `RadialMenuButton` control from our application to instantiate the necessary controls in `PieSlice`. 
 
 ```c#
 public enum ButtonType
@@ -212,133 +341,72 @@ public enum ButtonType
     Simple = 0,
     Radio,
     Toggle,
-    Custom
+    Custom,
+    MyType
 };
 ```
-##### Add a custom input TextBox to the PieSlice
-In `PieSlice.xaml.cs`, from `OnLoad`, add the following code to check if the application requests for a custom type `RadialMenuButton`. If so, then programmatically add a TextBox that allows users to input custom values.
+##### Add Controls to the Pie Slice
+In `PieSlice.xaml.cs`, from `OnLoad`, add code like the following to check if the application requests for a `MyType` button type `RadialMenuButton`. If so, then programmatically add the necessary controls to `PieSlice`.
 ```c#
-// Setup textbox for custom type RadialMenuButton
-if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom) CreateCustomTextBox();
+// Setup controls for `MyType` button type RadialMenuButton
+if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.MyType) CreateMyTypeControls();
 ```
-Now let's add the `CreateCustomTextBox` function, where we programmatically create and configure the TextBox before adding it to the `TextLabelGrid` in `PieSlice.xaml`. Note, we have taken the default TextBox style and customized it to ensure it is transparent on top of our pie slice. We are hidding the Label element in the pie slice when the TextBox is focused. Then making the Label element visible again when the TextBox is out of focus. 
+Now you can add the necessary controls to `PieSlice` in the `CreateMyTypeControls` function. When done, add these controls to the `TextLabelGrid` to render them. This is probably where you will need to spend some time to ensure your new controls look right in `PieSlice` by configuring its Style, Margin, and Alignment. 
 
 ```c#
-private void CreateCustomTextBox()
+private void CreateMyTypeControls()
 {
-    CustomTextBox = new TextBox
+
+    // Your custom controls here ...
+    CustomControl = new SomeControl
     {
-        Name = "CustomTextBox",
+        Name = "CustomControl",
         FontSize = LabelSize,
         Margin = new Thickness(0, 67, 0, 0),
         HorizontalAlignment = HorizontalAlignment.Center,
         VerticalAlignment = VerticalAlignment.Center,
-        BorderThickness = new Thickness(0),
-        TextAlignment = TextAlignment.Center,
-        Background = new SolidColorBrush(Colors.Transparent),
-        AcceptsReturn = false,
-        Style = (Style)this.Resources["TransparentTextBox"]
-    };
+        // ... add more properties to your control
 
-    CustomTextBox.Padding = new Thickness(0);
-
-    CustomTextBox.GotFocus += (sender, args) => LabelTextElement.Opacity = 0;
-    CustomTextBox.LostFocus += (sender, args) =>
-    {
-        OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
-        LabelTextElement.Opacity = 1;
-    };
-
-    // ...
-
-    TextLabelGrid.Children.Add(CustomTextBox);
+    TextLabelGrid.Children.Add(...);
 }
 ```
-##### Focus on input TextBox when pie slice is pressed
-Now that we have the TextBox input control on our pie slice, we need to make sure the TextBox control has focus when the inner pie slice is pressed. In `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerPressed` event handler. The following ensures the `CustomTextBox` now has focus and the entire text field is now selected.
+##### Interact with Custom Controls When Pie Slice is Pressed
+Now that we have the custom controls on our pie slice, in case you need to allow users to interact with the controls, we can enable the controls to focus when the inner pie slice is pressed. In `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerPressed` event handler. The following ensures your custom control now has focus.
 
 ```c#
 private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventArgs e)
 {
-    if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
+    if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.MyType)
     {
-        CustomTextBox.Focus(FocusState.Keyboard);
-        CustomTextBox.SelectAll();
+        // YourControl.Focus(FocusState.Keyboard);
         e.Handled = true;
     }
 
     // ...
 }
 ```
-##### Pass value to set text for the custom input TextBox
-For this custom value input control, what if I want to set a default value? Sure you can. First we need to create a dependency property for the value of this TextBox in `PieSlice.xaml.cs`.
+
+##### Pass Value to Custom Control in Pie Slice
+For the MyType button custom controls, what if I want to set a default value? Sure you can. First we need to create a dependency property for the value of this control in `PieSlice.xaml.cs`.
 
 ```c#
-public static readonly DependencyProperty CustomValueProperty =
-    DependencyProperty.Register("CustomValue", typeof(string), typeof(PieSlice), null);
+public static readonly DependencyProperty CustomControlValueProperty =
+    DependencyProperty.Register("CustomControlValue", typeof(string), typeof(PieSlice), null);
 ```
-Then in `CreateCustomTextBox`, we need to programmatically bind the `CustomValue` Dependency property to the TextBox `Text` property.
+Then in `CreateMyTypeControls`, we need to programmatically bind the `CustomControlValue` Dependency property to your custom control's `Text` or `Value` property.
 
 ```c#
-CustomTextBox.SetBinding(TextBox.TextProperty, new Windows.UI.Xaml.Data.Binding() { Source = this.CustomValue });
+YourCustomControl.SetBinding(YourCustomControl.TextProperty, new Windows.UI.Xaml.Data.Binding() { Source = this.CustomControlValue });
 ```
-To set a value for the dependency property 'CustomValueProperty', in 'Pie.xaml.cs', from the `Draw` function, if the slice RadialMenuButton is of type `Custom`, we set the `CustomValue` property of this pie slice to the value specified from your application.
+To pass in a value for the dependency property 'CustomControlValueProperty', in 'Pie.xaml.cs', from the `Draw` function, if the slice RadialMenuButton is of type `MyType`, we set the `CustomControlValue` property of this pie slice to the value specified from your application.
 
 ```c#
-if (slice.Type == RadialMenuButton.ButtonType.Custom)
+if (slice.Type == RadialMenuButton.ButtonType.MyType)
 {
-    pieSlice.CustomValue = (string)slice.Value;
-}
-
-```
-##### Register for ValueChanged event and event handler for custom type RadialMenuButton
-Now that we have the Custom Input TextBox in place, we just need to add some event handlers to catch when the value of the control has been modified. In `RadialMenuButton.xaml.cs`, register the following delegate, event, and event handler.
-
-```c#
-/// <summary>
-/// Delegate for the ValueChangedEvent, fired whenever the value of this button is changed
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="args"></param>
-public delegate void ValueChangedHandler(object sender, RoutedEventArgs args);
-public event ValueChangedHandler ValueChanged;
-public void OnValueChanged(RoutedEventArgs e)
-{
-    ValueChanged?.Invoke(this, e);
+    pieSlice.CustomControlValue = (string)slice.Value;
 }
 ```
-Next we need to bind the `ValueChanged` event with the TextBox `LostFocus` event in the `CreateCustomTextBox` function from `PieSlice.xaml.cs` so that when user is done with modifying the value of the TextBox control, this event will be triggered. First, we set the value of the `RadialMenuButton` to the current text of the TextBox. Then we trigger the `ValueChanged` event on the `RadialMenuButton` so that any event handler for this event can be called. 
-
-```c#
-// ...
-CustomTextBox.LostFocus += (sender, args) =>
-{
-    OriginalRadialMenuButton.Value = ((TextBox)sender).Text;
-    OriginalRadialMenuButton.OnValueChanged(args);
-
-};
-// ...
-```
-From your application, you can create your own event handler for the `ValueChanged` event. In our demo, we created a sample Custom RadialMenuButton with its own ValueChanged event handler.
-
-```c#
-RadialMenuButton button7 = new RadialMenuButton
-{
-    Label = "Custom",
-    Icon = "💸",
-    Type = RadialMenuButton.ButtonType.Custom,
-    Value = "12"
-};
-button7.ValueChanged += Button7_ValueChanged;
-
-// ...
-
-private void Button7_ValueChanged(object sender, RoutedEventArgs args)
-{
-    Debug.WriteLine("User updated value to: " + (sender as RadialMenuButton)?.Value);
-}  
-```
-
+Hey! Look at that. You just created your own custom button! Good job! :clap::clap: Now go and create more awesome looking radial menus.  
 
 ## License
 Copyright (C) 2015 Microsoft, licensed MIT. Please check `LICENSE` for details.

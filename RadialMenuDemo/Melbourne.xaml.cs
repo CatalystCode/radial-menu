@@ -194,7 +194,7 @@ namespace RadialMenuDemo
             if (args.VirtualKey == VirtualKey.Shift) MyRadialMenu.ShowAccessKeyTooltips();
         }
 
-        private void HighlightRadialMenu_OnCenterButtonTappedEvent(object sender, TappedRoutedEventArgs e)
+        private void HighlightRadialMenuOnCenterButtonTapped(object sender, TappedRoutedEventArgs e)
         {
             var sendingMenu = sender as RadialMenu;
             if (sendingMenu != null && sendingMenu.Pie.SelectedItem != null)

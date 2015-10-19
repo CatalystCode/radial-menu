@@ -3,11 +3,40 @@ A Radial Menu for Windows UWP Applications, as made popular by the first version
 
 !['Fancy GIF showing the control'](http://im.ezgif.com/tmp/ezgif-2737883079.gif)
 
+- [Usage](#usage)
+  - [Adding the Control](#adding-the-control)
+      - [Properties: Basics](#properties-basics)
+      - [Properties: Colors](#properties-colors)
+      - [Events](#events)
+      - [Methods: Change Menu](#methods-change-menu)
+      - [Methods: Access Keys](#methods-access-keys)
+  - [Adding Radial Menu Buttons](#adding-radial-menu-buttons)
+      - [Properties: Label & Icon](#properties-label-&-icon)
+      - [Properties: Colors & Thickness](#properties-colors-&-thickness)
+      - [Properties: Value, Type & Submenus](#properties-value-type-&-submenus)
+      - [Properties: Events](#properties-events)
+      - [Events](#events-1)
+      - [Methods](#methods)
+    - [The Different Button Types](#the-different-button-types)
+      - [Simple](#simple)
+      - [Toggle](#toggle)
+      - [Radio](#radio)
+      - [Custom](#custom)
+  - [Adding Radial Submenus](#adding-radial-submenus)
+  - [Adding Custom Submenus](#adding-custom-submenus)
+  - [Adding a Center Button](#adding-a-center-button)
+- [Scenarios & Use Cases](#scenarios-&-use-cases)
+  - [Seamless Background](#seamless-background)
+  - [Access Keys](#access-keys)
+  - [Adding a Third Arc to Buttons](#adding-a-third-arc-to-buttons)
+  - [Creating Custom Buttons](#creating-custom-buttons)
+- [License](#license)
+
 ## Usage
 At the core, this control comes with three user controls: The first one is a "floating" control, enabling a child control to float on top of all other elements, which allows the user to move the control around on the screen. The second one is the RadialMenuControl itself, which is able to house a number of RadialMenuButtons. Should a button contain a submenu, the button then houses a RadialMenuControl - and so on. You can have a virtually unlimited number of submenus.
 
 ### Adding the Control
-You can instantiate the control either using XAML or in code-behind. 
+You can instantiate the control either using XAML or in code-behind.
 
 ```c#
 <Page xmlns:rm="using:RadialMenuControl.UserControl" xmlns:rmb="using:RadialMenuControl.Components">
@@ -17,7 +46,67 @@ You can instantiate the control either using XAML or in code-behind.
 </Page>
 ```
 
-### Adding Buttons
+##### Properties: Basics
+| Name                              | Type                      | Description                                                                           |
+|---                                |---                        |---                                                                                    |
+| IsMenuChangeAnimated              | bool                      | Is the transition between submenus animated?                                          |
+| StartAngle                        | double                    | Start Angle for the first button. 0 is "top north".                                   |
+| OuterThickness                    | double                    | Default for the thickness of the outer arc, if not set on a RadialMenuButton          |
+| PreviousPies                      | IList<Pie>                | Previous pies (used during back navigation)                                           |
+| PreviusButtons                    | Stack<CenterButtonShim>   | Previous center buttons (used during back navigation)                                 |
+| Buttons                           | IList<RadialMenuButton>   | RadialMenuButtons on this menu. You can add buttons either in XAML or in code-behind. If you change the list, the menu will be redrawn. |
+
+##### Properties: Colors
+If a RadialMenuButton doesn't have colors set, these will be used. If these colors aren't set, purple OneNote-like colors will be used.
+
+| Name                              | Type          | Description                                                                   |
+|---                                |---            |---                                                                            |
+| InnerNormalColor                  | Color         | Normal color for the inner portion of the button                              |
+| InnerHoverColor                   | Color         | Hover color for the inner portion of the button                               |
+| InnerTappedColor                  | Color         | Tapped color for the inner portion of the button                              |
+| InnerReleasedColor                | Color         | Released color for the inner portion of the button                            |
+| OuterHoverColor                   | Color         | Hover color for the outer portion of the button                               |
+| OuterNormalColor                  | Color         | Normal color for the outer portion of the button                              |
+| OuterTappedColor                  | Color         | Tapped color for the outer portion of the button                              |
+| OuterDisabledColor                | Color         | Disabled color for the outer portion of the button                            |
+| OuterDisabledBrush                | Brush         | Tapped color for the outer portion of the button                              |
+| OuterThickness                    | double        | Thickness of the outer arc, on the outer side of the button                   |
+| UseIndicationArc                  | bool          | When set to true, an indication arc will be placed on this button             |
+| IndicationArcDistanceFromEdge     | double        | Distance from the inner part of the outer band to the indication arc          |
+| IndicationArcColor                | Color         | Color for the indication arc                                                  |
+| IndicationArcStrokeThickness      | double        | The Stroke thickness of the indication arc                                    |
+| StrokeColor                       | Color         | Color of the stroke around the whole "pie slice"                              |
+| StrokeThickness                   | double        | Thickness of the stroke around the "pie slice"                                |
+| HasBackgroundEllipse              | bool          | Background Ellpise, drawn behind the whole menu. Ignored if set on a submenu. |
+| BackgroundEllipseFill             | Color         | Fill color for the background ellpise                                         |
+
+##### Events
+| Name                              | Description                                                                           |
+|---                                |---                                                                                    |
+| CenterButtonTapped                | Fired when the center button has been tapped                                          |
+
+##### Methods: Change Menu
+| Name                              | Parameters                                                    | Description                                                                           |
+|---                                |---                                                            |---                                                                                    |
+| AddButton                         | RadialMenuButton                                              | Add a RadialMenuButton to the current pie. If you add a button to the currently visible Radial Menu, the menu will be redrawn. |
+| TogglePie (async)                 | none                                                          | Hides the "pie" around the center button, collapsing the radial menu                  |
+| ChangePie (async)                 | object sender, Pie newPie, bool storePrevious                 | Change the current pie by replacing its PieSlices with new ones. If storePrevious is set to true, the current pie will be stored away and restored during back navigation. |
+| ChangeMenu                        | object sender, MenuBase newMenu                               | Change the whole radial menu, using a new menu object. This method is used to facilitate the transition between a parent and a submenu. |
+| ChangeToCustomMenu (async)        | object sender, MenuBase newMenu, bool storePrevious           | Change to custom MenuBase menu. This method is used to facilitate the transition between a parent and a custom submenu. |
+| ChangeCenterButton                | object sender, CenterButtonShim newButton, bool storePrevious | Change the center button using a CenterButtonShim object, which is used to store the current state of a CenterButton in a leightweight way. |
+
+##### Methods: Access Keys
+For more information, please see the section "Access Keys" in "Scenarios and Use Cases".
+
+| Name                      | Parameters        | Description                                                                                   |
+|---                        |---                |---                                                                                            |
+| HideAccessKeyTooltips     | none              | Hide all tooltips displaying set access keys for the currently visible RadialMenuButtons.     |
+| ShowAccessKeyTooltips     | none              | Show all tooltips displaying set access keys for the currently visible RadialMenuButtons.     |
+| ClickInnerRadialMenuButton| RadialMenuButton  | Programmatically "click" the inner arc in a RadialMenuButton.                                 |
+| ClickOuterRadialMenuButton| RadialMenuButton  | Programmatically "click" the outer arc in a RadialMenuButton.                                 |
+
+
+### Adding Radial Menu Buttons
 Now that you have a control like the one above, buttons are added by adding instances of `RadialMenuButton` to the `Buttons` property of your radial menu.
 
 ```c#
@@ -32,8 +121,79 @@ Now that you have a control like the one above, buttons are added by adding inst
 </Page>
 ```
 
-#### Button Types
-Now that you have created a control, let's get more familiar with all the different types of buttons you get out of the box.
+There are four different types of buttons: `Simple`, `Toggle`, `Radio`, and `Custom`. Simple have no predefined behavior. Toggle buttons can either be `True` or `False`, while `Radio` buttons are `Toggle` buttons that automatically deselect all other `Radio` buttons in the same menu when selected. `Custom` buttons are capable of holding a string value which the user can input directly on the button.
+
+All of them share the same properties and methods:
+
+##### Properties: Label & Icon
+
+| Name                              | Type          | Description                                                                   |
+|---                                |---            |---                                                                            |
+| Label                             | string        | Label, displayed in the inner portion of the button                           |
+| LabelSize                         | int           | Font Size for the label                                                       |
+| IsLabelHidden                     | bool          | Should the label be hidden?                                                   |
+| Icon                              | string        | Text-based icon, displayed in a TextBox (usually used with icon fonts)        |
+| IconFontFamily                    | FontFamily    | Font for the text-based icon                                                  |
+| IconSize                          | int           | Font size for the text-based icon                                             |
+| IconForegroundBrush               | Brush         | ForegroundBrush for the text-based icon                                       |
+| IconImage                         | ImageSource   | A ImageSource for the icon. If set, the text-based icon will be hidden.       |
+
+##### Properties: Colors & Thickness
+You can configure colors and thickness for three elements. Each button is represented by a "pie slice", which has an inner and an outer portion - as well as optionally an "indication arc", which is a thin line right below the outer arc, indicating that the current button is selected.
+
+| Name                              | Type          | Description                                                                   |
+|---                                |---            |---                                                                            |
+| InnerNormalColor                  | Color?        | Normal color for the inner portion of the button                              |
+| InnerHoverColor                   | Color?        | Hover color for the inner portion of the button                               |
+| InnerTappedColor                  | Color?        | Tapped color for the inner portion of the button                              |
+| InnerReleasedColor                | Color?        | Released color for the inner portion of the button                            |
+| OuterHoverColor                   | Color?        | Hover color for the outer portion of the button                               |
+| OuterNormalColor                  | Color?        | Normal color for the outer portion of the button                              |
+| OuterDisabledColor                | Color?        | Disabled color for the outer portion of the button                            |
+| OuterTappedColor                  | Color?        | Tapped color for the outer portion of the button                              |
+| OuterThickness                    | double?       | Thickness of the outer arc, on the outer side of the button                   |
+| IndicationArcDistanceFromEdge     | double?       | Distance from the inner part of the outer band to the indication arc          |
+| UseIndicationArc                  | bool?         | When set to true, an indication arc will be placed on this button             |
+| IndicationArcColor                | Color?        | Color for the indication arc                                                  |
+| IndicationArcStrokeThickness      | double?       | The Stroke thickness of the indication arc                                    |
+| StrokeColor                       | Color?        | Color of the stroke around the whole "pie slice"                              |
+| StrokeThickness                   | double?       | Thickness of the stroke around the "pie slice"                                |
+
+##### Properties: Value, Type & Submenus
+Buttons can be host to a submenu or a custom submenu. Normal submenus are just another `RadialMenu` - it will be openend whenever the user presses the outer portion of your button. A custom submenu is a special submenu, like the `RadialMeterMenu`, which is an interactive gauge, or the `ListSubmenu`, which is a long list selector.
+
+| Name                              | Type          | Description                                                                   |
+|---                                |---            |---                                                                            |
+| Submenu                           | RadialMenu    | A submenu, reachable by clicking on the button                                |
+| ButtonType                        | ButtonType    | Button type, indicating the way users can interact with this button           |
+| Value                             | object        | Value of this button                                                          |
+| MenuSelected                      | MenuSelected  | If the button is a radio button and selected on behalf of the whole RadialMenu, this value will be true (false otherwise) |
+| CustomMenu                        | MenuBase      | CustomMenu behind the button                                                  |
+
+##### Properties: Events
+These booleans are simple shortcuts, reporting whether or not buttons have events registered on them.
+
+| Name                              | Type          | Description                                                                   |
+|---                                |---            |---                                                                            |
+| HasOuterArcEvents                 | bool          | Does this radial menu button have events on the outer arc?                    |
+| HasOuterArcAction                 | bool          | Does this radial menu button have actions on the outer arc?                   |
+
+##### Events
+| Name                              | Description                                                                       |
+|---                                |---                                                                                |
+| ValueChanged                      | Fired when the value of this button is changed                                    |
+| InnerArcPressed                   | Fired when the inner arc of the button has been pressed (mouse, touch, stylus)    |
+| InnerArcReleased                  | Fired when the inner arc of the button has been released (mouse, touch, stylus)   |
+| OuterArcPressed                   | Fired when the outer arc of the button has been pressed (mouse, touch, stylus)    |
+| OuterArcReleased                  | Fired when the outer arc of the button has been released (mouse, touch, stylus)   |
+
+##### Methods
+| Name              | Parameters                        | Description                                                                       |
+|---                | ----                              |---                                                                                |
+| SetColors         | Dictionary<string, Color> colors  | Allows the use of key/value pairs to set the colors                               |
+| InnerArcPressed   |                                   | Fired when the inner arc of the button has been pressed (mouse, touch, stylus)    |
+
+#### The Different Button Types
 
 ##### Simple
 A `Simple` type button is one that triggers an event, but it does not contain any value. To add a `Simple` type button, set `Type` to `"Simple"`.
@@ -48,15 +208,7 @@ A `Toggle` type button contains a boolean value of either true or false. To add 
 ```c#
 <rmb:RadialMenuButton x:Name="Bold" Label="Bold" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Toggle" />
 ```
-When the button is clicked, its value is set to the opposite of the current value. By default the visual state of the button is bind to the current boolean value of the button. For example, if a toggle button is selected and its value is `true`, then the pie slice is set to the `InnerReleased` visual state to indicate it has been selected. If the button's value is `false`, then the pie slice is set to the `InnerNormal` visual state to indicate it is currently not selected. To modify this behavior, go to `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerReleased` event handler, then modify the following.
-```c#
-case RadialMenuButton.ButtonType.Toggle:
-    VisualStateManager.GoToState(this,
-        (OriginalRadialMenuButton.Value != null && ((bool) OriginalRadialMenuButton.Value))
-            ? "InnerReleased"
-            : "InnerNormal", true);
-    // ...
-```
+When the button is clicked, its value is set to the opposite of the current value. By default the visual state of the button is bind to the current boolean value of the button. For example, if a toggle button is selected and its value is `true`, then the pie slice is set to the `InnerReleased` visual state to indicate it has been selected. If the button's value is `false`, then the pie slice is set to the `InnerNormal` visual state to indicate it is currently not selected.
 
 ##### Radio
 A `Radio` type button can contain any value of any type that the application provides. To add a `Radio` type button, set `Type` to `"Radio"` and provide a value for the button.
@@ -66,20 +218,7 @@ A `Radio` type button can contain any value of any type that the application pro
 <rmb:RadialMenuButton x:Name="BlueColor" Label="Blue" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" Value="#..."/>
 <rmb:RadialMenuButton x:Name="YellowColor" Label="Yellow" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" Value="#..."/>
 ```
-In a given pie, all `Radio` buttons added to the pie belong to a `Radio` button set such that when one `Radio` button is selected, all other `Radio` buttons in the pie become deselected. In the example above, if the `Red` button is clicked, then the `RedColor` `RadialMenuButton`'s `MenuSelected` field is set to `true` and all other `Radio` buttons in the pie are deselected such that their `MenuSelected` fields are set to `false`. In turn, the `SelectedItem` field for the Pie is now set to the current selected `Radio` button. To change this behavior, in `Pie.xaml.cs`, in the `PieSlice_ChangeSelectedEvent` event handler, modify the following. 
-
-```c#
-if (slice != null && slice.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio)
-{
-    SelectedItem = slice.OriginalRadialMenuButton;
-}
-
-foreach (var ps in PieSlices.Where(ps => ps.OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Radio && ps.OriginalRadialMenuButton.MenuSelected && ps.StartAngle != slice.StartAngle))
-{
-    ps.OriginalRadialMenuButton.MenuSelected = false;
-    ps.UpdateSliceForRadio();
-}
-```
+In a given pie, all `Radio` buttons added to the pie belong to a `Radio` button set such that when one `Radio` button is selected, all other `Radio` buttons in the pie become deselected. In the example above, if the `Red` button is clicked, then the `RedColor` `RadialMenuButton`'s `MenuSelected` field is set to `true` and all other `Radio` buttons in the pie are deselected such that their `MenuSelected` fields are set to `false`. In turn, the `SelectedItem` field for the Pie is now set to the current selected `Radio` button.
 
 ##### Custom
 A `Custom` type button allows users to input custom values. To add a `Custom` type button, set `Type` to `"Custom"` and provide a default value for the input control.
@@ -87,22 +226,9 @@ A `Custom` type button allows users to input custom values. To add a `Custom` ty
 ```c#
 <rmb:RadialMenuButton x:Name="Pen1CustomStrokeButton" IconImage="Icons/stroke.png" Label="Custom Stroke" Type="Custom" Value="5" />
 ```
-When the pie slice is clicked, by default all the text in the TextBox is selected and the TextBox is focused to allow user to enter a value. To modify this behavior, in `PieSlice.xaml.cs`, find the `innerPieSlicePath_PointerPressed` event handler. 
+When the pie slice is clicked, by default all the text in the TextBox is selected and the TextBox is focused to allow user to enter a value.
+To get the custom value the user entered, you can catch the event in your application. Take the example from above, create an event handler for the `ValueChanged` event.
 
-```c#
-private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventArgs e)
-{
-    if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.Custom)
-    {
-        CustomTextBox.Focus(FocusState.Keyboard);
-        CustomTextBox.SelectAll();
-        e.Handled = true;
-    }
-
-    // ...
-}
-```
-To get the custom value the user entered, you can catch the event in your application. Take the example from above, create an event handler for the `ValueChanged` event. 
 ```c#
 Pen1CustomStrokeButton.ValueChanged += Pen1CustomStrokeButton_ValueChanged;
 
@@ -113,9 +239,8 @@ private void Pen1CustomStrokeButton_ValueChanged(object sender, RoutedEventArgs 
     Debug.WriteLine("User updated value to: " + (sender as RadialMenuButton)?.Value);
 }  
 ```
-
 ### Adding Radial Submenus
-To add a `RadialMenu` submenu to a `RadialMenuButton`, you can add a `RadialMenuButton.Submenu` element to your button top level button. Then add a new `RadialMenu` with its own `CenterButton` properties, `StartAngle`, and its own `RadialMenuButton` elements to the submenu element. 
+To add a `RadialMenu` submenu to a `RadialMenuButton`, you can add a `RadialMenuButton.Submenu` element to your button top level button. Then add a new `RadialMenu` with its own `CenterButton` properties, `StartAngle`, and its own `RadialMenuButton` elements to the submenu element.
 
 ```c#
 <rmb:RadialMenuButton x:Name="Pan" Label="Pan" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" InnerAccessKey="P" OuterAccessKey="O">
@@ -131,26 +256,29 @@ To add a `RadialMenu` submenu to a `RadialMenuButton`, you can add a `RadialMenu
 </rmb:RadialMenuButton>
 ```
 ### Adding Custom Submenus
-In addition to adding a `RadialMenu` submenu, you can also add a custom submenu that is not a `RadialMenu` and is derived from the `MenuBase` class. For example, we have created `MeterSubMenu` and `ListSubMenu` based on the `MenuBase` class. In the example below, to add a `MeterSubMenu` to a `RadialMenuButton`, add the `RadialMenuButton.CustomMenu` element first, then add a `MeterSubMenu` with its properties. 
+In addition to adding a `RadialMenu` submenu, you can also add a custom submenu that is not a `RadialMenu` and is derived from the `MenuBase` class. For example, we have created `MeterSubMenu` and `ListSubMenu` based on the `MenuBase` class. In the example below, to add a `MeterSubMenu` to a `RadialMenuButton`, add the `RadialMenuButton.CustomMenu` element first, then add a `MeterSubMenu` with its properties.
 
 ```c#
 <rmb:RadialMenuButton x:Name="Pen1StrokeButton" IconImage="Icons/stroke.png" Label="Stroke">
     <rmb:RadialMenuButton.CustomMenu>
-        <rm:MeterSubMenu x:Name="Pen1StrokeMenu" 
+        <rm:MeterSubMenu x:Name="Pen1StrokeMenu"
                           CenterButtonBorder="Black"
-                          MeterEndValue="72" 
-                          MeterStartValue="5" 
-                          MeterRadius="80" 
-                          StartAngle="-90" 
-                          MeterPointerLength="80" 
-                          RoundSelectValue="True" 
+                          MeterEndValue="72"
+                          MeterStartValue="5"
+                          MeterRadius="80"
+                          StartAngle="-90"
+                          MeterPointerLength="80"
+                          RoundSelectValue="True"
                           OuterEdgeBrush="#383739"
                           />
     </rmb:RadialMenuButton.CustomMenu>
 </rmb:RadialMenuButton>
 ```
 
-## Scenarios & Use cases
+### Adding a Center Button
+The center button is the little round button in the middle of your radial menu. Here's the good news: You're just dealing with a normal XAML Button that has been styled to be round. It is otherwise a normal, boring, button. It can be added to a `RadialMenu` by setting its `CenterButton` property.
+
+## Scenarios & Use Cases
 Below are write-ups of how to achieve various scenarios - the control is pretty powerful and flexible, so cramming all variations and options into one demo wouldn't have been less useful.
 
 ### Seamless Background
@@ -329,11 +457,11 @@ private void innerPieSlicePath_PointerPressed(object sender, PointerRoutedEventA
 
 Well done! Now you have successfully created a third arc inside your button :metal:! You will probably notice that the icons and labels on the inner arc may now be behind your more inner arc - obviously, you can configure those to your liking, too.
 
-### Creating Custom Buttons 
-Let's say you need to create custom buttons that are not yet available in the RadialMenu control for your application. You can follow the steps below and use the custom TextBox input button we have created as a guide. In order to add a new custom button, you will need to modify three classes: `RadialMenuButton`, which is the control you use from your application, `PieSlice`, which is the class we instantiate using a given button, and `Pie`, which is the class we instantiate to create all the slices in a pie. 
+### Creating Custom Buttons
+Let's say you need to create custom buttons that are not yet available in the RadialMenu control for your application. You can follow the steps below and use the custom TextBox input button we have created as a guide. In order to add a new custom button, you will need to modify three classes: `RadialMenuButton`, which is the control you use from your application, `PieSlice`, which is the class we instantiate using a given button, and `Pie`, which is the class we instantiate to create all the slices in a pie.
 
 ##### Add a New Button Type for Custom RadialMenuButton
-In `RadialMenuButton.xaml.cs`, find the `ButtonType` enum. By adding `MyType` as one of the `ButtonType` enum values, we are able to specify the button type of the `RadialMenuButton` control from our application to instantiate the necessary controls in `PieSlice`. 
+In `RadialMenuButton.xaml.cs`, find the `ButtonType` enum. By adding `MyType` as one of the `ButtonType` enum values, we are able to specify the button type of the `RadialMenuButton` control from our application to instantiate the necessary controls in `PieSlice`.
 
 ```c#
 public enum ButtonType
@@ -351,7 +479,7 @@ In `PieSlice.xaml.cs`, from `OnLoad`, add code like the following to check if th
 // Setup controls for `MyType` button type RadialMenuButton
 if (OriginalRadialMenuButton.Type == RadialMenuButton.ButtonType.MyType) CreateMyTypeControls();
 ```
-Now you can add the necessary controls to `PieSlice` in the `CreateMyTypeControls` function. When done, add these controls to the `TextLabelGrid` to render them. This is probably where you will need to spend some time to ensure your new controls look right in `PieSlice` by configuring its Style, Margin, and Alignment. 
+Now you can add the necessary controls to `PieSlice` in the `CreateMyTypeControls` function. When done, add these controls to the `TextLabelGrid` to render them. This is probably where you will need to spend some time to ensure your new controls look right in `PieSlice` by configuring its Style, Margin, and Alignment.
 
 ```c#
 private void CreateMyTypeControls()

@@ -166,7 +166,7 @@ namespace RadialMenuControl.UserControl
             {
                 BackgroundEllipse.Height = Height;
                 BackgroundEllipse.Width = Width;
-                BackgroundEllipse.StrokeThickness = SourceRadialMenu.OuterArcThickness;
+                BackgroundEllipse.StrokeThickness = SourceRadialMenu.OuterThickness;
                 BackgroundEllipse.Stroke = new SolidColorBrush(SourceRadialMenu.OuterDisabledColor);
                 BackgroundEllipse.Fill = new SolidColorBrush(SourceRadialMenu.BackgroundEllipseFill);
             }
@@ -186,7 +186,7 @@ namespace RadialMenuControl.UserControl
                     // Arc & Stroke
                     StrokeColor = slice.StrokeColor ?? SourceRadialMenu.InnerNormalColor,
                     StrokeThickness = slice.StrokeThickness ?? 0,
-                    OuterArcThickness = slice.OuterArcThickness ?? SourceRadialMenu.OuterArcThickness,
+                    OuterArcThickness = slice.OuterThickness ?? SourceRadialMenu.OuterThickness,
                     // The defaults below use OneNote-like purple colors
                     InnerNormalColor = slice.InnerNormalColor ?? SourceRadialMenu.InnerNormalColor,
                     InnerHoverColor = slice.InnerHoverColor ?? SourceRadialMenu.InnerHoverColor,
@@ -207,7 +207,7 @@ namespace RadialMenuControl.UserControl
                     IconForegroundBrush = slice.IconForegroundBrush,
                     IconImage = slice.IconImage,
                     IconImageSideLength = (Size / 2) * .25,
-                    IsLabelHidden = slice.HideLabel,
+                    IsLabelHidden = slice.IsLabelHidden,
                     Label = slice.Label,
                     LabelSize = slice.LabelSize,
                     // Original Button

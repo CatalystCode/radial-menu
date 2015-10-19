@@ -213,7 +213,7 @@ namespace RadialMenuControl.UserControl
             DependencyProperty.Register("Radius", typeof(double), typeof(PieSlice), null);
 
         public static readonly DependencyProperty OuterArcThicknessProperty =
-            DependencyProperty.Register("OuterArcThickness", typeof(double), typeof(PieSlice), null);
+            DependencyProperty.Register("OuterThickness", typeof(double), typeof(PieSlice), null);
 
         /// <summary>
         /// Starting angle of this PieSlice (with 0 being the "north top")

@@ -25,7 +25,7 @@ namespace RadialMenuDemo
 
             };
 
-            button1.InnerArcPressedEvent += Button1_InnerArcPressedEvent;
+            button1.InnerArcPressed += Button1InnerArcPressed;
 
             button1.Submenu = new RadialMenu {CenterButtonIcon = ""};
 
@@ -236,7 +236,7 @@ namespace RadialMenuDemo
             Debug.WriteLine("User selected value: " + (sender as MeterSubMenu)?.SelectedValue);
         }
 
-        private void Button1_InnerArcPressedEvent(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Button1InnerArcPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             this.Frame.Navigate(typeof (Melbourne));
         }

@@ -38,7 +38,7 @@
                                         StartAngle="-22.5"
                                         HasBackgroundEllipse="True"
                                         BackgroundEllipseFill="White"
-                                        OuterArcThickness="22"
+                                        OuterThickness="22"
                                         CenterButtonBorder="Black"
                                         CenterButtonForeground="Black"
                                         CenterButtonIcon="&#x1f369;"
@@ -178,7 +178,7 @@
                                             </component:RadialMenuButton>
                                             <component:RadialMenuButton x:Name="Highlight" Label="Highlight" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio">
                                                 <component:RadialMenuButton.Submenu>
-                                                    <userControl:RadialMenu CenterButtonBorder="Black" CenterButtonTappedEvent="HighlightRadialMenu_OnCenterButtonTappedEvent">
+                                                    <userControl:RadialMenu CenterButtonBorder="Black" CenterButtonTapped="HighlightRadialMenuOnCenterButtonTapped">
                                                         <userControl:RadialMenu.Buttons>
                                                             <component:RadialMenuButton Label="Highlight" Icon="" IconFontFamily="Segoe MDL2 Assets" IconImage="Icons/Chisel Tip Marker-50.png" Type="Radio" />
                                                             <component:RadialMenuButton Label="Underline" Icon="" IconFontFamily="Segoe MDL2 Assets" IconImage="Icons/Underline-50.png" Type="Radio" />

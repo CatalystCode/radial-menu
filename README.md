@@ -33,7 +33,7 @@ A Radial Menu for Windows UWP Applications, as made popular by the first version
 - [License](#license)
 
 ## Usage
-At the core, this control comes with three user controls: The first one is a "floating" control, enabling a child control to float on top of all other elements, which allows the user to move the control around on the screen. The second one is the RadialMenuControl itself, which is able to house a number of RadialMenuButtons. Should a button contain a submenu, the button then houses a RadialMenuControl - and so on. You can have a virtually unlimited number of submenus.
+At the core, this control comes with three XAML user controls: The first one is a `Floating` control, enabling a child element to float on top of all other elements, which allows the user to move said element around on the screen. The second one is the `RadialMenu` itself, which is able to house a number of `RadialMenuButtons`. Should a button contain a submenu, the button then houses a `RadialMenu` (or a custom submenu control).
 
 ### Adding the Control
 You can instantiate the control either using XAML or in code-behind.

@@ -200,7 +200,7 @@ namespace RadialMenuDemo
             if (sendingMenu != null && sendingMenu.Pie.SelectedItem != null)
             {
                 Highlight.Label = sendingMenu.Pie.SelectedItem.Label;
-                Highlight.IconImage = sendingMenu.Pie.SelectedItem.IconImage;
+                Highlight.Icon = sendingMenu.Pie.SelectedItem.Icon;
             }
         }
     }

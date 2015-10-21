@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="HelloRadialMenu.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HelloRadialMenu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControl="using:RadialMenuControl.UserControl"
+    xmlns:components="using:RadialMenuControl.Components"
+    mc:Ignorable="d">
+
+    <Grid Background="GhostWhite">
+        <Canvas>
+            <userControl:Floating IsBoundByScreen="True">
+                <Border>
+                    <Grid>
+                        <userControl:RadialMenu Diameter="300" StartAngle="-22.5" CenterButtonIcon="&#x1f369;" CenterButtonBorder="Black">
+                            <userControl:RadialMenu.Buttons>
+                                <components:RadialMenuButton Label="Melbourne" Icon="🌏" />
+                                <components:RadialMenuButton Label="Sun" Icon="🌞" />
+                                <components:RadialMenuButton x:Name="FoodButton" Label="Food" Icon="🍱" InnerArcReleased="RadialMenuButton_InnerArcReleased">
+                                    <components:RadialMenuButton.Submenu>
+                                        <userControl:RadialMenu CenterButtonTapped="RadialMenu_CenterButtonTapped">
+                                            <userControl:RadialMenu.Buttons>
+                                                <components:RadialMenuButton Type="Radio" Label="Fries" Icon="🍟" />
+                                                <components:RadialMenuButton Type="Radio" Label="Eggs" Icon="🍳" />
+                                                <components:RadialMenuButton Type="Toggle" Label="Ice Cream" Icon="🍨" />
+                                                <components:RadialMenuButton Type="Radio" Label="Noodles" Icon="🍜" />
+                                                <components:RadialMenuButton Type="Radio" Label="Burger" Icon="🍔" />
+                                                <components:RadialMenuButton Type="Radio" Label="Pizza" Icon="🍕" x:Name="PizzaButton" />
+                                             </userControl:RadialMenu.Buttons>
+                                        </userControl:RadialMenu>
+                                    </components:RadialMenuButton.Submenu>
+                                </components:RadialMenuButton>
+                                <components:RadialMenuButton Label="Halloween" Icon="🎃" />
+                            </userControl:RadialMenu.Buttons>
+                        </userControl:RadialMenu>
+                    </Grid>
+                </Border>
+            </userControl:Floating>
+        </Canvas>
+    </Grid>
+</Page>

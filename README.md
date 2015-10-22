@@ -1,7 +1,7 @@
 ## Radial Menu
 A Radial Menu for Windows UWP Applications, as made popular by the first versions of the modern OneNote App for Windows. Create radial menus floating op top of your application. The control supports variable numbers of buttons, toggle & radio buttons, a selector for long lists, and a fancy metered menu for intuitive selection of numbers.
 
-!['Fancy GIF showing the control'](http://im.ezgif.com/tmp/ezgif-2737883079.gif)
+!['Fancy GIF showing the control'](https://github.com/CatalystCode/radial-menu/blob/CaseStudyDemo/gif.gif)
 
 - [Usage](#usage)
   - [Adding the Control](#adding-the-control)

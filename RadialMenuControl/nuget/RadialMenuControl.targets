@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SrcPath>$(MSBuildThisFileDirectory)..\..\lib\uap10.0</SrcPath>
+    <ObjPath>$(TargetDir.Replace("\bin\", "\obj\"))</ObjPath>
+  </PropertyGroup>
+
+  <Target Name="RadialMenuControl" BeforeTargets="Compile">
+
+    <Message Importance="high" Text="RadialMenuControl MSBuild.Targets" />
+    <Message Importance="high" Text="Source: $(SrcPath)" />
+    <Message Importance="high" Text="Target: $(ObjPath)" />
+
+    <!-- test -->
+    <Error Text="[SOURCE] $(SrcPath) does not exist." Condition="!Exists('$(SrcPath)')" />
+
+    <!-- alert -->
+    <Message Importance="high" Text='xcopy "$(SrcPath)" "$(ObjPath)\Components" /e/s/y >>null' />
+    <Message Importance="high" Text='xcopy "$(SrcPath)" "$(ObjPath)\UserControl" /e/s/y >>null' />
+    <Message Importance="high" Text='xcopy "$(SrcPath)" "$(ObjPath)\Themes" /e/s/y >>null' />
+
+    <!-- exec -->
+    <Exec Command='xcopy "$(SrcPath)" "$(ObjPath)" /e/s/y >>null' />
+
+    <!-- test -->
+    <Error Text="[TARGET] $(ObjPath)UserControl does not exist." Condition="!Exists('$(ObjPath)UserControl')" />
+    <Error Text="[TARGET] $(ObjPath)Themes does not exist." Condition="!Exists('$(ObjPath)Themes')" />
+    <Error Text="[TARGET] $(ObjPath)Components does not exist." Condition="!Exists('$(ObjPath)Components')" />
+  </Target>
+
+</Project>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata minClientVersion="3.0">
+    <id>RadialMenuControl</id>
+    <version>0.2.1</version>
+    <title>Radial Menu Control</title>
+    <authors>Felix Rieseberg;Steven Edouard;Rita Zhang</authors>
+    <owners>Felix Rieseberg;Steven Edouard;Rita Zhang</owners>
+    <licenseUrl>https://github.com/CatalystCode/radial-menu/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/CatalystCode/radial-menu</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>A Radial Menu for Windows UWP Applications</summary>
+    <description>A Radial Menu for Windows UWP Applications, as made popular by the first versions of the modern OneNote App for Windows. Create radial menus floating op top of your application. The control supports variable numbers of buttons, toggle and radio buttons, a selector for long lists, and a fancy metered menu for intuitive selection of numbers.</description>
+    <releaseNotes>Initial Release! Checkout our wiki page for more details - https://github.com/CatalystCode/radial-menu/wiki. Spot a bug? Give us a hand by filing issues here: https://github.com/CatalystCode/radial-menu/issues</releaseNotes>
+    <copyright>Copyright 2015 Microsoft</copyright>
+    <tags>UWP RadialMenu Windows10</tags>
+  </metadata>
+  <files>
+    <file src="nuget\RadialMenuControl.targets" target="build\uap10.0\"/>
+    <file src="bin\Release\" target="lib\uap10.0\"/>
+    <file src="bin\Release\RadialMenuControl.xr.xml" target="lib\uap10.0\RadialMenuControl\"/>
+  </files>
+</package>

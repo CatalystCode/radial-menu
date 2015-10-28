@@ -6,9 +6,13 @@ menu for intuitive selection of numbers.
 
 ## Installation
 
+Install this component via nuget by doing:
+
 ```
-PM> Install-Package Radial Menu
+PM> Install-Package RadialMenuControl
 ```
+
+Or add it to your project directly by searching for `RadialMenuControl` in Nuget Package Manager for Visual Studio.
 
 ## Documentation
 

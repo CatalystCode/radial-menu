@@ -158,6 +158,12 @@ namespace RadialMenuControl.UserControl
         /// </summary>
         public void Draw()
         {
+            foreach (var pieSlice in PieSlices)
+            {
+                pieSlice.ChangeMenuRequestEvent -= SourceRadialMenu.ChangeMenu;
+                pieSlice.ChangeSelectedEvent -= PieSlice_ChangeSelectedEvent;
+            }
+
             PieSlices.Clear();
             var startAngle = StartAngle;
 
@@ -170,7 +176,6 @@ namespace RadialMenuControl.UserControl
                 BackgroundEllipse.Stroke = new SolidColorBrush(SourceRadialMenu.OuterDisabledColor);
                 BackgroundEllipse.Fill = new SolidColorBrush(SourceRadialMenu.BackgroundEllipseFill);
             }
-
 
             // Draw PieSlices for each Slice Object
             foreach (var slice in Slices)

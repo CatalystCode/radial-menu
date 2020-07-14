@@ -60,6 +60,10 @@ namespace RadialMenuControl.Components
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof (string), typeof (RadialMenuButton), new PropertyMetadata(""));
 
+        public static readonly DependencyProperty LabelColorProperty =
+            DependencyProperty.Register("LabelColor", typeof(Brush), typeof(RadialMenuButton), 
+                new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
         public static readonly DependencyProperty LabelSizeProperty =
             DependencyProperty.Register("LabelSize", typeof (int), typeof (RadialMenuButton), new PropertyMetadata(10));
 
@@ -108,7 +112,13 @@ namespace RadialMenuControl.Components
         public int LabelSize
         {
             get { return (int) GetValue(LabelSizeProperty); }
-            set { SetValue(LabelProperty, value); }
+            set { SetValue(LabelSizeProperty, value); }
+        }
+
+        public Brush LabelColor
+        {
+            get { return (Brush)GetValue(LabelColorProperty); }
+            set { SetValue(LabelColorProperty, value); }
         }
 
         /// <summary>

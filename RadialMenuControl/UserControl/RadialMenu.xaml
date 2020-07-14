@@ -197,7 +197,7 @@
                 Canvas.Top="{Binding CenterButtonTop}"
                 Canvas.Left="{Binding CenterButtonLeft}"
                 BorderThickness="{Binding CenterButtonBorderThickness}"
-                Opacity="1" />
+                Opacity="{Binding CenterButtonOpacity}" />
         <my:Pie x:Name="DesignPie">
             <my:Pie.RenderTransform>
                 <CompositeTransform x:Name="PieCompositeTransform" />

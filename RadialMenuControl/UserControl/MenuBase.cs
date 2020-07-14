@@ -69,6 +69,16 @@
             set { SetField(ref _centerButtonBorderThickness, value); }
         }
 
+        private double _centerButtonOpacity = 1;
+        /// <summary>
+        /// Border Brush for the Center Button
+        /// </summary>
+        public double CenterButtonOpacity
+        {
+            get { return _centerButtonOpacity; }
+            set { SetField(ref _centerButtonOpacity, value); }
+        }
+
         /// <summary>
         /// Content for the Center Button (using Segoe UI Symbol)
         /// </summary>

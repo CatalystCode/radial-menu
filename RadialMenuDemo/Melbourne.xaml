@@ -40,8 +40,10 @@
                                         BackgroundEllipseFill="White"
                                         OuterThickness="22"
                                         CenterButtonBorder="Black"
+                                        CenterButtonBackgroundFill="Transparent"
                                         CenterButtonForeground="Black"
                                         CenterButtonIcon="&#x1f369;"
+                                        CenterButtonOpacity="0.7"
                                         OuterNormalColor="#383739"
                                         OuterDisabledColor="#608B8B"
                                         OuterHoverColor="#466666"
@@ -63,7 +65,7 @@
                                                     </userControl:RadialMenu>
                                                 </component:RadialMenuButton.Submenu>
                                             </component:RadialMenuButton>
-                                            <component:RadialMenuButton x:Name="Pen1" Label="Pen" Icon="" IconFontFamily="Segoe MDL2 Assets" Type="Radio" InnerAccessKey="K" OuterAccessKey="L">
+                                            <component:RadialMenuButton x:Name="Pen1" Label="Pen" Icon="" LabelSize="24" IconFontFamily="Segoe MDL2 Assets" Type="Radio" InnerAccessKey="K" OuterAccessKey="L">
                                                 <component:RadialMenuButton.Submenu>
                                                     <userControl:RadialMenu x:Name="Pen1Submenu"  CenterButtonBorder="Black">
                                                         <userControl:RadialMenu.Buttons>

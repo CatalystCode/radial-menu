@@ -264,6 +264,9 @@ namespace RadialMenuControl.UserControl
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register("Label", typeof(string), typeof(PieSlice), null);
 
+        public static readonly DependencyProperty LabelColorProperty =
+            DependencyProperty.Register("LabelColor", typeof(Brush), typeof(PieSlice), null);
+
         public static readonly DependencyProperty LabelSizeProperty =
             DependencyProperty.Register("LabelSize", typeof(int), typeof(PieSlice), null);
 
@@ -313,6 +316,15 @@ namespace RadialMenuControl.UserControl
         {
             get { return (string)GetValue(LabelProperty); }
             set { SetValue(LabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Label Color
+        /// </summary>
+        public Brush LabelColor
+        {
+            get { return (Brush)GetValue(LabelColorProperty); }
+            set { SetValue(LabelColorProperty, value); }
         }
 
         /// <summary>
@@ -573,6 +585,7 @@ namespace RadialMenuControl.UserControl
             {
                 Name = "CustomTextBox",
                 FontSize = LabelSize,
+                Foreground = LabelColor,
                 Margin = new Thickness(0, 67, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,

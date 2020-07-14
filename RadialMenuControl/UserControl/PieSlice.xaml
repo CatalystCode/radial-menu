@@ -136,6 +136,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 TextAlignment="Center"
+                Foreground="{Binding LabelColor}"
                 FontSize="{Binding LabelSize}"
                 Text="{Binding Label}"
                 IsHitTestVisible="False"

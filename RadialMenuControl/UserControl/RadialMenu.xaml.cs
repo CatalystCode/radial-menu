@@ -430,7 +430,8 @@ namespace RadialMenuControl.UserControl
                     FontSize = CenterButtonFontSize,
                     Top = CenterButtonTop,
                     Left = CenterButtonLeft,
-                    CenterButtonTappedHandler = CenterButtonTapped
+                    CenterButtonTappedHandler = CenterButtonTapped,
+                    Opacity = CenterButtonOpacity
                 };
 
                 PreviousButtons.Push(backupButton);
@@ -443,6 +444,7 @@ namespace RadialMenuControl.UserControl
             CenterButtonIcon = (string) newButton?.Content ?? CenterButtonIcon;
             CenterButtonFontSize = newButton?.FontSize ?? CenterButtonFontSize;
             CenterButtonTapped = newButton?.CenterButtonTappedHandler ?? null;
+            CenterButtonOpacity = newButton?.Opacity ?? CenterButtonOpacity;
 
             if (newButton != null && !double.IsNaN(newButton.Top ?? 0) && !double.IsNaN(newButton.Left ?? 0))
             {

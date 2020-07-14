@@ -26,6 +26,11 @@ namespace RadialMenuControl.Shims
         /// The font size for this center button
         /// </summary>
         public double FontSize { get; set; }
+
+        /// <summary>
+        /// Center button Opacity
+        /// </summary>
+        public double Opacity { get; set; }
         /// <summary>
         /// The Cavas Top value
         /// </summary>
@@ -56,6 +61,7 @@ namespace RadialMenuControl.Shims
                 Background = input.Background,
                 Content = input.Content,
                 FontSize = input.FontSize,
+                Opacity = input.Opacity,
                 Top = input.Top,
                 Left = input.Left,
                 CenterButtonTappedHandler = tappedHandler

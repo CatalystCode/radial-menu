@@ -19,7 +19,7 @@ Or add it to your project directly by searching for `RadialMenuControl` in Nuget
 Want to learn how to place this control into your application? It's pretty easy to do - just head over to our [documentation wiki](https://github.com/CatalystCode/radial-menu/wiki) to find out how!
 
 ## Special Thanks
-A bunch of thanks to [Jason Poon](https://github.com/jpoon), who wrote an early version of this code (and helpes us all a lot).
+A bunch of thanks to [Jason Poon](https://github.com/jpoon), who wrote an early version of this code (and helps us all a lot).
 
 ## License
 
